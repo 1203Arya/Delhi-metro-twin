@@ -48,9 +48,9 @@ jobs:
           --health-timeout 10s
           --health-retries 10
     env:
-      DATABASE_URL: postgresql+asyncpg://dmdt_test:test@localhost:5432/dmdt_test
-      REDIS_URL: redis://localhost:6379/0
-      RABBITMQ_URL: amqp://dmdt:test@localhost:5672/
+      DATABASE_URL: postgresql+asyncpg://dmdt_test:test@postgres:5432/dmdt_test
+      REDIS_URL: redis://redis:6379/0
+      RABBITMQ_URL: amqp://dmdt:test@rabbitmq:5672/
       JWT_SECRET: ci-secret
       ENVIRONMENT: test
       PYTHONPATH: backend:simulation

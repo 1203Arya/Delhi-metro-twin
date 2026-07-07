@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     API_PREFIX: str = "/api/v1"
 
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://aryamansharma@localhost:5432/dmdt"
+    DATABASE_URL: str = "postgresql+asyncpg://aryamansharma@postgres:5432/dmdt"
     DATABASE_ECHO: bool = False
     DATABASE_POOL_SIZE: int = 10
     DATABASE_MAX_OVERFLOW: int = 20

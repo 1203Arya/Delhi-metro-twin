@@ -42,7 +42,32 @@ class DatabaseConfig:
         }
 
 
+def _parse_database_url(url: str) -> dict[str, str | int]:
+    """Parse a postgresql:// or postgresql+asyncpg:// URL into component parts."""
+    parts = url.split("://", 1)[1] if "://" in url else url
+    creds, rest = parts.split("@", 1) if "@" in parts else ("", parts)
+    user = creds.split(":", 1)[0] if ":" in creds else creds
+    password = creds.split(":", 1)[1] if ":" in creds else ""
+    host_port, database = rest.split("/", 1) if "/" in rest else (rest, "dmdt")
+    host = host_port.split(":")[0] if ":" in host_port else host_port
+    port = int(host_port.split(":")[1]) if ":" in host_port else 5432
+    return {"host": host, "port": port, "database": database, "user": user, "password": password}
+
+
 def _load_from_env() -> DatabaseConfig:
+    database_url = os.environ.get("DATABASE_URL", "")
+    if database_url:
+        parsed = _parse_database_url(database_url)
+        return DatabaseConfig(
+            host=str(parsed["host"]),
+            port=int(parsed["port"]),
+            database=str(parsed["database"]),
+            user=str(parsed["user"]),
+            password=str(parsed["password"]),
+            echo=os.environ.get("DMDT_DB_ECHO", "0") == "1",
+            pool_size=int(os.environ.get("DMDT_DB_POOL_SIZE", "5")),
+            max_overflow=int(os.environ.get("DMDT_DB_MAX_OVERFLOW", "10")),
+        )
     return DatabaseConfig(
         host=os.environ.get("DMDT_DB_HOST", "localhost"),
         port=int(os.environ.get("DMDT_DB_PORT", "5432")),
