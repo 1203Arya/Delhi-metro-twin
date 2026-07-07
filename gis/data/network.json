@@ -1,0 +1,3584 @@
+{
+  "lines": [
+    {
+      "code": "RD",
+      "name": "Red Line",
+      "number": 1,
+      "color_hex": "#E60026",
+      "corridor": "Rithala – Shaheed Sthal (New Bus Adda)",
+      "opened_year": 2002,
+      "operator": "DMRC",
+      "gauge_mm": 1676,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 34.69,
+      "depots": [
+        {
+          "name": "Shastri Park Depot",
+          "latitude": 28.67,
+          "longitude": 77.25,
+          "area_m2": 90000,
+          "capacity_stabling": 48,
+          "coordinate_confidence": "medium"
+        },
+        {
+          "name": "Dilshad Garden Depot",
+          "latitude": 28.6815,
+          "longitude": 77.324,
+          "area_m2": 55000,
+          "capacity_stabling": 32,
+          "coordinate_confidence": "medium"
+        }
+      ],
+      "stations": [
+        {
+          "name": "Rithala",
+          "code": "RTA",
+          "latitude": 28.7217,
+          "longitude": 77.107,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rohini West",
+          "code": "RWE",
+          "latitude": 28.714,
+          "longitude": 77.119,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rohini East",
+          "code": "REA",
+          "latitude": 28.708,
+          "longitude": 77.13,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Pitampura",
+          "code": "PIT",
+          "latitude": 28.6985,
+          "longitude": 77.141,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kohat Enclave",
+          "code": "KOH",
+          "latitude": 28.692,
+          "longitude": 77.15,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Netaji Subhash Place",
+          "code": "NSP",
+          "latitude": 28.6855,
+          "longitude": 77.1605,
+          "structure": "elevated",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Keshav Puram",
+          "code": "KPR",
+          "latitude": 28.678,
+          "longitude": 77.166,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kanhaiya Nagar",
+          "code": "KNR",
+          "latitude": 28.668,
+          "longitude": 77.168,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Inderlok",
+          "code": "ILK",
+          "latitude": 28.6595,
+          "longitude": 77.17,
+          "structure": "elevated",
+          "interchange_with": [
+            "GR",
+            "GB"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shastri Nagar",
+          "code": "SNA",
+          "latitude": 28.663,
+          "longitude": 77.185,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Pratap Nagar",
+          "code": "PTN",
+          "latitude": 28.665,
+          "longitude": 77.192,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Pul Bangash",
+          "code": "PBL",
+          "latitude": 28.667,
+          "longitude": 77.198,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Tis Hazari",
+          "code": "THZ",
+          "latitude": 28.6685,
+          "longitude": 77.205,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kashmere Gate",
+          "code": "KGM",
+          "latitude": 28.666,
+          "longitude": 77.229,
+          "structure": "elevated",
+          "interchange_with": [
+            "YL",
+            "VL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shastri Park",
+          "code": "SPK",
+          "latitude": 28.668,
+          "longitude": 77.257,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Seelampur",
+          "code": "SEL",
+          "latitude": 28.668,
+          "longitude": 77.27,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Welcome",
+          "code": "WLC",
+          "latitude": 28.6725,
+          "longitude": 77.278,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shahdara",
+          "code": "SHD",
+          "latitude": 28.672,
+          "longitude": 77.29,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mansarovar Park",
+          "code": "MNP",
+          "latitude": 28.675,
+          "longitude": 77.305,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jhilmil",
+          "code": "JHL",
+          "latitude": 28.68,
+          "longitude": 77.314,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dilshad Garden",
+          "code": "DSG",
+          "latitude": 28.6815,
+          "longitude": 77.324,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shaheed Sthal",
+          "code": "SSH",
+          "latitude": 28.684,
+          "longitude": 77.342,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "NSP",
+          "line": "PK",
+          "with_station": "Netaji Subhash Place"
+        },
+        {
+          "station": "ILK",
+          "line": "GB",
+          "with_station": "Inderlok"
+        },
+        {
+          "station": "ILK",
+          "line": "GR",
+          "with_station": "Inderlok"
+        },
+        {
+          "station": "KGM",
+          "line": "YL",
+          "with_station": "Kashmere Gate"
+        },
+        {
+          "station": "KGM",
+          "line": "VL",
+          "with_station": "Kashmere Gate"
+        }
+      ],
+      "speed_overrides": {
+        "Kashmere Gate-Shastri Park": 60
+      },
+      "gradients": {
+        "Shahdara-Mansarovar Park": 0.8
+      }
+    },
+    {
+      "code": "YL",
+      "name": "Yellow Line",
+      "number": 2,
+      "color_hex": "#F9A825",
+      "corridor": "Samaypur Badli – HUDA City Centre",
+      "opened_year": 2005,
+      "operator": "DMRC",
+      "gauge_mm": 1676,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 49.02,
+      "depots": [
+        {
+          "name": "Sultanpur Depot",
+          "latitude": 28.505,
+          "longitude": 77.178,
+          "area_m2": 70000,
+          "capacity_stabling": 44,
+          "coordinate_confidence": "medium"
+        }
+      ],
+      "stations": [
+        {
+          "name": "Samaypur Badli",
+          "code": "SMB",
+          "latitude": 28.735,
+          "longitude": 77.168,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rohini Sector 18",
+          "code": "RS18",
+          "latitude": 28.729,
+          "longitude": 77.1685,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jahangirpuri",
+          "code": "JNG",
+          "latitude": 28.722,
+          "longitude": 77.17,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Adarsh Nagar",
+          "code": "ADN",
+          "latitude": 28.715,
+          "longitude": 77.179,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Azadpur",
+          "code": "AZP",
+          "latitude": 28.696,
+          "longitude": 77.1835,
+          "structure": "elevated",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Model Town",
+          "code": "MDT",
+          "latitude": 28.689,
+          "longitude": 77.193,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "G.T.B. Nagar",
+          "code": "GTB",
+          "latitude": 28.681,
+          "longitude": 77.201,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Vishwavidyalaya",
+          "code": "VSV",
+          "latitude": 28.675,
+          "longitude": 77.209,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Vidhan Sabha",
+          "code": "VSB",
+          "latitude": 28.668,
+          "longitude": 77.213,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Civil Lines",
+          "code": "CVL",
+          "latitude": 28.662,
+          "longitude": 77.216,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kashmere Gate",
+          "code": "KGM",
+          "latitude": 28.666,
+          "longitude": 77.229,
+          "structure": "underground",
+          "interchange_with": [
+            "RD",
+            "VL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Chawri Bazar",
+          "code": "CWB",
+          "latitude": 28.649,
+          "longitude": 77.227,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "New Delhi",
+          "code": "NDL",
+          "latitude": 28.643,
+          "longitude": 77.2196,
+          "structure": "underground",
+          "interchange_with": [
+            "OR"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rajiv Chowk",
+          "code": "RVC",
+          "latitude": 28.6314,
+          "longitude": 77.2196,
+          "structure": "underground",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 4,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Patel Chowk",
+          "code": "PCH",
+          "latitude": 28.624,
+          "longitude": 77.216,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Central Secretariat",
+          "code": "CSE",
+          "latitude": 28.6142,
+          "longitude": 77.2115,
+          "structure": "underground",
+          "interchange_with": [
+            "VL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Udyog Bhawan",
+          "code": "UBH",
+          "latitude": 28.611,
+          "longitude": 77.207,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Lok Kalyan Marg",
+          "code": "LKM",
+          "latitude": 28.603,
+          "longitude": 77.198,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jor Bagh",
+          "code": "JOB",
+          "latitude": 28.593,
+          "longitude": 77.19,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dilli Haat INA",
+          "code": "INA",
+          "latitude": 28.573,
+          "longitude": 77.214,
+          "structure": "underground",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "AIIMS",
+          "code": "AIM",
+          "latitude": 28.566,
+          "longitude": 77.209,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Green Park",
+          "code": "GRP",
+          "latitude": 28.558,
+          "longitude": 77.206,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Hauz Khas",
+          "code": "HZK",
+          "latitude": 28.549,
+          "longitude": 77.201,
+          "structure": "underground",
+          "interchange_with": [
+            "MG"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Malviya Nagar",
+          "code": "MVG",
+          "latitude": 28.539,
+          "longitude": 77.209,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Saket",
+          "code": "SAK",
+          "latitude": 28.524,
+          "longitude": 77.207,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Qutab Minar",
+          "code": "QTM",
+          "latitude": 28.512,
+          "longitude": 77.185,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Chhatarpur",
+          "code": "CTP",
+          "latitude": 28.505,
+          "longitude": 77.178,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Sultanpur",
+          "code": "SLT",
+          "latitude": 28.496,
+          "longitude": 77.168,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Ghitorni",
+          "code": "GHT",
+          "latitude": 28.485,
+          "longitude": 77.158,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Arjan Garh",
+          "code": "ARJ",
+          "latitude": 28.474,
+          "longitude": 77.146,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Guru Dronacharya",
+          "code": "GDR",
+          "latitude": 28.463,
+          "longitude": 77.134,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Sikandarpur",
+          "code": "SKD",
+          "latitude": 28.452,
+          "longitude": 77.122,
+          "structure": "elevated",
+          "interchange_with": [
+            "RM"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "M.G. Road",
+          "code": "MGR",
+          "latitude": 28.441,
+          "longitude": 77.108,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "IFFCO Chowk",
+          "code": "IFF",
+          "latitude": 28.43,
+          "longitude": 77.093,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "HUDA City Centre",
+          "code": "HCC",
+          "latitude": 28.423,
+          "longitude": 77.071,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "KGM",
+          "line": "RD",
+          "with_station": "Kashmere Gate"
+        },
+        {
+          "station": "KGM",
+          "line": "VL",
+          "with_station": "Kashmere Gate"
+        },
+        {
+          "station": "AZP",
+          "line": "PK",
+          "with_station": "Azadpur"
+        },
+        {
+          "station": "NDL",
+          "line": "OR",
+          "with_station": "New Delhi"
+        },
+        {
+          "station": "RVC",
+          "line": "BL",
+          "with_station": "Rajiv Chowk"
+        },
+        {
+          "station": "CSE",
+          "line": "VL",
+          "with_station": "Central Secretariat"
+        },
+        {
+          "station": "INA",
+          "line": "PK",
+          "with_station": "Dilli Haat INA"
+        },
+        {
+          "station": "HZK",
+          "line": "MG",
+          "with_station": "Hauz Khas"
+        },
+        {
+          "station": "SKD",
+          "line": "RM",
+          "with_station": "Sikandarpur"
+        }
+      ],
+      "speed_overrides": {
+        "HUDA City Centre-IFFCO Chowk": 75
+      },
+      "gradients": {
+        "Sultanpur-Ghitorni": 1.2
+      }
+    },
+    {
+      "code": "BL",
+      "name": "Blue Line",
+      "number": 3,
+      "color_hex": "#005AA7",
+      "corridor": "Dwarka Sector 21 – Noida Electronic City",
+      "opened_year": 2005,
+      "operator": "DMRC",
+      "gauge_mm": 1676,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 50.93,
+      "depots": [
+        {
+          "name": "Yamuna Bank Depot",
+          "latitude": 28.611,
+          "longitude": 77.262,
+          "area_m2": 120000,
+          "capacity_stabling": 64,
+          "coordinate_confidence": "medium"
+        },
+        {
+          "name": "Noida Electronic City Depot",
+          "latitude": 28.617,
+          "longitude": 77.356,
+          "area_m2": 60000,
+          "capacity_stabling": 36,
+          "coordinate_confidence": "medium"
+        }
+      ],
+      "stations": [
+        {
+          "name": "Dwarka Sector 21",
+          "code": "DW21",
+          "latitude": 28.57,
+          "longitude": 77.072,
+          "structure": "elevated",
+          "interchange_with": [
+            "OR"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Sector 8",
+          "code": "DW8",
+          "latitude": 28.571,
+          "longitude": 77.078,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Sector 9",
+          "code": "DW9",
+          "latitude": 28.575,
+          "longitude": 77.085,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Sector 10",
+          "code": "DW10",
+          "latitude": 28.578,
+          "longitude": 77.092,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Sector 11",
+          "code": "DW11",
+          "latitude": 28.58,
+          "longitude": 77.099,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Sector 12",
+          "code": "DW12",
+          "latitude": 28.583,
+          "longitude": 77.106,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Sector 13",
+          "code": "DW13",
+          "latitude": 28.586,
+          "longitude": 77.112,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Sector 14",
+          "code": "DW14",
+          "latitude": 28.588,
+          "longitude": 77.118,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka",
+          "code": "DWA",
+          "latitude": 28.592,
+          "longitude": 77.074,
+          "structure": "elevated",
+          "interchange_with": [
+            "GY"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Mor",
+          "code": "DWM",
+          "latitude": 28.592,
+          "longitude": 77.032,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Nawada",
+          "code": "NAW",
+          "latitude": 28.598,
+          "longitude": 77.028,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Uttam Nagar West",
+          "code": "UTW",
+          "latitude": 28.608,
+          "longitude": 77.03,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Uttam Nagar East",
+          "code": "UTE",
+          "latitude": 28.615,
+          "longitude": 77.034,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Peeragarhi",
+          "code": "PGH",
+          "latitude": 28.621,
+          "longitude": 77.041,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Paschim Vihar East",
+          "code": "PVE",
+          "latitude": 28.625,
+          "longitude": 77.048,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Punjabi Bagh West",
+          "code": "PBW",
+          "latitude": 28.628,
+          "longitude": 77.055,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rajouri Garden",
+          "code": "RAJ",
+          "latitude": 28.652,
+          "longitude": 77.118,
+          "structure": "elevated",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Ramesh Nagar",
+          "code": "RMN",
+          "latitude": 28.643,
+          "longitude": 77.114,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Moti Nagar",
+          "code": "MTN",
+          "latitude": 28.647,
+          "longitude": 77.13,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kirti Nagar",
+          "code": "KTN",
+          "latitude": 28.6518,
+          "longitude": 77.147,
+          "structure": "elevated",
+          "interchange_with": [
+            "GB"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shadipur",
+          "code": "SHP",
+          "latitude": 28.651,
+          "longitude": 77.15,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Patel Nagar",
+          "code": "PTL",
+          "latitude": 28.651,
+          "longitude": 77.16,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rajendra Place",
+          "code": "RJP",
+          "latitude": 28.647,
+          "longitude": 77.17,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Karol Bagh",
+          "code": "KRB",
+          "latitude": 28.651,
+          "longitude": 77.185,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jhandewalan",
+          "code": "JDW",
+          "latitude": 28.645,
+          "longitude": 77.196,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "R.K. Ashram Marg",
+          "code": "RKA",
+          "latitude": 28.639,
+          "longitude": 77.206,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rajiv Chowk",
+          "code": "RVC",
+          "latitude": 28.6314,
+          "longitude": 77.2196,
+          "structure": "underground",
+          "interchange_with": [
+            "YL"
+          ],
+          "platforms": 4,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Barakhamba Road",
+          "code": "BRR",
+          "latitude": 28.629,
+          "longitude": 77.224,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mandi House",
+          "code": "MDH",
+          "latitude": 28.6276,
+          "longitude": 77.2244,
+          "structure": "underground",
+          "interchange_with": [
+            "VL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Supreme Court",
+          "code": "SPC",
+          "latitude": 28.622,
+          "longitude": 77.245,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Indraprastha",
+          "code": "IDP",
+          "latitude": 28.618,
+          "longitude": 77.252,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Yamuna Bank",
+          "code": "YBK",
+          "latitude": 28.611,
+          "longitude": 77.262,
+          "structure": "elevated",
+          "interchange_with": [
+            "BR"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Akshardham",
+          "code": "AKS",
+          "latitude": 28.612,
+          "longitude": 77.276,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mayur Vihar Phase-I",
+          "code": "MVP",
+          "latitude": 28.618,
+          "longitude": 77.292,
+          "structure": "elevated",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mayur Vihar Extension",
+          "code": "MVX",
+          "latitude": 28.615,
+          "longitude": 77.305,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "New Ashok Nagar",
+          "code": "NAS",
+          "latitude": 28.616,
+          "longitude": 77.316,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Noida Sector 15",
+          "code": "N15",
+          "latitude": 28.599,
+          "longitude": 77.318,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Noida Sector 16",
+          "code": "N16",
+          "latitude": 28.59,
+          "longitude": 77.322,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Noida Sector 18",
+          "code": "N18",
+          "latitude": 28.574,
+          "longitude": 77.324,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Botanical Garden",
+          "code": "BGA",
+          "latitude": 28.563,
+          "longitude": 77.326,
+          "structure": "elevated",
+          "interchange_with": [
+            "MG"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Noida Golf Course",
+          "code": "NGC",
+          "latitude": 28.556,
+          "longitude": 77.331,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Noida Sector 34",
+          "code": "N34",
+          "latitude": 28.566,
+          "longitude": 77.338,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Noida Sector 52",
+          "code": "N52",
+          "latitude": 28.571,
+          "longitude": 77.345,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Noida Sector 61",
+          "code": "N61",
+          "latitude": 28.601,
+          "longitude": 77.352,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Noida Electronic City",
+          "code": "NEC",
+          "latitude": 28.617,
+          "longitude": 77.356,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "DW21",
+          "line": "OR",
+          "with_station": "Dwarka Sector 21"
+        },
+        {
+          "station": "DWA",
+          "line": "GY",
+          "with_station": "Dwarka"
+        },
+        {
+          "station": "RAJ",
+          "line": "PK",
+          "with_station": "Rajouri Garden"
+        },
+        {
+          "station": "KTN",
+          "line": "GB",
+          "with_station": "Kirti Nagar"
+        },
+        {
+          "station": "RVC",
+          "line": "YL",
+          "with_station": "Rajiv Chowk"
+        },
+        {
+          "station": "MDH",
+          "line": "VL",
+          "with_station": "Mandi House"
+        },
+        {
+          "station": "YBK",
+          "line": "BR",
+          "with_station": "Yamuna Bank"
+        },
+        {
+          "station": "MVP",
+          "line": "PK",
+          "with_station": "Mayur Vihar Phase-I"
+        },
+        {
+          "station": "BGA",
+          "line": "MG",
+          "with_station": "Botanical Garden"
+        }
+      ],
+      "speed_overrides": {
+        "Rajiv Chowk-Barakhamba Road": 65
+      },
+      "gradients": {
+        "Yamuna Bank-Akshardham": 1.5
+      }
+    },
+    {
+      "code": "BR",
+      "name": "Blue Line Branch",
+      "number": 4,
+      "color_hex": "#005AA7",
+      "corridor": "Yamuna Bank – Vaishali",
+      "opened_year": 2006,
+      "operator": "DMRC",
+      "gauge_mm": 1676,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 6.97,
+      "depots": [],
+      "stations": [
+        {
+          "name": "Yamuna Bank",
+          "code": "YBK",
+          "latitude": 28.611,
+          "longitude": 77.262,
+          "structure": "elevated",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Laxmi Nagar",
+          "code": "LXN",
+          "latitude": 28.622,
+          "longitude": 77.286,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Nirman Vihar",
+          "code": "NIR",
+          "latitude": 28.632,
+          "longitude": 77.296,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Preet Vihar",
+          "code": "PRV",
+          "latitude": 28.639,
+          "longitude": 77.302,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Karkarduma",
+          "code": "KKD",
+          "latitude": 28.643,
+          "longitude": 77.298,
+          "structure": "elevated",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Anand Vihar",
+          "code": "ANV",
+          "latitude": 28.6465,
+          "longitude": 77.315,
+          "structure": "elevated",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kaushambi",
+          "code": "KSM",
+          "latitude": 28.65,
+          "longitude": 77.324,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Vaishali",
+          "code": "VSH",
+          "latitude": 28.652,
+          "longitude": 77.332,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "YBK",
+          "line": "BL",
+          "with_station": "Yamuna Bank"
+        },
+        {
+          "station": "KKD",
+          "line": "PK",
+          "with_station": "Karkarduma"
+        },
+        {
+          "station": "ANV",
+          "line": "PK",
+          "with_station": "Anand Vihar"
+        }
+      ]
+    },
+    {
+      "code": "GR",
+      "name": "Green Line",
+      "number": 5,
+      "color_hex": "#00A651",
+      "corridor": "Brigadier Hoshiyar Singh (Bahadurgarh) – Inderlok",
+      "opened_year": 2010,
+      "operator": "DMRC",
+      "gauge_mm": 1435,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 26.31,
+      "depots": [
+        {
+          "name": "Mundka Depot",
+          "latitude": 28.681,
+          "longitude": 77.06,
+          "area_m2": 75000,
+          "capacity_stabling": 40,
+          "coordinate_confidence": "medium"
+        }
+      ],
+      "stations": [
+        {
+          "name": "Brigadier Hoshiyar Singh",
+          "code": "BHS",
+          "latitude": 28.68,
+          "longitude": 76.94,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Bahadurgarh City",
+          "code": "BHC",
+          "latitude": 28.68,
+          "longitude": 76.97,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Pandit Shree Ram Sharma",
+          "code": "PSR",
+          "latitude": 28.68,
+          "longitude": 76.99,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Tikri Border",
+          "code": "TKB",
+          "latitude": 28.68,
+          "longitude": 77.01,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Tikri Kalan",
+          "code": "TKL",
+          "latitude": 28.68,
+          "longitude": 77.03,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mundka Industrial Area",
+          "code": "MIA",
+          "latitude": 28.68,
+          "longitude": 77.045,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mundka",
+          "code": "MUN",
+          "latitude": 28.681,
+          "longitude": 77.06,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rajdhani Park",
+          "code": "RDP",
+          "latitude": 28.679,
+          "longitude": 77.07,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Nangloi",
+          "code": "NAN",
+          "latitude": 28.682,
+          "longitude": 77.075,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Udyog Nagar",
+          "code": "UDN",
+          "latitude": 28.68,
+          "longitude": 77.09,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Peeragarhi",
+          "code": "PGG",
+          "latitude": 28.677,
+          "longitude": 77.105,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Ashok Park Main",
+          "code": "APM",
+          "latitude": 28.652,
+          "longitude": 77.13,
+          "structure": "elevated",
+          "interchange_with": [
+            "GB"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Inderlok",
+          "code": "ILK",
+          "latitude": 28.6595,
+          "longitude": 77.17,
+          "structure": "elevated",
+          "interchange_with": [
+            "RD"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "APM",
+          "line": "GB",
+          "with_station": "Ashok Park Main"
+        },
+        {
+          "station": "ILK",
+          "line": "RD",
+          "with_station": "Inderlok"
+        }
+      ],
+      "speed_overrides": {
+        "Mundka-Nangloi": 70
+      }
+    },
+    {
+      "code": "GB",
+      "name": "Green Line Branch",
+      "number": 6,
+      "color_hex": "#00A651",
+      "corridor": "Ashok Park Main – Kirti Nagar",
+      "opened_year": 2010,
+      "operator": "DMRC",
+      "gauge_mm": 1435,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 3.31,
+      "depots": [],
+      "stations": [
+        {
+          "name": "Ashok Park Main",
+          "code": "APM",
+          "latitude": 28.652,
+          "longitude": 77.13,
+          "structure": "elevated",
+          "interchange_with": [
+            "GR"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Satguru Ram Singh Marg",
+          "code": "SRS",
+          "latitude": 28.65,
+          "longitude": 77.138,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kirti Nagar",
+          "code": "KTN",
+          "latitude": 28.6518,
+          "longitude": 77.147,
+          "structure": "elevated",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "APM",
+          "line": "GR",
+          "with_station": "Ashok Park Main"
+        },
+        {
+          "station": "KTN",
+          "line": "BL",
+          "with_station": "Kirti Nagar"
+        }
+      ]
+    },
+    {
+      "code": "VL",
+      "name": "Violet Line",
+      "number": 7,
+      "color_hex": "#8E44AD",
+      "corridor": "Kashmere Gate – Raja Nahar Singh (Ballabhgarh)",
+      "opened_year": 2010,
+      "operator": "DMRC",
+      "gauge_mm": 1435,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 46.6,
+      "depots": [
+        {
+          "name": "Sarita Vihar Depot",
+          "latitude": 28.519,
+          "longitude": 77.296,
+          "area_m2": 80000,
+          "capacity_stabling": 48,
+          "coordinate_confidence": "medium"
+        }
+      ],
+      "stations": [
+        {
+          "name": "Kashmere Gate",
+          "code": "KGM",
+          "latitude": 28.666,
+          "longitude": 77.229,
+          "structure": "underground",
+          "interchange_with": [
+            "RD",
+            "YL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Lal Qila",
+          "code": "LQL",
+          "latitude": 28.656,
+          "longitude": 77.238,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jama Masjid",
+          "code": "JMS",
+          "latitude": 28.65,
+          "longitude": 77.234,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Delhi Gate",
+          "code": "DLG",
+          "latitude": 28.642,
+          "longitude": 77.236,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "ITO",
+          "code": "ITO",
+          "latitude": 28.63,
+          "longitude": 77.239,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mandi House",
+          "code": "MDH",
+          "latitude": 28.6276,
+          "longitude": 77.2244,
+          "structure": "underground",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Janpath",
+          "code": "JPT",
+          "latitude": 28.62,
+          "longitude": 77.217,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Central Secretariat",
+          "code": "CSE",
+          "latitude": 28.6142,
+          "longitude": 77.2115,
+          "structure": "underground",
+          "interchange_with": [
+            "YL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Khan Market",
+          "code": "KHM",
+          "latitude": 28.603,
+          "longitude": 77.225,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "JLN Stadium",
+          "code": "JLN",
+          "latitude": 28.583,
+          "longitude": 77.233,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jangpura",
+          "code": "JGP",
+          "latitude": 28.582,
+          "longitude": 77.235,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Lajpat Nagar",
+          "code": "LJN",
+          "latitude": 28.571,
+          "longitude": 77.243,
+          "structure": "elevated",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Moolchand",
+          "code": "MCH",
+          "latitude": 28.566,
+          "longitude": 77.23,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kailash Colony",
+          "code": "KLC",
+          "latitude": 28.553,
+          "longitude": 77.25,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Nehru Place",
+          "code": "NEP",
+          "latitude": 28.549,
+          "longitude": 77.252,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kalkaji Mandir",
+          "code": "KMK",
+          "latitude": 28.546,
+          "longitude": 77.258,
+          "structure": "elevated",
+          "interchange_with": [
+            "MG"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Govindpuri",
+          "code": "GVP",
+          "latitude": 28.54,
+          "longitude": 77.264,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Okhla",
+          "code": "OKH",
+          "latitude": 28.533,
+          "longitude": 77.27,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jasola",
+          "code": "JAS",
+          "latitude": 28.526,
+          "longitude": 77.286,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Sarita Vihar",
+          "code": "SRV",
+          "latitude": 28.519,
+          "longitude": 77.296,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mohan Estate",
+          "code": "MHE",
+          "latitude": 28.512,
+          "longitude": 77.304,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Tughlakabad",
+          "code": "TUG",
+          "latitude": 28.505,
+          "longitude": 77.312,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Badarpur Border",
+          "code": "BPB",
+          "latitude": 28.493,
+          "longitude": 77.318,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Sarai",
+          "code": "SRA",
+          "latitude": 28.485,
+          "longitude": 77.324,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "NHPC Chowk",
+          "code": "NHP",
+          "latitude": 28.478,
+          "longitude": 77.328,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mewala Maharajpur",
+          "code": "MWM",
+          "latitude": 28.47,
+          "longitude": 77.33,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Old Faridabad",
+          "code": "OFD",
+          "latitude": 28.462,
+          "longitude": 77.332,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Neelam Chowk Ajronda",
+          "code": "NCA",
+          "latitude": 28.454,
+          "longitude": 77.334,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Bata Chowk",
+          "code": "BTC",
+          "latitude": 28.446,
+          "longitude": 77.336,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Raja Nahar Singh",
+          "code": "RNS",
+          "latitude": 28.438,
+          "longitude": 77.338,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "KGM",
+          "line": "RD",
+          "with_station": "Kashmere Gate"
+        },
+        {
+          "station": "KGM",
+          "line": "YL",
+          "with_station": "Kashmere Gate"
+        },
+        {
+          "station": "MDH",
+          "line": "BL",
+          "with_station": "Mandi House"
+        },
+        {
+          "station": "CSE",
+          "line": "YL",
+          "with_station": "Central Secretariat"
+        },
+        {
+          "station": "LJN",
+          "line": "PK",
+          "with_station": "Lajpat Nagar"
+        },
+        {
+          "station": "KMK",
+          "line": "MG",
+          "with_station": "Kalkaji Mandir"
+        }
+      ],
+      "speed_overrides": {
+        "Kashmere Gate-Lal Qila": 60
+      },
+      "gradients": {
+        "Badarpur Border-Sarai": 1.1
+      }
+    },
+    {
+      "code": "PK",
+      "name": "Pink Line",
+      "number": 8,
+      "color_hex": "#E8A0BF",
+      "corridor": "Majlis Park – Shiv Vihar",
+      "opened_year": 2018,
+      "operator": "DMRC",
+      "gauge_mm": 1435,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 59.35,
+      "depots": [
+        {
+          "name": "Majlis Park Depot",
+          "latitude": 28.715,
+          "longitude": 77.18,
+          "area_m2": 85000,
+          "capacity_stabling": 52,
+          "coordinate_confidence": "medium"
+        }
+      ],
+      "stations": [
+        {
+          "name": "Majlis Park",
+          "code": "MJP",
+          "latitude": 28.715,
+          "longitude": 77.18,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Prembari Pul",
+          "code": "PBP",
+          "latitude": 28.708,
+          "longitude": 77.183,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Azadpur",
+          "code": "AZP",
+          "latitude": 28.696,
+          "longitude": 77.1835,
+          "structure": "elevated",
+          "interchange_with": [
+            "YL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shalimar Bagh",
+          "code": "SHB",
+          "latitude": 28.691,
+          "longitude": 77.189,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Netaji Subhash Place",
+          "code": "NSP",
+          "latitude": 28.6855,
+          "longitude": 77.1605,
+          "structure": "elevated",
+          "interchange_with": [
+            "RD"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shakurpur",
+          "code": "SKP",
+          "latitude": 28.678,
+          "longitude": 77.147,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "ESI Basaidarapur",
+          "code": "ESI",
+          "latitude": 28.67,
+          "longitude": 77.138,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Punjabi Bagh West",
+          "code": "PBW",
+          "latitude": 28.669,
+          "longitude": 77.13,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Rajouri Garden",
+          "code": "RAJ",
+          "latitude": 28.652,
+          "longitude": 77.118,
+          "structure": "elevated",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mayapuri",
+          "code": "MAY",
+          "latitude": 28.644,
+          "longitude": 77.112,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Naraina Vihar",
+          "code": "NRV",
+          "latitude": 28.631,
+          "longitude": 77.107,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Delhi Cantt",
+          "code": "DCT",
+          "latitude": 28.62,
+          "longitude": 77.11,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dhaula Kuan",
+          "code": "DKU",
+          "latitude": 28.58,
+          "longitude": 77.14,
+          "structure": "elevated",
+          "interchange_with": [
+            "OR"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Sir Vishweshwaraiah Moti Bagh",
+          "code": "VMB",
+          "latitude": 28.596,
+          "longitude": 77.166,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Bhikaji Cama Place",
+          "code": "BCP",
+          "latitude": 28.58,
+          "longitude": 77.185,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Durgabai Deshmukh South Campus",
+          "code": "DSC",
+          "latitude": 28.573,
+          "longitude": 77.19,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dilli Haat INA",
+          "code": "INA",
+          "latitude": 28.573,
+          "longitude": 77.214,
+          "structure": "elevated",
+          "interchange_with": [
+            "YL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "South Extension",
+          "code": "SEX",
+          "latitude": 28.566,
+          "longitude": 77.224,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Lajpat Nagar",
+          "code": "LJN",
+          "latitude": 28.571,
+          "longitude": 77.243,
+          "structure": "elevated",
+          "interchange_with": [
+            "VL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Vinobapuri",
+          "code": "VNP",
+          "latitude": 28.563,
+          "longitude": 77.254,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Ashram",
+          "code": "ASH",
+          "latitude": 28.556,
+          "longitude": 77.263,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Hazrat Nizamuddin",
+          "code": "HZN",
+          "latitude": 28.578,
+          "longitude": 77.264,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mayur Vihar Phase-I",
+          "code": "MVP",
+          "latitude": 28.618,
+          "longitude": 77.292,
+          "structure": "elevated",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Mayur Vihar Pocket-1",
+          "code": "MV1",
+          "latitude": 28.622,
+          "longitude": 77.3,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Trilokpuri Sanjay Lake",
+          "code": "TSL",
+          "latitude": 28.625,
+          "longitude": 77.312,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "East Azad Nagar",
+          "code": "EAN",
+          "latitude": 28.63,
+          "longitude": 77.32,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Krishna Nagar",
+          "code": "KRN",
+          "latitude": 28.638,
+          "longitude": 77.326,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shiv Vihar",
+          "code": "SVH",
+          "latitude": 28.65,
+          "longitude": 77.338,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "AZP",
+          "line": "YL",
+          "with_station": "Azadpur"
+        },
+        {
+          "station": "NSP",
+          "line": "RD",
+          "with_station": "Netaji Subhash Place"
+        },
+        {
+          "station": "RAJ",
+          "line": "BL",
+          "with_station": "Rajouri Garden"
+        },
+        {
+          "station": "DKU",
+          "line": "OR",
+          "with_station": "Dhaula Kuan"
+        },
+        {
+          "station": "INA",
+          "line": "YL",
+          "with_station": "Dilli Haat INA"
+        },
+        {
+          "station": "LJN",
+          "line": "VL",
+          "with_station": "Lajpat Nagar"
+        },
+        {
+          "station": "MVP",
+          "line": "BL",
+          "with_station": "Mayur Vihar Phase-I"
+        }
+      ],
+      "speed_overrides": {
+        "Hazrat Nizamuddin-Mayur Vihar Phase-I": 60
+      },
+      "curve_vertices": {
+        "Hazrat Nizamuddin-Mayur Vihar Phase-I": [
+          [
+            77.27,
+            28.6
+          ]
+        ]
+      }
+    },
+    {
+      "code": "MG",
+      "name": "Magenta Line",
+      "number": 9,
+      "color_hex": "#8E44AD",
+      "corridor": "Janakpuri West – Botanical Garden",
+      "opened_year": 2017,
+      "operator": "DMRC",
+      "gauge_mm": 1435,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 38.48,
+      "depots": [
+        {
+          "name": "Janakpuri Depot",
+          "latitude": 28.6293,
+          "longitude": 77.08,
+          "area_m2": 70000,
+          "capacity_stabling": 44,
+          "coordinate_confidence": "medium"
+        }
+      ],
+      "stations": [
+        {
+          "name": "Janakpuri West",
+          "code": "JNW",
+          "latitude": 28.6293,
+          "longitude": 77.0857,
+          "structure": "elevated",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dabri Mor",
+          "code": "DBM",
+          "latitude": 28.62,
+          "longitude": 77.092,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dashrath Puri",
+          "code": "DTP",
+          "latitude": 28.612,
+          "longitude": 77.098,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Palam",
+          "code": "PAL",
+          "latitude": 28.605,
+          "longitude": 77.105,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Sadar Bazar Cantonment",
+          "code": "SBC",
+          "latitude": 28.596,
+          "longitude": 77.112,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Terminal 1-IGI Airport",
+          "code": "T1A",
+          "latitude": 28.566,
+          "longitude": 77.12,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shankar Vihar",
+          "code": "SHV",
+          "latitude": 28.548,
+          "longitude": 77.13,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Vasant Vihar",
+          "code": "VSV",
+          "latitude": 28.556,
+          "longitude": 77.162,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Munirka",
+          "code": "MUN",
+          "latitude": 28.558,
+          "longitude": 77.175,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "R.K. Puram",
+          "code": "RKP",
+          "latitude": 28.555,
+          "longitude": 77.185,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Hauz Khas",
+          "code": "HZK",
+          "latitude": 28.549,
+          "longitude": 77.201,
+          "structure": "underground",
+          "interchange_with": [
+            "YL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kalkaji Mandir",
+          "code": "KMK",
+          "latitude": 28.546,
+          "longitude": 77.258,
+          "structure": "elevated",
+          "interchange_with": [
+            "VL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Okhla NSIC",
+          "code": "ONS",
+          "latitude": 28.54,
+          "longitude": 77.264,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Sukhdev Vihar",
+          "code": "SDV",
+          "latitude": 28.538,
+          "longitude": 77.278,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jamia Millia Islamia",
+          "code": "JMI",
+          "latitude": 28.533,
+          "longitude": 77.288,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Okhla Vihar",
+          "code": "OKV",
+          "latitude": 28.53,
+          "longitude": 77.298,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Jasola Vihar Shaheen Bagh",
+          "code": "JVS",
+          "latitude": 28.535,
+          "longitude": 77.306,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Kalindi Kunj",
+          "code": "KLK",
+          "latitude": 28.541,
+          "longitude": 77.314,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Botanical Garden",
+          "code": "BGA",
+          "latitude": 28.563,
+          "longitude": 77.326,
+          "structure": "elevated",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "JNW",
+          "line": "BL",
+          "with_station": "Janakpuri West"
+        },
+        {
+          "station": "HZK",
+          "line": "YL",
+          "with_station": "Hauz Khas"
+        },
+        {
+          "station": "KMK",
+          "line": "VL",
+          "with_station": "Kalkaji Mandir"
+        },
+        {
+          "station": "BGA",
+          "line": "BL",
+          "with_station": "Botanical Garden"
+        }
+      ],
+      "speed_overrides": {
+        "Terminal 1-IGI Airport-Shankar Vihar": 75
+      },
+      "gradients": {
+        "Palam-Sadar Bazar Cantonment": 1.0
+      }
+    },
+    {
+      "code": "GY",
+      "name": "Grey Line",
+      "number": 10,
+      "color_hex": "#9E9E9E",
+      "corridor": "Dwarka – Dhansa Bus Stand",
+      "opened_year": 2018,
+      "operator": "DMRC",
+      "gauge_mm": 1435,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "ATP",
+      "total_length_km": 5.48,
+      "depots": [
+        {
+          "name": "Najafgarh Depot",
+          "latitude": 28.609,
+          "longitude": 77.033,
+          "area_m2": 40000,
+          "capacity_stabling": 20,
+          "coordinate_confidence": "medium"
+        }
+      ],
+      "stations": [
+        {
+          "name": "Dwarka",
+          "code": "DWA",
+          "latitude": 28.592,
+          "longitude": 77.074,
+          "structure": "elevated",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Nangli",
+          "code": "NGL",
+          "latitude": 28.586,
+          "longitude": 77.06,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Najafgarh",
+          "code": "NJR",
+          "latitude": 28.609,
+          "longitude": 77.033,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Bhesan",
+          "code": "BHE",
+          "latitude": 28.614,
+          "longitude": 77.02,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dhansa Bus Stand",
+          "code": "DBS",
+          "latitude": 28.617,
+          "longitude": 77.01,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "DWA",
+          "line": "BL",
+          "with_station": "Dwarka"
+        }
+      ],
+      "speed_overrides": {
+        "Nangli-Najafgarh": 70
+      }
+    },
+    {
+      "code": "OR",
+      "name": "Airport Express Line",
+      "number": 11,
+      "color_hex": "#FF8C00",
+      "corridor": "New Delhi – Dwarka Sector 21 (via IGI Airport)",
+      "opened_year": 2011,
+      "operator": "DMRC",
+      "gauge_mm": 1676,
+      "electrification": "25 kV AC OHE",
+      "signalling_system": "CBTC",
+      "total_length_km": 22.7,
+      "depots": [],
+      "stations": [
+        {
+          "name": "New Delhi",
+          "code": "NDL",
+          "latitude": 28.643,
+          "longitude": 77.2196,
+          "structure": "underground",
+          "interchange_with": [
+            "YL"
+          ],
+          "platforms": 3,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Shivaji Stadium",
+          "code": "SHS",
+          "latitude": 28.633,
+          "longitude": 77.215,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dhaula Kuan",
+          "code": "DKU",
+          "latitude": 28.58,
+          "longitude": 77.14,
+          "structure": "elevated",
+          "interchange_with": [
+            "PK"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Delhi Aerocity",
+          "code": "AER",
+          "latitude": 28.548,
+          "longitude": 77.118,
+          "structure": "underground",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "IGI Airport",
+          "code": "IGI",
+          "latitude": 28.563,
+          "longitude": 77.112,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Dwarka Sector 21",
+          "code": "DW21",
+          "latitude": 28.57,
+          "longitude": 77.072,
+          "structure": "elevated",
+          "interchange_with": [
+            "BL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "NDL",
+          "line": "YL",
+          "with_station": "New Delhi"
+        },
+        {
+          "station": "DKU",
+          "line": "PK",
+          "with_station": "Dhaula Kuan"
+        },
+        {
+          "station": "DW21",
+          "line": "BL",
+          "with_station": "Dwarka Sector 21"
+        }
+      ],
+      "speed_overrides": {
+        "Dhaula Kuan-Delhi Aerocity": 110
+      },
+      "gradients": {
+        "Delhi Aerocity-IGI Airport": 0.6
+      }
+    },
+    {
+      "code": "RM",
+      "name": "Rapid Metro Gurugram",
+      "number": 12,
+      "color_hex": "#0091CD",
+      "corridor": "Sikandarpur – Phase 3 (Gurugram)",
+      "opened_year": 2013,
+      "operator": "Rapid MetroRail Gurgaon Limited",
+      "gauge_mm": 1435,
+      "electrification": "750 V DC Third Rail",
+      "signalling_system": "CBTC",
+      "total_length_km": 11.68,
+      "depots": [],
+      "stations": [
+        {
+          "name": "Sikandarpur",
+          "code": "SKD",
+          "latitude": 28.452,
+          "longitude": 77.122,
+          "structure": "elevated",
+          "interchange_with": [
+            "YL"
+          ],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": true,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Phase 2",
+          "code": "PH2",
+          "latitude": 28.446,
+          "longitude": 77.11,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Belvedere Towers",
+          "code": "BLV",
+          "latitude": 28.442,
+          "longitude": 77.096,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Cyber City",
+          "code": "CYC",
+          "latitude": 28.438,
+          "longitude": 77.09,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Moulsari Avenue",
+          "code": "MOL",
+          "latitude": 28.435,
+          "longitude": 77.087,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": false,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        },
+        {
+          "name": "Phase 3",
+          "code": "PH3",
+          "latitude": 28.434,
+          "longitude": 77.085,
+          "structure": "elevated",
+          "interchange_with": [],
+          "platforms": 2,
+          "opened_year": 0,
+          "is_terminus": true,
+          "has_junction": false,
+          "coordinate_confidence": "high"
+        }
+      ],
+      "interchanges": [
+        {
+          "station": "SKD",
+          "line": "YL",
+          "with_station": "Sikandarpur"
+        }
+      ],
+      "speed_overrides": {
+        "Sikandarpur-Phase 2": 70
+      }
+    }
+  ]
+}
