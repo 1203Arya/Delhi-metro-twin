@@ -11,3 +11,7 @@ dependencies = []
 
 [project.scripts]
 dmdt-sim = "dmdt_sim.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dmdt_sim*"]

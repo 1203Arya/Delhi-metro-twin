@@ -10,4 +10,3 @@ prometheus-fastapi-instrumentator>=7.0.0
 slowapi>=0.1.9
 redis>=5.2.0
 aio-pika>=9.4.0
-dmdt-database>=0.1.0

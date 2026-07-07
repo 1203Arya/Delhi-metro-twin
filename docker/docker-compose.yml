@@ -22,7 +22,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./database/init:/docker-entrypoint-initdb.d:ro
+      - ../database/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
@@ -77,9 +77,6 @@ services:
     env_file:
       - ../configs/dev.env
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-      REDIS_URL: ${REDIS_URL}
-      RABBITMQ_URL: ${RABBITMQ_URL}
       SIM_HOST: simulation
     depends_on:
       postgres:
@@ -88,8 +85,6 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      simulation:
-        condition: service_started
     ports:
       - "8000:8000"
     volumes:
@@ -117,10 +112,6 @@ services:
     <<: *default-restart
     env_file:
       - ../configs/dev.env
-    environment:
-      REDIS_URL: ${REDIS_URL}
-      RABBITMQ_URL: ${RABBITMQ_URL}
-      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       postgres:
         condition: service_healthy
@@ -134,7 +125,7 @@ services:
       - ../database:/app/database
       - ../backend/app:/app/backend/app
       - ../configs:/app/configs:ro
-    command: ["python", "-m", "dmdt_sim.main", "--duration", "86400", "--seed", "42", "--quiet"]
+    command: ["--duration", "86400", "--seed", "42", "--quiet"]
     networks: [dmdt-net]
 
   # ──────────────── Frontend (Next.js) ────────────────
@@ -144,19 +135,17 @@ services:
       dockerfile: docker/frontend/Dockerfile
     container_name: dmdt-frontend
     <<: *default-restart
-    environment:
-      NEXT_PUBLIC_API_BASE: ${NEXT_PUBLIC_API_BASE}
-      NEXT_PUBLIC_WS_BASE: ${NEXT_PUBLIC_WS_BASE}
-      NEXT_PUBLIC_MAP_STYLE_URL: ${NEXT_PUBLIC_MAP_STYLE_URL}
+    env_file:
+      - ../configs/dev.env
     depends_on:
       backend:
         condition: service_healthy
     ports:
       - "3000:3000"
     volumes:
-      - ../frontend:/app/frontend
-      - /app/frontend/node_modules
-      - /app/frontend/.next
+      - ../web:/app
+      - /app/node_modules
+      - /app/.next
     command: ["sh", "-c", "npm install && npm run dev -- -H 0.0.0.0 -p 3000"]
     networks: [dmdt-net]
 

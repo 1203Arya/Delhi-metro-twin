@@ -7,7 +7,7 @@ COPY simulation/ simulation/
 COPY gis/ gis/
 COPY database/ database/
 
-RUN pip install --no-cache-dir -e gis/ -e database/ -e simulation/
+RUN pip install --no-cache-dir gis/ database/ simulation/
 
 FROM python:3.12-slim
 
