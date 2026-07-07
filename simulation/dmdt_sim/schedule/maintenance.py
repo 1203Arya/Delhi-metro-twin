@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
 
 from ..types import MaintenanceSlot, SimulationConfig
 
@@ -20,7 +19,13 @@ class MaintenanceScheduler:
             return True
         return (current_time - last) >= self.config.maintenance_interval_s
 
-    def schedule(self, train_id: str, current_time: float, depot_name: str, description: str = "routine inspection") -> MaintenanceSlot:
+    def schedule(
+        self,
+        train_id: str,
+        current_time: float,
+        depot_name: str,
+        description: str = "routine inspection",
+    ) -> MaintenanceSlot:
         slot = MaintenanceSlot(
             train_id=train_id,
             start_time=current_time,

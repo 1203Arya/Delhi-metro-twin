@@ -31,7 +31,9 @@ async def list_depots(
         )
         for d in depots
     ]
-    return PaginatedResponse(items=items, total=len(depots), skip=pagination.skip, limit=pagination.limit)
+    return PaginatedResponse(
+        items=items, total=len(depots), skip=pagination.skip, limit=pagination.limit
+    )
 
 
 @router.get("/{depot_id}", response_model=DepotDetail)
@@ -40,6 +42,7 @@ async def get_depot(depot_id: str, db: AsyncSession = Depends(get_db)):
     d = await svc.get_depot(depot_id)
     if not d:
         from ...core.exceptions import NotFoundError
+
         raise NotFoundError(f"Depot {depot_id} not found")
     return DepotDetail(
         id=str(d.id),

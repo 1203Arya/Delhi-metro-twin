@@ -12,7 +12,9 @@ class EventBus:
         self._history: list[dict[str, Any]] = []
         self._max_history: int = 10000
 
-    def subscribe(self, event_type: str, callback: Callable, subscriber_id: str | None = None) -> str:
+    def subscribe(
+        self, event_type: str, callback: Callable, subscriber_id: str | None = None
+    ) -> str:
         sid = subscriber_id or str(uuid.uuid4())
         self._subscribers[event_type][sid] = callback
         return sid
@@ -28,7 +30,7 @@ class EventBus:
         }
         self._history.append(entry)
         if len(self._history) > self._max_history:
-            self._history = self._history[-self._max_history:]
+            self._history = self._history[-self._max_history :]
         for callback in list(self._subscribers.get(event_type, {}).values()):
             callback(data)
 

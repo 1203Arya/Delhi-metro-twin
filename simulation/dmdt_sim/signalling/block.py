@@ -10,7 +10,9 @@ class BlockManager:
     def __init__(self) -> None:
         self.blocks: dict[str, SignalBlock] = {}
         self.occupations: list[TrackOccupation] = []
-        self._line_blocks: dict[str, dict[str, list[SignalBlock]]] = defaultdict(lambda: defaultdict(list))
+        self._line_blocks: dict[str, dict[str, list[SignalBlock]]] = defaultdict(
+            lambda: defaultdict(list)
+        )
         self._station_blocks: dict[str, list[str]] = defaultdict(list)
 
     def build_from_network(self, network_data: dict[str, Any]) -> None:
@@ -37,10 +39,22 @@ class BlockManager:
                 )
                 self.blocks[block_id] = block
                 self._line_blocks[line_code][direction.value].append(block)
-                self._station_blocks.setdefault(seg.get("from_station_code", ""), []).append(block_id)
-                self._station_blocks.setdefault(seg.get("to_station_code", ""), []).append(block_id)
+                self._station_blocks.setdefault(
+                    seg.get("from_station_code", ""), []
+                ).append(block_id)
+                self._station_blocks.setdefault(
+                    seg.get("to_station_code", ""), []
+                ).append(block_id)
 
-    def occupy_block(self, block_id: str, train_id: str, train_length_m: float, head_position_m: float, direction: Direction, time_s: float) -> bool:
+    def occupy_block(
+        self,
+        block_id: str,
+        train_id: str,
+        train_length_m: float,
+        head_position_m: float,
+        direction: Direction,
+        time_s: float,
+    ) -> bool:
         block = self.blocks.get(block_id)
         if not block:
             return False
@@ -67,11 +81,21 @@ class BlockManager:
             block.occupying_train_id = None
             block.authority = MovementAuthority.MOVEMENT
 
-    def get_leading_train(self, line_code: str, direction: Direction, current_position_m: float, train_length_m: float) -> tuple[str | None, float]:
+    def get_leading_train(
+        self,
+        line_code: str,
+        direction: Direction,
+        current_position_m: float,
+        train_length_m: float,
+    ) -> tuple[str | None, float]:
         blocks_in_dir = self._line_blocks.get(line_code, {}).get(direction.value, [])
         for block in blocks_in_dir:
             if block.is_occupied and block.occupying_train_id:
-                relevant_occs = [o for o in self.occupations if o.train_id == block.occupying_train_id]
+                relevant_occs = [
+                    o
+                    for o in self.occupations
+                    if o.train_id == block.occupying_train_id
+                ]
                 if relevant_occs:
                     occ = relevant_occs[-1]
                     if occ.head_position_m > current_position_m:
@@ -79,8 +103,16 @@ class BlockManager:
                         return block.occupying_train_id, max(0, gap)
         return None, float("inf")
 
-    def check_headway(self, line_code: str, direction: Direction, rear_position_m: float, train_length_m: float) -> tuple[float, bool]:
-        lead_id, gap = self.get_leading_train(line_code, direction, rear_position_m, train_length_m)
+    def check_headway(
+        self,
+        line_code: str,
+        direction: Direction,
+        rear_position_m: float,
+        train_length_m: float,
+    ) -> tuple[float, bool]:
+        lead_id, gap = self.get_leading_train(
+            line_code, direction, rear_position_m, train_length_m
+        )
         if lead_id is None:
             return float("inf"), True
         safe_gap = 50.0
@@ -105,15 +137,27 @@ class BlockManager:
             result[direction.value] = [b for b in blocks if b.is_occupied]
         return result
 
-    def find_route_blocks(self, from_station_code: str, to_station_code: str, line_code: str, direction: Direction) -> list[str]:
+    def find_route_blocks(
+        self,
+        from_station_code: str,
+        to_station_code: str,
+        line_code: str,
+        direction: Direction,
+    ) -> list[str]:
         blocks = self._line_blocks.get(line_code, {}).get(direction.value, [])
         in_route = False
         route_blocks: list[str] = []
         for block in blocks:
-            if block.from_station_id == from_station_code or block.to_station_id == from_station_code:
+            if (
+                block.from_station_id == from_station_code
+                or block.to_station_id == from_station_code
+            ):
                 in_route = True
             if in_route:
                 route_blocks.append(block.block_id)
-            if block.from_station_id == to_station_code or block.to_station_id == to_station_code:
+            if (
+                block.from_station_id == to_station_code
+                or block.to_station_id == to_station_code
+            ):
                 break
         return route_blocks

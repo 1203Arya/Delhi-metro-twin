@@ -6,7 +6,7 @@ from typing import Any
 from ..incidents.manager import IncidentManager
 from ..network.graph import NetworkGraph
 from ..schedule.timetable import Timetable
-from ..types import Direction, Incident, IncidentType, TripPlan
+from ..types import Direction, Incident, TripPlan
 
 
 class DynamicRouter:
@@ -25,7 +25,9 @@ class DynamicRouter:
             lambda: defaultdict(bool)
         )
 
-    def check_incidents_affecting_line(self, line_code: str, current_time: float) -> list[Incident]:
+    def check_incidents_affecting_line(
+        self, line_code: str, current_time: float
+    ) -> list[Incident]:
         if not self.incident_manager:
             return []
         active = self.incident_manager.get_active_incidents(current_time)
@@ -80,12 +82,14 @@ class DynamicRouter:
         )
         new_plan.stops = list(original_plan.stops)
         self._rerouted_trains[train_id] = new_plan
-        self._reroute_log.append({
-            "time": current_time,
-            "train_id": train_id,
-            "from": current_station,
-            "reason": f"incident on {line_code}",
-        })
+        self._reroute_log.append(
+            {
+                "time": current_time,
+                "train_id": train_id,
+                "from": current_station,
+                "reason": f"incident on {line_code}",
+            }
+        )
         return new_plan
 
     def get_reroute_history(self) -> list[dict[str, Any]]:

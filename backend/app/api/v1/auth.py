@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
 from ...schemas import LoginRequest, TokenResponse
 from ...services import AuthService

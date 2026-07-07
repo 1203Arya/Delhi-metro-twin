@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import re
 from datetime import datetime, timezone
 from typing import Any
@@ -12,34 +11,68 @@ class IntentClassifier:
     def __init__(self) -> None:
         self.intents: dict[str, list[str]] = {
             "delay_query": [
-                r"delay", r"late", r"behind schedule", r"on time", r"running (late|slow)",
-                r"what.?s the (status|delay)", r"how (late|delayed)",
+                r"delay",
+                r"late",
+                r"behind schedule",
+                r"on time",
+                r"running (late|slow)",
+                r"what.?s the (status|delay)",
+                r"how (late|delayed)",
             ],
             "crowd_query": [
-                r"crowd", r"busy", r"packed", r"congestion", r"how full",
-                r"occupancy", r"platform (crowd|density)", r"rush",
+                r"crowd",
+                r"busy",
+                r"packed",
+                r"congestion",
+                r"how full",
+                r"occupancy",
+                r"platform (crowd|density)",
+                r"rush",
             ],
             "eta_query": [
-                r"eta", r"arrival", r"how long", r"travel time", r"reach",
+                r"eta",
+                r"arrival",
+                r"how long",
+                r"travel time",
+                r"reach",
                 r"when (will|does|is|would).*(arrive|reach|come|get)",
-                r"time to reach", r"minutes (to|from)",
+                r"time to reach",
+                r"minutes (to|from)",
             ],
             "incident_query": [
-                r"incident", r"accident", r"problem", r"issue", r"disruption",
-                r"breakdown", r"signal (fail|problem)", r"track (block|close|problem)",
-                r"emergency", r"what happened",
+                r"incident",
+                r"accident",
+                r"problem",
+                r"issue",
+                r"disruption",
+                r"breakdown",
+                r"signal (fail|problem)",
+                r"track (block|close|problem)",
+                r"emergency",
+                r"what happened",
             ],
             "demand_query": [
-                r"demand", r"passenger (flow|count|volume|traffic)",
-                r"how many passenger", r"busiest", r"crowded (station|line)",
-                r"ridership", r"top station",
+                r"demand",
+                r"passenger (flow|count|volume|traffic)",
+                r"how many passenger",
+                r"busiest",
+                r"crowded (station|line)",
+                r"ridership",
+                r"top station",
             ],
             "summary_query": [
-                r"summary", r"overview", r"status", r"how is (everything|the metro)",
-                r"report", r"dashboard",
+                r"summary",
+                r"overview",
+                r"status",
+                r"how is (everything|the metro)",
+                r"report",
+                r"dashboard",
             ],
             "help_query": [
-                r"help", r"what can you do", r"capabilities", r"commands",
+                r"help",
+                r"what can you do",
+                r"capabilities",
+                r"commands",
                 r"how (can you|do you) help",
             ],
         }
@@ -102,7 +135,12 @@ class ControlRoomAssistant:
         text = f"Current delays on {line or 'all lines'}: trains are {status}."
         if station:
             text += f" At {station}, average delay is ~{avg_delay:.1f} minutes."
-        return {"text": text, "delay_minutes": round(avg_delay, 2), "line": line or "all", "station": station or "all"}
+        return {
+            "text": text,
+            "delay_minutes": round(avg_delay, 2),
+            "line": line or "all",
+            "station": station or "all",
+        }
 
     def _handle_crowd_query(self, query: str) -> dict[str, Any]:
         line, station = self._extract_line_station(query)
@@ -113,9 +151,23 @@ class ControlRoomAssistant:
             crowd_pct = float(np.mean(pred))
         else:
             crowd_pct = 45.0
-        level = "low" if crowd_pct < 30 else ("moderate" if crowd_pct < 60 else ("high" if crowd_pct < 85 else "critical"))
+        level = (
+            "low"
+            if crowd_pct < 30
+            else (
+                "moderate"
+                if crowd_pct < 60
+                else ("high" if crowd_pct < 85 else "critical")
+            )
+        )
         text = f"Crowd level at {station or 'stations on ' + (line or 'all lines')}: {level} ({crowd_pct:.0f}% capacity)."
-        return {"text": text, "crowding_pct": round(crowd_pct, 1), "level": level, "line": line or "all", "station": station or "all"}
+        return {
+            "text": text,
+            "crowding_pct": round(crowd_pct, 1),
+            "level": level,
+            "line": line or "all",
+            "station": station or "all",
+        }
 
     def _handle_eta_query(self, query: str) -> dict[str, Any]:
         stations = self._extract_station_pair(query)
@@ -129,14 +181,18 @@ class ControlRoomAssistant:
             text = f"Estimated travel time from {stations[0]} to {stations[1]}: ~{eta_min:.1f} minutes."
         else:
             text = f"Estimated travel time: ~{eta_min:.1f} minutes."
-        return {"text": text, "eta_seconds": round(eta_s, 1), "eta_minutes": round(eta_min, 1)}
+        return {
+            "text": text,
+            "eta_seconds": round(eta_s, 1),
+            "eta_minutes": round(eta_min, 1),
+        }
 
     def _handle_incident_query(self, query: str) -> dict[str, Any]:
         line, station = self._extract_line_station(query)
         predictor = self.predictors.get("incident")
         if predictor and predictor.is_trained:
             data = self._build_incident_features(line, station)
-            pred = predictor.predict(data)
+            predictor.predict(data)
             proba = predictor.predict_proba(data)
             risk_pct = float(np.mean(proba[:, 1]) * 100) if proba.shape[1] > 1 else 0.0
         else:
@@ -145,24 +201,40 @@ class ControlRoomAssistant:
         text = f"Incident risk on {line or 'all lines'}: {level} ({risk_pct:.1f}% probability)."
         if risk_pct >= 50:
             text += " Monitoring advised."
-        return {"text": text, "risk_pct": round(risk_pct, 1), "level": level, "line": line or "all"}
+        return {
+            "text": text,
+            "risk_pct": round(risk_pct, 1),
+            "level": level,
+            "line": line or "all",
+        }
 
     def _handle_demand_query(self, query: str) -> dict[str, Any]:
         predictor = self.predictors.get("demand")
         if predictor and predictor.is_trained:
             top = predictor.get_top_od_pairs(5)
-            pairs_text = "; ".join([f"{p['origin_dest']}: {p['passenger_count']}" for p in top])
+            pairs_text = "; ".join(
+                [f"{p['origin_dest']}: {p['passenger_count']}" for p in top]
+            )
             text = f"Top origin-destination pairs: {pairs_text}."
         else:
-            text = "Passenger demand data not available yet. Train the demand model first."
-        return {"text": text, "top_od_pairs": top if predictor and predictor.is_trained else []}
+            text = (
+                "Passenger demand data not available yet. Train the demand model first."
+            )
+        return {
+            "text": text,
+            "top_od_pairs": top if predictor and predictor.is_trained else [],
+        }
 
     def _handle_summary_query(self, query: str) -> dict[str, Any]:
         parts = []
         for name, pred in self.predictors.items():
             if pred.is_trained:
                 m = pred.get_metrics()
-                parts.append(f"{name}: trained (r2={m.get('r2', 0):.3f})" if "r2" in m else f"{name}: trained")
+                parts.append(
+                    f"{name}: trained (r2={m.get('r2', 0):.3f})"
+                    if "r2" in m
+                    else f"{name}: trained"
+                )
             else:
                 parts.append(f"{name}: not trained")
         text = "Metro Operations Summary: " + "; ".join(parts) + "."
@@ -187,11 +259,31 @@ class ControlRoomAssistant:
         }
 
     def _extract_line_station(self, query: str) -> tuple[str, str]:
-        line_codes = ["RD", "YL", "BL", "BR", "GR", "GB", "VL", "PK", "MG", "GY", "OR", "RM"]
+        line_codes = [
+            "RD",
+            "YL",
+            "BL",
+            "BR",
+            "GR",
+            "GB",
+            "VL",
+            "PK",
+            "MG",
+            "GY",
+            "OR",
+            "RM",
+        ]
         line_names = {
-            "red": "RD", "yellow": "YL", "blue": "BL", "green": "GR",
-            "orange": "OR", "pink": "PK", "magenta": "MG", "grey": "GY",
-            "violet": "VL", "rapid": "RM",
+            "red": "RD",
+            "yellow": "YL",
+            "blue": "BL",
+            "green": "GR",
+            "orange": "OR",
+            "pink": "PK",
+            "magenta": "MG",
+            "grey": "GY",
+            "violet": "VL",
+            "rapid": "RM",
         }
         line = ""
         for full, code in line_names.items():
@@ -241,49 +333,57 @@ class ControlRoomAssistant:
 
     def _build_crowd_features(self, line: str, station: str) -> list[dict[str, Any]]:
         now = datetime.now()
-        return [{
-            "hour": now.hour,
-            "day_of_week": now.weekday(),
-            "month": now.month,
-            "is_peak_hour": 1 if (7 <= now.hour <= 10) or (17 <= now.hour <= 20) else 0,
-            "is_weekend": 1 if now.weekday() >= 5 else 0,
-            "line_code": line or "RD",
-            "station_sequence": 5,
-            "is_terminus": 0,
-            "has_junction": 0,
-            "is_interchange": 1,
-            "num_platforms": 2,
-            "num_lines_at_station": 2,
-            "nearby_offices": 5,
-            "nearby_residential": 3,
-            "temperature_c": 25.0,
-            "is_holiday": 0,
-        }]
+        return [
+            {
+                "hour": now.hour,
+                "day_of_week": now.weekday(),
+                "month": now.month,
+                "is_peak_hour": 1
+                if (7 <= now.hour <= 10) or (17 <= now.hour <= 20)
+                else 0,
+                "is_weekend": 1 if now.weekday() >= 5 else 0,
+                "line_code": line or "RD",
+                "station_sequence": 5,
+                "is_terminus": 0,
+                "has_junction": 0,
+                "is_interchange": 1,
+                "num_platforms": 2,
+                "num_lines_at_station": 2,
+                "nearby_offices": 5,
+                "nearby_residential": 3,
+                "temperature_c": 25.0,
+                "is_holiday": 0,
+            }
+        ]
 
     def _build_incident_features(self, line: str, station: str) -> list[dict[str, Any]]:
         now = datetime.now()
-        return [{
-            "hour": now.hour,
-            "day_of_week": now.weekday(),
-            "month": now.month,
-            "is_peak_hour": 1 if (7 <= now.hour <= 10) or (17 <= now.hour <= 20) else 0,
-            "is_weekend": 1 if now.weekday() >= 5 else 0,
-            "line_code": line or "RD",
-            "station_sequence": 5,
-            "num_trains_active": 15,
-            "avg_headway_s": 120.0,
-            "avg_speed_kmh": 45.0,
-            "avg_occupancy_pct": 60.0,
-            "is_terminus": 0,
-            "has_junction": 0,
-            "num_platforms": 2,
-            "track_length_km": 1.5,
-            "speed_limit_kmh": 80.0,
-            "is_curve": 0,
-            "max_gradient_pct": 1.0,
-            "days_since_last_incident": 30.0,
-            "prev_incidents_24h": 0,
-        }]
+        return [
+            {
+                "hour": now.hour,
+                "day_of_week": now.weekday(),
+                "month": now.month,
+                "is_peak_hour": 1
+                if (7 <= now.hour <= 10) or (17 <= now.hour <= 20)
+                else 0,
+                "is_weekend": 1 if now.weekday() >= 5 else 0,
+                "line_code": line or "RD",
+                "station_sequence": 5,
+                "num_trains_active": 15,
+                "avg_headway_s": 120.0,
+                "avg_speed_kmh": 45.0,
+                "avg_occupancy_pct": 60.0,
+                "is_terminus": 0,
+                "has_junction": 0,
+                "num_platforms": 2,
+                "track_length_km": 1.5,
+                "speed_limit_kmh": 80.0,
+                "is_curve": 0,
+                "max_gradient_pct": 1.0,
+                "days_since_last_incident": 30.0,
+                "prev_incidents_24h": 0,
+            }
+        ]
 
     def get_context(self) -> dict[str, Any]:
         return dict(self._context)

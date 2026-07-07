@@ -52,7 +52,11 @@ class InferenceEngine:
 
     def predict_incident_proba(self, features: list[dict[str, Any]]) -> list[float]:
         proba = self.predictors["incident"].predict_proba(features)
-        return [float(p[1]) for p in proba] if proba.shape[1] > 1 else [0.0] * len(features)
+        return (
+            [float(p[1]) for p in proba]
+            if proba.shape[1] > 1
+            else [0.0] * len(features)
+        )
 
     def is_ready(self) -> dict[str, bool]:
         return {name: p.is_trained for name, p in self.predictors.items()}

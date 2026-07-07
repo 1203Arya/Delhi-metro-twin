@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import os
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Generic, TypeVar
@@ -14,7 +13,9 @@ T = TypeVar("T")
 
 class ModelPersistence(ABC):
     def __init__(self, model_dir: str | Path = "") -> None:
-        self.model_dir = Path(model_dir) if model_dir else Path(__file__).parent / "models"
+        self.model_dir = (
+            Path(model_dir) if model_dir else Path(__file__).parent / "models"
+        )
         self.model_dir.mkdir(parents=True, exist_ok=True)
 
     def _model_path(self, name: str) -> Path:
@@ -23,7 +24,9 @@ class ModelPersistence(ABC):
     def _metadata_path(self, name: str) -> Path:
         return self.model_dir / f"{name}_meta.json"
 
-    def save_model(self, name: str, model: Any, metadata: dict[str, Any] | None = None) -> Path:
+    def save_model(
+        self, name: str, model: Any, metadata: dict[str, Any] | None = None
+    ) -> Path:
         path = self._model_path(name)
         joblib.dump(model, path)
         if metadata:
@@ -62,12 +65,10 @@ class BasePredictor(ModelPersistence, Generic[T]):
         return self._is_trained or self.model is not None
 
     @abstractmethod
-    def _build_model(self) -> T:
-        ...
+    def _build_model(self) -> T: ...
 
     @abstractmethod
-    def _prepare_features(self, *args: Any, **kwargs: Any) -> np.ndarray:
-        ...
+    def _prepare_features(self, *args: Any, **kwargs: Any) -> np.ndarray: ...
 
     def train(self, *args: Any, **kwargs: Any) -> dict[str, float]:
         self.model = self._build_model()
@@ -80,8 +81,7 @@ class BasePredictor(ModelPersistence, Generic[T]):
         return self._predict_impl(*args, **kwargs)
 
     @abstractmethod
-    def _predict_impl(self, *args: Any, **kwargs: Any) -> Any:
-        ...
+    def _predict_impl(self, *args: Any, **kwargs: Any) -> Any: ...
 
     def save(self, name: str) -> Path:
         meta = {

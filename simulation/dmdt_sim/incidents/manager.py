@@ -46,12 +46,15 @@ class IncidentManager:
         self.incidents.append(inc)
         self._active[inc.incident_id] = inc
         self._line_incidents[line_code].append(inc.incident_id)
-        self.trigger("incident_created", {
-            "incident_id": inc.incident_id,
-            "type": incident_type.value,
-            "line_code": line_code,
-            "time": start_time,
-        })
+        self.trigger(
+            "incident_created",
+            {
+                "incident_id": inc.incident_id,
+                "type": incident_type.value,
+                "line_code": line_code,
+                "time": start_time,
+            },
+        )
         return inc
 
     def resolve_incident(self, incident_id: str, current_time: float) -> None:
@@ -59,10 +62,13 @@ class IncidentManager:
         if inc:
             inc.resolved = True
             self._resolved.append(inc)
-            self.trigger("incident_resolved", {
-                "incident_id": incident_id,
-                "time": current_time,
-            })
+            self.trigger(
+                "incident_resolved",
+                {
+                    "incident_id": incident_id,
+                    "time": current_time,
+                },
+            )
 
     def get_active_incidents(self, current_time: float) -> list[Incident]:
         active: list[Incident] = []
@@ -76,13 +82,19 @@ class IncidentManager:
             self.resolve_incident(eid, current_time)
         return active
 
-    def get_incidents_for_line(self, line_code: str, current_time: float) -> list[Incident]:
+    def get_incidents_for_line(
+        self, line_code: str, current_time: float
+    ) -> list[Incident]:
         inc_ids = self._line_incidents.get(line_code, [])
-        return [self.incidents[i] for i, _ in enumerate(self.incidents)
-                if self.incidents[i].incident_id in inc_ids
-                and not self.incidents[i].resolved
-                and current_time >= self.incidents[i].start_time
-                and current_time <= self.incidents[i].start_time + self.incidents[i].duration_s]
+        return [
+            self.incidents[i]
+            for i, _ in enumerate(self.incidents)
+            if self.incidents[i].incident_id in inc_ids
+            and not self.incidents[i].resolved
+            and current_time >= self.incidents[i].start_time
+            and current_time
+            <= self.incidents[i].start_time + self.incidents[i].duration_s
+        ]
 
     def is_line_affected(self, line_code: str, current_time: float) -> bool:
         return len(self.get_incidents_for_line(line_code, current_time)) > 0

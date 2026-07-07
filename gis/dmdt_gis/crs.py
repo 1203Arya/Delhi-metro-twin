@@ -26,7 +26,9 @@ WEB_MERCATOR = "EPSG:3857"
 
 
 @lru_cache(maxsize=8)
-def transformer(from_crs: str, to_crs: str, *, always_xy: bool = True) -> pyproj.Transformer:
+def transformer(
+    from_crs: str, to_crs: str, *, always_xy: bool = True
+) -> pyproj.Transformer:
     """Return a cached ``pyproj`` transformer between two CRSes.
 
     ``always_xy=True`` keeps the (x=lon, y=lat) convention everywhere, which is

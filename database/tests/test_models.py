@@ -14,11 +14,9 @@ from dmdt_db.models import (
     Depot,
     Junction,
     Line,
-    Platform,
     Siding,
     Station,
     Switch,
-    TrackSegment,
     TrainClass,
 )
 from dmdt_db.repositories import (
@@ -26,10 +24,8 @@ from dmdt_db.repositories import (
     DepotRepository,
     JunctionRepository,
     LineRepository,
-    PlatformRepository,
     StationRepository,
     SwitchRepository,
-    TrackSegmentRepository,
     TrainClassRepository,
 )
 
@@ -37,7 +33,7 @@ from dmdt_db.repositories import (
 @pytest.fixture
 def line(transaction):
     repo = LineRepository(transaction)
-    l = Line(
+    line_obj = Line(
         code="XX",
         name="Test Line",
         number=99,
@@ -50,8 +46,8 @@ def line(transaction):
         signalling_system="ATP",
         total_length_km=10.0,
     )
-    repo.add(l)
-    return l
+    repo.add(line_obj)
+    return line_obj
 
 
 @pytest.fixture
@@ -219,8 +215,28 @@ class TestTrainClassModel:
 
     def test_list_all(self, transaction):
         repo = TrainClassRepository(transaction)
-        repo.add(TrainClass(name="A", max_speed_kmh=60, acceleration_ms2=0.5, deceleration_ms2=0.5, length_m=100, capacity_seated=100, capacity_standing=200))
-        repo.add(TrainClass(name="B", max_speed_kmh=80, acceleration_ms2=0.5, deceleration_ms2=0.5, length_m=100, capacity_seated=100, capacity_standing=200))
+        repo.add(
+            TrainClass(
+                name="A",
+                max_speed_kmh=60,
+                acceleration_ms2=0.5,
+                deceleration_ms2=0.5,
+                length_m=100,
+                capacity_seated=100,
+                capacity_standing=200,
+            )
+        )
+        repo.add(
+            TrainClass(
+                name="B",
+                max_speed_kmh=80,
+                acceleration_ms2=0.5,
+                deceleration_ms2=0.5,
+                length_m=100,
+                capacity_seated=100,
+                capacity_standing=200,
+            )
+        )
         all_tc = repo.list_all()
         assert len(all_tc) >= 2
 

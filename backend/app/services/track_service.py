@@ -15,7 +15,9 @@ class TrackService:
     async def list_tracks(
         self, line_code: str | None = None, skip: int = 0, limit: int = 100
     ) -> list[TrackSegment]:
-        stmt = select(TrackSegment).order_by(TrackSegment.line_code, TrackSegment.segment_index)
+        stmt = select(TrackSegment).order_by(
+            TrackSegment.line_code, TrackSegment.segment_index
+        )
         if line_code:
             stmt = stmt.where(TrackSegment.line_code == line_code)
         stmt = stmt.offset(skip).limit(limit)

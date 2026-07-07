@@ -17,18 +17,33 @@ class TrackSegment(Base, UUIDPK, Timestamps):
     __tablename__ = "track_segments"
 
     line_code: Mapped[str] = mapped_column(
-        String(5), ForeignKey("lines.code", ondelete="CASCADE"), nullable=False, index=True
+        String(5),
+        ForeignKey("lines.code", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     from_station_id = mapped_column(
-        "from_station_id", None, ForeignKey("stations.id", ondelete="CASCADE"), nullable=False, index=True
+        "from_station_id",
+        None,
+        ForeignKey("stations.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     to_station_id = mapped_column(
-        "to_station_id", None, ForeignKey("stations.id", ondelete="CASCADE"), nullable=False, index=True
+        "to_station_id",
+        None,
+        ForeignKey("stations.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     direction: Mapped[str] = mapped_column(String(10), nullable=False)
     segment_index: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     geometry: Mapped[Any] = mapped_column(
-        Geometry("LINESTRING", srid=4326, ), nullable=False
+        Geometry(
+            "LINESTRING",
+            srid=4326,
+        ),
+        nullable=False,
     )
     length_m: Mapped[float] = mapped_column(nullable=False)
     heading_in_deg: Mapped[float] = mapped_column(nullable=False, default=0.0)

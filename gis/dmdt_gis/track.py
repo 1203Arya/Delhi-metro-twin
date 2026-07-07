@@ -28,7 +28,6 @@ from typing import Sequence
 from .geometry import (
     Curvature,
     bearing_deg,
-    curvature_radius_m,
     max_curvature_segment,
     polyline_length_m,
 )
@@ -37,18 +36,18 @@ from .geometry import (
 # Approximate DMRC operating speed envelopes (km/h). These are network-wide
 # defaults; per-segment overrides live in the dataset.
 _LINE_DESIGN_SPEED_KMH: dict[str, float] = {
-    "RD": 80.0,   # Red — surface/elevated, broad-gauge
+    "RD": 80.0,  # Red — surface/elevated, broad-gauge
     "YL": 80.0,
-    "BL": 80.0,   # Blue — underground section ~80 peak
+    "BL": 80.0,  # Blue — underground section ~80 peak
     "BR": 80.0,
-    "GR": 75.0,   # Green — standard gauge, lighter corridor
+    "GR": 75.0,  # Green — standard gauge, lighter corridor
     "GB": 75.0,
     "VL": 80.0,
     "PK": 80.0,
     "MG": 80.0,
-    "GY": 80.0,   # Grey — elevated spur
+    "GY": 80.0,  # Grey — elevated spur
     "OR": 120.0,  # Airport Express — premium high-speed (Alstom, design 135/operational 120)
-    "RM": 80.0,   # Rapid Metro Gurugram
+    "RM": 80.0,  # Rapid Metro Gurugram
 }
 
 
@@ -113,7 +112,9 @@ class TrackBuilder:
         max_curve_radius_m: float | None = None,
     ) -> TrackSegmentGeometry:
         if len(waypoints) < 2:
-            raise ValueError(f"segment {from_station}->{to_station} needs >=2 waypoints")
+            raise ValueError(
+                f"segment {from_station}->{to_station} needs >=2 waypoints"
+            )
         wps = tuple(waypoints)
         length = polyline_length_m(list(wps))
         h_in = bearing_deg(wps[0], wps[1])
@@ -123,7 +124,11 @@ class TrackBuilder:
             if max_curve_radius_m is not None
             else max_curvature_segment(list(wps))
         )
-        base_speed = override_speed_kmh if override_speed_kmh is not None else self.line_speed_kmh
+        base_speed = (
+            override_speed_kmh
+            if override_speed_kmh is not None
+            else self.line_speed_kmh
+        )
         limit = _curve_speed_kmh(curve.radius_m, base_speed)
         seg = TrackSegmentGeometry(
             from_station=from_station,
@@ -148,7 +153,8 @@ class TrackBuilder:
         *,
         override_speeds: dict[tuple[str, str], float] | None = None,
         gradients: dict[tuple[str, str], float] | None = None,
-        insert_curve_vertex_at: dict[tuple[str, str], list[tuple[float, float]]] | None = None,
+        insert_curve_vertex_at: dict[tuple[str, str], list[tuple[float, float]]]
+        | None = None,
     ) -> list[TrackSegmentGeometry]:
         """Build all segments of a corridor from an ordered (name,(lon,lat)) list.
 
@@ -170,7 +176,10 @@ class TrackBuilder:
             waypoints.extend(insert_curve_vertex_at.get(key, []))
             waypoints.append((lon_b, lat_b))
             seg = self.add_segment(
-                name_a, name_b, direction, waypoints,
+                name_a,
+                name_b,
+                direction,
+                waypoints,
                 gradient_pct=gradients.get(key, 0.0),
                 override_speed_kmh=override_speeds.get(key),
             )

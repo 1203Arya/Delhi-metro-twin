@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-import math
-
 
 class PowerCalculator:
     def __init__(self) -> None:
         pass
 
     @staticmethod
-    def tractive_effort(power_kw: float, speed_mps: float, efficiency: float = 0.88) -> float:
+    def tractive_effort(
+        power_kw: float, speed_mps: float, efficiency: float = 0.88
+    ) -> float:
         if speed_mps < 0.01:
             return 0.0
         return (power_kw * 1000 * efficiency) / speed_mps
@@ -18,13 +18,17 @@ class PowerCalculator:
         return force_n * speed_mps / 1000.0
 
     @staticmethod
-    def regen_power(force_n: float, speed_mps: float, efficiency: float = 0.85) -> float:
+    def regen_power(
+        force_n: float, speed_mps: float, efficiency: float = 0.85
+    ) -> float:
         if force_n <= 0 or speed_mps <= 0:
             return 0.0
         return force_n * speed_mps * efficiency / 1000.0
 
     @staticmethod
-    def air_drag_power(speed_mps: float, drag_coefficient: float = 0.5, frontal_area: float = 10.0) -> float:
+    def air_drag_power(
+        speed_mps: float, drag_coefficient: float = 0.5, frontal_area: float = 10.0
+    ) -> float:
         if speed_mps < 0.01:
             return 0.0
         rho = 1.225

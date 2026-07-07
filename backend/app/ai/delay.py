@@ -76,7 +76,9 @@ class DelayPredictor(BasePredictor[GradientBoostingRegressor]):
         X = self._prepare_features(data)
         return self.model.predict(X)
 
-    def train(self, data: list[dict[str, Any]], target_col: str = "delay_minutes") -> dict[str, float]:
+    def train(
+        self, data: list[dict[str, Any]], target_col: str = "delay_minutes"
+    ) -> dict[str, float]:
         X = self._prepare_features(data)
         y = np.array([row.get(target_col, 0.0) for row in data], dtype=np.float64)
         X_train, X_test, y_train, y_test = train_test_split(
@@ -125,27 +127,29 @@ class DelayPredictor(BasePredictor[GradientBoostingRegressor]):
                 base_delay *= 0.7
             noise = rng.normal(0, 1.5)
             delay = max(0, base_delay + noise)
-            data.append({
-                "hour": hour,
-                "day_of_week": day,
-                "month": month,
-                "is_peak_hour": is_peak,
-                "is_weekend": is_weekend,
-                "line_code": line,
-                "station_sequence": seq,
-                "num_stations_remaining": remaining,
-                "prev_delay_minutes": round(prev_delay, 2),
-                "headway_s": round(headway, 1),
-                "dwell_time_s": round(dwell, 1),
-                "train_occupancy_pct": round(occupancy, 3),
-                "is_terminus": is_term,
-                "has_junction": has_junc,
-                "num_platforms": n_plat,
-                "track_length_km": round(track_km, 3),
-                "speed_limit_kmh": speed_limit,
-                "is_curve": is_curve,
-                "delay_minutes": round(delay, 2),
-            })
+            data.append(
+                {
+                    "hour": hour,
+                    "day_of_week": day,
+                    "month": month,
+                    "is_peak_hour": is_peak,
+                    "is_weekend": is_weekend,
+                    "line_code": line,
+                    "station_sequence": seq,
+                    "num_stations_remaining": remaining,
+                    "prev_delay_minutes": round(prev_delay, 2),
+                    "headway_s": round(headway, 1),
+                    "dwell_time_s": round(dwell, 1),
+                    "train_occupancy_pct": round(occupancy, 3),
+                    "is_terminus": is_term,
+                    "has_junction": has_junc,
+                    "num_platforms": n_plat,
+                    "track_length_km": round(track_km, 3),
+                    "speed_limit_kmh": speed_limit,
+                    "is_curve": is_curve,
+                    "delay_minutes": round(delay, 2),
+                }
+            )
         return data
 
 

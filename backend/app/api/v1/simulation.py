@@ -17,7 +17,9 @@ _bridge = SimulationBridge()
 
 
 @router.post("/start", response_model=SuccessResponse)
-async def start_simulation(config: SimulationConfigSchema | None = None) -> dict[str, str]:
+async def start_simulation(
+    config: SimulationConfigSchema | None = None,
+) -> dict[str, str]:
     payload: dict[str, Any] = {}
     if config:
         payload["config"] = config.model_dump()

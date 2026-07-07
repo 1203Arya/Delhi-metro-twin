@@ -16,11 +16,19 @@ class Siding(Base, UUIDPK, Timestamps):
     __tablename__ = "sidings"
 
     depot_id = mapped_column(
-        "depot_id", None, ForeignKey("depots.id", ondelete="CASCADE"), nullable=False, index=True
+        "depot_id",
+        None,
+        ForeignKey("depots.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     geometry: Mapped[Any] = mapped_column(
-        Geometry("LINESTRING", srid=4326, ), nullable=False
+        Geometry(
+            "LINESTRING",
+            srid=4326,
+        ),
+        nullable=False,
     )
     length_m: Mapped[float] = mapped_column(nullable=False)
     capacity_trains: Mapped[int] = mapped_column(Integer, nullable=False, default=1)

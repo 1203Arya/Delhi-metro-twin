@@ -35,6 +35,7 @@ async def get_train_class(class_id: str, db: AsyncSession = Depends(get_db)):
     c = await svc.get_class(class_id)
     if not c:
         from ...core.exceptions import NotFoundError
+
         raise NotFoundError(f"Train class {class_id} not found")
     return TrainClassDetail(
         id=str(c.id),

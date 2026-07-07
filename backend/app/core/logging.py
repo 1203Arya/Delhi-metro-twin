@@ -8,7 +8,9 @@ from .config import settings
 
 
 def setup_logging(*, log_dir: str | Path | None = None) -> None:
-    fmt = "%(asctime)s | %(levelname)-8s | %(name)s:%(funcName)s:%(lineno)d | %(message)s"
+    fmt = (
+        "%(asctime)s | %(levelname)-8s | %(name)s:%(funcName)s:%(lineno)d | %(message)s"
+    )
 
     handlers: list[logging.Handler] = [logging.StreamHandler(sys.stdout)]
 

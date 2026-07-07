@@ -7,7 +7,7 @@ from collections.abc import AsyncIterator
 from typing import Any
 
 from dmdt_sim.engine import SimulationEngine
-from dmdt_sim.types import SimulationConfig, TrainStatus
+from dmdt_sim.types import SimulationConfig
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +70,11 @@ class SimulationService:
         self._snapshots.clear()
         snapshot = self.engine.take_snapshot()
         self._snapshots.append(snapshot.__dict__)
-        while self._running and self.engine.current_time < self._config.duration_s if self._config else 3600:
+        while (
+            self._running and self.engine.current_time < self._config.duration_s
+            if self._config
+            else 3600
+        ):
             if self._paused:
                 await asyncio.sleep(0.1)
                 continue

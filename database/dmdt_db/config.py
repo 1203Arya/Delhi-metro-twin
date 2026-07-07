@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
-from pathlib import Path
+from dataclasses import dataclass
 from typing import Any
 
 from sqlalchemy import create_engine
@@ -30,7 +29,9 @@ class DatabaseConfig:
     def url_psycopg2(self) -> str:
         if self.password:
             return f"postgresql+psycopg2://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
-        return f"postgresql+psycopg2://{self.user}@{self.host}:{self.port}/{self.database}"
+        return (
+            f"postgresql+psycopg2://{self.user}@{self.host}:{self.port}/{self.database}"
+        )
 
     def to_sa_params(self) -> dict[str, Any]:
         return {

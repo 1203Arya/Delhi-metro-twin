@@ -25,7 +25,11 @@ class LineService:
         result = await self.db.execute(stmt)
         line = result.scalar_one_or_none()
         if line:
-            s = select(Station).where(Station.line_code == code).order_by(Station.sequence)
+            s = (
+                select(Station)
+                .where(Station.line_code == code)
+                .order_by(Station.sequence)
+            )
             r = await self.db.execute(s)
             line._stations_cache = list(r.scalars().all())
         return line

@@ -36,7 +36,9 @@ async def list_stations(
         )
         for s in stations
     ]
-    return PaginatedResponse(items=items, total=total, skip=pagination.skip, limit=pagination.limit)
+    return PaginatedResponse(
+        items=items, total=total, skip=pagination.skip, limit=pagination.limit
+    )
 
 
 @router.get("/{station_id}", response_model=StationDetail)
@@ -45,6 +47,7 @@ async def get_station(station_id: str, db: AsyncSession = Depends(get_db)):
     s = await svc.get_station(station_id)
     if not s:
         from ...core.exceptions import NotFoundError
+
         raise NotFoundError(f"Station {station_id} not found")
     return StationDetail(
         id=str(s.id),

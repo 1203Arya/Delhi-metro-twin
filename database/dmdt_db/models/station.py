@@ -7,7 +7,6 @@ from sqlalchemy import Boolean, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..base import Base, Timestamps, UUIDPK
-from ..enums import CoordinateConfidence, StructureType
 
 if TYPE_CHECKING:
     from .line import Line
@@ -21,14 +20,17 @@ class Station(Base, UUIDPK, Timestamps):
     __tablename__ = "stations"
 
     line_code: Mapped[str] = mapped_column(
-        String(5), ForeignKey("lines.code", ondelete="CASCADE"), nullable=False, index=True
+        String(5),
+        ForeignKey("lines.code", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     code: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
-    location: Mapped[Any] = mapped_column(
-        Geometry("POINT", srid=4326), nullable=False
+    location: Mapped[Any] = mapped_column(Geometry("POINT", srid=4326), nullable=False)
+    structure: Mapped[str] = mapped_column(
+        String(20), nullable=False, default="elevated"
     )
-    structure: Mapped[str] = mapped_column(String(20), nullable=False, default="elevated")
     platforms: Mapped[int] = mapped_column(Integer, nullable=False, default=2)
     opened_year: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     is_terminus: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
@@ -69,9 +71,7 @@ class Station(Base, UUIDPK, Timestamps):
         cascade="all, delete-orphan",
     )
 
-    __table_args__ = (
-        {"extend_existing": True},
-    )
+    __table_args__ = ({"extend_existing": True},)
 
     def __repr__(self) -> str:
         return f"<Station {self.code}: {self.name}>"

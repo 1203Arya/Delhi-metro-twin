@@ -17,13 +17,24 @@ class Crossover(Base, UUIDPK, Timestamps):
     __tablename__ = "crossovers"
 
     line_code: Mapped[str] = mapped_column(
-        String(5), ForeignKey("lines.code", ondelete="CASCADE"), nullable=False, index=True
+        String(5),
+        ForeignKey("lines.code", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     station_id = mapped_column(
-        "station_id", None, ForeignKey("stations.id", ondelete="CASCADE"), nullable=False, index=True
+        "station_id",
+        None,
+        ForeignKey("stations.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     geometry: Mapped[Any] = mapped_column(
-        Geometry("LINESTRING", srid=4326, ), nullable=False
+        Geometry(
+            "LINESTRING",
+            srid=4326,
+        ),
+        nullable=False,
     )
     heading_deg: Mapped[float] = mapped_column(nullable=False, default=0.0)
 

@@ -46,6 +46,7 @@ async def get_line(code: str, db: AsyncSession = Depends(get_db)):
     line = await svc.get_line(code)
     if not line:
         from ...core.exceptions import NotFoundError
+
         raise NotFoundError(f"Line {code} not found")
     return LineDetail(
         id=str(line.id),
@@ -71,6 +72,7 @@ async def get_line_with_stations(code: str, db: AsyncSession = Depends(get_db)):
     line = await svc.get_line_with_stations(code)
     if not line:
         from ...core.exceptions import NotFoundError
+
         raise NotFoundError(f"Line {code} not found")
     stations = []
     for s in line._stations_cache:

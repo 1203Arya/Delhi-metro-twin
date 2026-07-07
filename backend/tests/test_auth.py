@@ -6,7 +6,9 @@ from httpx import AsyncClient
 
 @pytest.mark.asyncio
 async def test_login_success(client: AsyncClient) -> None:
-    resp = await client.post("/api/v1/auth/login", json={"username": "admin", "password": "admin"})
+    resp = await client.post(
+        "/api/v1/auth/login", json={"username": "admin", "password": "admin"}
+    )
     assert resp.status_code == 200
     data = resp.json()
     assert "access_token" in data

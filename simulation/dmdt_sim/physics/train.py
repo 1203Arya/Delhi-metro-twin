@@ -36,11 +36,18 @@ class TrainMotionModel:
         drag = self._calc_drag_force()
         grade = self._calc_grade_force(gradient_pct)
         total_force = -(drag + grade)
-        a = total_force / (self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor)
+        a = total_force / (
+            self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor
+        )
         self.state.acceleration_mps2 = max(a, -self.spec.deceleration_ms2)
         self._integrate(dt)
 
-    def accelerate(self, dt: float, gradient_pct: float = 0.0, speed_limit_mps: float = float("inf")) -> None:
+    def accelerate(
+        self,
+        dt: float,
+        gradient_pct: float = 0.0,
+        speed_limit_mps: float = float("inf"),
+    ) -> None:
         self.mode = DrivingMode.ACCELERATING
         effective_limit = min(speed_limit_mps, self.max_speed_mps)
         if self.state.speed_mps >= effective_limit:
@@ -50,9 +57,16 @@ class TrainMotionModel:
         grade = self._calc_grade_force(gradient_pct)
         power_limit_a = self._calc_power_limit_accel()
         a_requested = min(self.spec.acceleration_ms2, power_limit_a)
-        total_force = a_requested * self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor
+        total_force = (
+            a_requested
+            * self.spec.mass_tonnes
+            * 1000
+            * self.spec.rotational_inertia_factor
+        )
         net_force = total_force - drag - grade
-        a = net_force / (self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor)
+        a = net_force / (
+            self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor
+        )
         a = min(a, self.spec.acceleration_ms2)
         if self.state.speed_mps + a * dt > effective_limit:
             a = (effective_limit - self.state.speed_mps) / dt
@@ -62,12 +76,19 @@ class TrainMotionModel:
         if self.state.speed_mps >= effective_limit:
             self.state.speed_mps = effective_limit
 
-    def cruise(self, dt: float, gradient_pct: float = 0.0, target_speed_mps: float | None = None) -> None:
+    def cruise(
+        self,
+        dt: float,
+        gradient_pct: float = 0.0,
+        target_speed_mps: float | None = None,
+    ) -> None:
         self.mode = DrivingMode.CRUISING
-        target = target_speed_mps if target_speed_mps is not None else self.state.speed_mps
+        target = (
+            target_speed_mps if target_speed_mps is not None else self.state.speed_mps
+        )
         target = min(target, self.max_speed_mps)
-        drag = self._calc_drag_force()
-        grade = self._calc_grade_force(gradient_pct)
+        self._calc_drag_force()
+        self._calc_grade_force(gradient_pct)
         if self.state.speed_mps < target:
             a = (target - self.state.speed_mps) / dt
             a = min(a, self.spec.acceleration_ms2)
@@ -80,13 +101,23 @@ class TrainMotionModel:
             self.state.acceleration_mps2 = 0.0
         self._integrate(dt)
 
-    def brake(self, dt: float, gradient_pct: float = 0.0, service_brake: bool = True) -> None:
+    def brake(
+        self, dt: float, gradient_pct: float = 0.0, service_brake: bool = True
+    ) -> None:
         self.mode = DrivingMode.BRAKING
-        brake_rate = self.spec.deceleration_ms2 if service_brake else self.spec.deceleration_ms2 * 1.3
+        brake_rate = (
+            self.spec.deceleration_ms2
+            if service_brake
+            else self.spec.deceleration_ms2 * 1.3
+        )
         grade = self._calc_grade_force(gradient_pct)
-        grade_a = grade / (self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor)
+        grade_a = grade / (
+            self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor
+        )
         drag = self._calc_drag_force()
-        drag_a = drag / (self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor)
+        drag_a = drag / (
+            self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor
+        )
         a = -(brake_rate + grade_a + drag_a)
         a = max(a, -self.spec.deceleration_ms2 * 1.5)
         self.state.acceleration_mps2 = a
@@ -104,7 +135,9 @@ class TrainMotionModel:
             self.state.acceleration_mps2 = 0.0
             self.mode = DrivingMode.STOPPED
 
-    def brake_to_stop(self, dt: float, distance_to_stop_m: float, gradient_pct: float = 0.0) -> None:
+    def brake_to_stop(
+        self, dt: float, distance_to_stop_m: float, gradient_pct: float = 0.0
+    ) -> None:
         if distance_to_stop_m <= 0:
             self.state.speed_mps = 0.0
             self.state.acceleration_mps2 = 0.0
@@ -116,7 +149,9 @@ class TrainMotionModel:
         if required_decel > 0.01:
             a = -required_decel
             grade = self._calc_grade_force(gradient_pct)
-            grade_a = grade / (self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor)
+            grade_a = grade / (
+                self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor
+            )
             a -= grade_a
             self.state.acceleration_mps2 = max(a, -self.spec.deceleration_ms2 * 1.5)
             self._integrate(dt)
@@ -172,11 +207,24 @@ class TrainMotionModel:
         p_traction = 0.0
         p_aux = self.spec.auxiliary_power_kw
         if self.mode == DrivingMode.ACCELERATING or self.mode == DrivingMode.CRUISING:
-            force = self.state.acceleration_mps2 * self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor
+            force = (
+                self.state.acceleration_mps2
+                * self.spec.mass_tonnes
+                * 1000
+                * self.spec.rotational_inertia_factor
+            )
             p_traction = max(0, force * self.state.speed_mps) / 1000
         elif self.mode == DrivingMode.BRAKING and self.state.speed_mps > 0.1:
-            force = abs(self.state.acceleration_mps2) * self.spec.mass_tonnes * 1000 * self.spec.rotational_inertia_factor
-            p_regen = min(force * self.state.speed_mps * self.spec.regen_efficiency / 1000, self.spec.auxiliary_power_kw)
+            force = (
+                abs(self.state.acceleration_mps2)
+                * self.spec.mass_tonnes
+                * 1000
+                * self.spec.rotational_inertia_factor
+            )
+            p_regen = min(
+                force * self.state.speed_mps * self.spec.regen_efficiency / 1000,
+                self.spec.auxiliary_power_kw,
+            )
             p_traction = -p_regen
         total_kw = p_traction + p_aux
         return total_kw * (dt / 3600.0)

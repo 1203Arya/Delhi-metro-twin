@@ -71,7 +71,9 @@ class ETAPredictor(BasePredictor[GradientBoostingRegressor]):
         X = self._prepare_features(data)
         return self.model.predict(X)
 
-    def train(self, data: list[dict[str, Any]], target_col: str = "travel_time_s") -> dict[str, float]:
+    def train(
+        self, data: list[dict[str, Any]], target_col: str = "travel_time_s"
+    ) -> dict[str, float]:
         X = self._prepare_features(data)
         y = np.array([row.get(target_col, 0.0) for row in data], dtype=np.float64)
         y = np.maximum(y, 30.0)
@@ -149,26 +151,28 @@ class ETAPredictor(BasePredictor[GradientBoostingRegressor]):
                 base_time *= 0.9
             base_time += rng.normal(0, 30)
             travel_time = max(30, base_time)
-            data.append({
-                "hour": hour,
-                "day_of_week": day,
-                "month": int(rng.integers(1, 13)),
-                "is_peak_hour": is_peak,
-                "is_weekend": is_weekend,
-                "line_code": rng.choice(lines),
-                "from_sequence": from_seq,
-                "to_sequence": to_seq,
-                "num_stations": n_stations,
-                "total_distance_km": round(dist, 2),
-                "speed_limit_kmh": speed_limit,
-                "avg_headway_s": round(headway, 1),
-                "num_curves": n_curves,
-                "max_gradient_pct": round(gradient, 2),
-                "is_reverse_peak": 1 if is_peak and (17 <= hour <= 20) else 0,
-                "num_interchanges": int(rng.integers(0, 3)),
-                "crowding_pct": round(crowding, 1),
-                "travel_time_s": round(travel_time, 1),
-            })
+            data.append(
+                {
+                    "hour": hour,
+                    "day_of_week": day,
+                    "month": int(rng.integers(1, 13)),
+                    "is_peak_hour": is_peak,
+                    "is_weekend": is_weekend,
+                    "line_code": rng.choice(lines),
+                    "from_sequence": from_seq,
+                    "to_sequence": to_seq,
+                    "num_stations": n_stations,
+                    "total_distance_km": round(dist, 2),
+                    "speed_limit_kmh": speed_limit,
+                    "avg_headway_s": round(headway, 1),
+                    "num_curves": n_curves,
+                    "max_gradient_pct": round(gradient, 2),
+                    "is_reverse_peak": 1 if is_peak and (17 <= hour <= 20) else 0,
+                    "num_interchanges": int(rng.integers(0, 3)),
+                    "crowding_pct": round(crowding, 1),
+                    "travel_time_s": round(travel_time, 1),
+                }
+            )
         return data
 
 

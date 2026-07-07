@@ -14,13 +14,12 @@ import sys
 from pathlib import Path
 
 import geoalchemy2
-from shapely.geometry import mapping as shapely_mapping
 
 GIS_ROOT = Path(__file__).resolve().parent.parent.parent / "gis"
 sys.path.insert(0, str(GIS_ROOT))
 
-import dmdt_gis
-from dmdt_db import (
+import dmdt_gis  # noqa: E402
+from dmdt_db import (  # noqa: E402
     Crossover,
     Depot,
     Junction,
@@ -31,17 +30,14 @@ from dmdt_db import (
     Switch,
     TrackSegment,
     TrainClass,
-    db_config,
-    get_engine,
     get_session_factory,
 )
-from dmdt_db.repositories import (
+from dmdt_db.repositories import (  # noqa: E402
     CrossoverRepository,
     DepotRepository,
     JunctionRepository,
     LineRepository,
     PlatformRepository,
-    SidingRepository,
     StationRepository,
     SwitchRepository,
     TrackSegmentRepository,
@@ -110,7 +106,9 @@ def seed_network(session) -> dict[str, int]:
 
         for pg in platform_geoms.get(line_spec.code, []):
             host_stations = station_repo.get_by_code(pg.station.code)
-            host = next((s for s in host_stations if s.line_code == line_spec.code), None)
+            host = next(
+                (s for s in host_stations if s.line_code == line_spec.code), None
+            )
             if host is None:
                 continue
             platform = Platform(
@@ -128,8 +126,12 @@ def seed_network(session) -> dict[str, int]:
         for tg in track_geoms.get(line_spec.code, []):
             from_stations = station_repo.list_by_line(line_spec.code)
             to_stations = station_repo.list_by_line(line_spec.code)
-            from_s = next((s for s in from_stations if s.name == tg.segment.from_station), None)
-            to_s = next((s for s in to_stations if s.name == tg.segment.to_station), None)
+            from_s = next(
+                (s for s in from_stations if s.name == tg.segment.from_station), None
+            )
+            to_s = next(
+                (s for s in to_stations if s.name == tg.segment.to_station), None
+            )
             if from_s is None or to_s is None:
                 continue
             track = TrackSegment(
@@ -179,7 +181,9 @@ def seed_network(session) -> dict[str, int]:
             if not (st.has_junction or st.interchange_with):
                 continue
             host_stations = station_repo.get_by_code(st.code)
-            host = next((s for s in host_stations if s.line_code == line_spec.code), None)
+            host = next(
+                (s for s in host_stations if s.line_code == line_spec.code), None
+            )
             if host is None:
                 continue
             all_lines = list(st.interchange_with) + [line_spec.code]
@@ -215,7 +219,9 @@ def seed_network(session) -> dict[str, int]:
 
         for cg in crossover_geoms.get(line_spec.code, []):
             host_stations = station_repo.get_by_code(cg.station.code)
-            host = next((s for s in host_stations if s.line_code == line_spec.code), None)
+            host = next(
+                (s for s in host_stations if s.line_code == line_spec.code), None
+            )
             if host is None:
                 continue
             crossover = Crossover(
@@ -241,7 +247,10 @@ def _generate_sidings(depot_geom):
     results = []
     for i in range(max(1, depot.capacity_stabling // 16)):
         offset = (i + 1) * 20.0
-        from_lonlat = (depot.longitude + 0.0005, depot.latitude + 0.0005 + offset * 1e-5)
+        from_lonlat = (
+            depot.longitude + 0.0005,
+            depot.latitude + 0.0005 + offset * 1e-5,
+        )
         to_lonlat = (depot.longitude + 0.0020, depot.latitude + 0.0005 + offset * 1e-5)
         sg = SidingGeometry.build(
             name=f"{depot.name} Siding {i + 1}",
@@ -298,7 +307,6 @@ def _seed_train_classes(session):
 
 
 def main() -> int:
-    engine = get_engine()
     session_factory = get_session_factory()
     with session_factory() as session:
         counts = seed_network(session)

@@ -38,37 +38,49 @@ DATA_DIR = DATA_FILE.parent
 # their coordinates as named constants guarantees every line that stops at them
 # records an identical (lat, lon), so the network is geometrically consistent.
 
-KG = (28.6660, 77.2290)    # Kashmere Gate      — Red / Yellow / Violet
-RC = (28.6314, 77.2196)    # Rajiv Chowk        — Yellow / Blue
-CS = (28.6142, 77.2115)    # Central Secretariat— Yellow / Violet
-MH = (28.6276, 77.2244)    # Mandi House        — Blue / Violet
-ND = (28.6430, 77.2196)    # New Delhi          — Yellow / Airport Express
-IL = (28.6595, 77.1700)    # Inderlok           — Red / Green
-NSP = (28.6855, 77.1605)   # Netaji Subhash Place — Red / Pink
-AP = (28.6960, 77.1835)    # Azadpur            — Yellow / Pink
-KN = (28.6518, 77.1470)    # Kirti Nagar        — Blue / Green branch
-RG = (28.6520, 77.1180)    # Rajouri Garden     — Blue / Pink
-BG = (28.5630, 77.3260)    # Botanical Garden   — Blue / Magenta
-HK = (28.5490, 77.2010)    # Hauz Khas          — Yellow / Magenta
+KG = (28.6660, 77.2290)  # Kashmere Gate      — Red / Yellow / Violet
+RC = (28.6314, 77.2196)  # Rajiv Chowk        — Yellow / Blue
+CS = (28.6142, 77.2115)  # Central Secretariat— Yellow / Violet
+MH = (28.6276, 77.2244)  # Mandi House        — Blue / Violet
+ND = (28.6430, 77.2196)  # New Delhi          — Yellow / Airport Express
+IL = (28.6595, 77.1700)  # Inderlok           — Red / Green
+NSP = (28.6855, 77.1605)  # Netaji Subhash Place — Red / Pink
+AP = (28.6960, 77.1835)  # Azadpur            — Yellow / Pink
+KN = (28.6518, 77.1470)  # Kirti Nagar        — Blue / Green branch
+RG = (28.6520, 77.1180)  # Rajouri Garden     — Blue / Pink
+BG = (28.5630, 77.3260)  # Botanical Garden   — Blue / Magenta
+HK = (28.5490, 77.2010)  # Hauz Khas          — Yellow / Magenta
 DW21 = (28.5700, 77.0720)  # Dwarka Sector 21   — Blue / Airport Express
-DWA = (28.5920, 77.0740)   # Dwarka             — Blue / Grey
-LN = (28.5710, 77.2430)    # Lajpat Nagar       — Violet / Pink
-INA = (28.5730, 77.2140)   # INA                — Yellow / Pink
-SIK = (28.4520, 77.1220)   # Sikandarpur        — Yellow / Rapid Metro
-JW = (28.6293, 77.0857)    # Janakpuri West     — Blue / Magenta
-YB = (28.6110, 77.2620)    # Yamuna Bank        — Blue / Blue branch (fork)
-KKD = (28.6430, 77.2980)   # Karkarduma         — Blue branch / Pink
-AV = (28.6465, 77.3150)    # Anand Vihar        — Blue branch / Pink
+DWA = (28.5920, 77.0740)  # Dwarka             — Blue / Grey
+LN = (28.5710, 77.2430)  # Lajpat Nagar       — Violet / Pink
+INA = (28.5730, 77.2140)  # INA                — Yellow / Pink
+SIK = (28.4520, 77.1220)  # Sikandarpur        — Yellow / Rapid Metro
+JW = (28.6293, 77.0857)  # Janakpuri West     — Blue / Magenta
+YB = (28.6110, 77.2620)  # Yamuna Bank        — Blue / Blue branch (fork)
+KKD = (28.6430, 77.2980)  # Karkarduma         — Blue branch / Pink
+AV = (28.6465, 77.3150)  # Anand Vihar        — Blue branch / Pink
 MVP1 = (28.6180, 77.2920)  # Mayur Vihar Phase-I— Blue / Pink
-DK = (28.5800, 77.1400)    # Dhaula Kuan        — Pink / Airport Express
-APM = (28.6520, 77.1300)   # Ashok Park Main    — Green / Green branch
-KKM = (28.5460, 77.2580)   # Kalkaji Mandir     — Violet / Magenta
+DK = (28.5800, 77.1400)  # Dhaula Kuan        — Pink / Airport Express
+APM = (28.6520, 77.1300)  # Ashok Park Main    — Green / Green branch
+KKM = (28.5460, 77.2580)  # Kalkaji Mandir     — Violet / Magenta
 
 
 # ───────────────────────── compact builders ─────────────────────────
 
-def S(name, code, lat, lon, *, structure="elevated", platforms=2, opened=0,
-      terminus=False, junction=False, interchange=()):
+
+def S(
+    name,
+    code,
+    lat,
+    lon,
+    *,
+    structure="elevated",
+    platforms=2,
+    opened=0,
+    terminus=False,
+    junction=False,
+    interchange=(),
+):
     """A station spec in the on-disk dict shape."""
     return {
         "name": name,
@@ -97,7 +109,11 @@ def D(name, lat, lon, area_m2, cap, confidence="medium"):
 
 
 def IC(station_code, other_line, with_station_name):
-    return {"station": station_code, "line": other_line, "with_station": with_station_name}
+    return {
+        "station": station_code,
+        "line": other_line,
+        "with_station": with_station_name,
+    }
 
 
 # ───────────────────────── line 1 — Red ─────────────────────────
@@ -124,7 +140,14 @@ RED = {
         S("Rohini East", "REA", 28.7080, 77.1300),
         S("Pitampura", "PIT", 28.6985, 77.1410),
         S("Kohat Enclave", "KOH", 28.6920, 77.1500),
-        S("Netaji Subhash Place", "NSP", NSP[0], NSP[1], junction=True, interchange=["PK"]),
+        S(
+            "Netaji Subhash Place",
+            "NSP",
+            NSP[0],
+            NSP[1],
+            junction=True,
+            interchange=["PK"],
+        ),
         S("Keshav Puram", "KPR", 28.6780, 77.1660),
         S("Kanhaiya Nagar", "KNR", 28.6680, 77.1680),
         S("Inderlok", "ILK", IL[0], IL[1], junction=True, interchange=["GR", "GB"]),
@@ -132,7 +155,15 @@ RED = {
         S("Pratap Nagar", "PTN", 28.6650, 77.1920),
         S("Pul Bangash", "PBL", 28.6670, 77.1980),
         S("Tis Hazari", "THZ", 28.6685, 77.2050),
-        S("Kashmere Gate", "KGM", KG[0], KG[1], structure="elevated", junction=True, interchange=["YL", "VL"]),
+        S(
+            "Kashmere Gate",
+            "KGM",
+            KG[0],
+            KG[1],
+            structure="elevated",
+            junction=True,
+            interchange=["YL", "VL"],
+        ),
         S("Shastri Park", "SPK", 28.6680, 77.2570),
         S("Seelampur", "SEL", 28.6680, 77.2700),
         S("Welcome", "WLC", 28.6725, 77.2780),
@@ -180,19 +211,68 @@ YELLOW = {
         S("Vishwavidyalaya", "VSV", 28.6750, 77.2090, structure="underground"),
         S("Vidhan Sabha", "VSB", 28.6680, 77.2130, structure="underground"),
         S("Civil Lines", "CVL", 28.6620, 77.2160, structure="underground"),
-        S("Kashmere Gate", "KGM", KG[0], KG[1], structure="underground", junction=True, interchange=["RD", "VL"]),
+        S(
+            "Kashmere Gate",
+            "KGM",
+            KG[0],
+            KG[1],
+            structure="underground",
+            junction=True,
+            interchange=["RD", "VL"],
+        ),
         S("Chawri Bazar", "CWB", 28.6490, 77.2270, structure="underground"),
-        S("New Delhi", "NDL", ND[0], ND[1], structure="underground", junction=True, interchange=["OR"]),
-        S("Rajiv Chowk", "RVC", RC[0], RC[1], structure="underground", junction=True, platforms=4, interchange=["BL"]),
+        S(
+            "New Delhi",
+            "NDL",
+            ND[0],
+            ND[1],
+            structure="underground",
+            junction=True,
+            interchange=["OR"],
+        ),
+        S(
+            "Rajiv Chowk",
+            "RVC",
+            RC[0],
+            RC[1],
+            structure="underground",
+            junction=True,
+            platforms=4,
+            interchange=["BL"],
+        ),
         S("Patel Chowk", "PCH", 28.6240, 77.2160, structure="underground"),
-        S("Central Secretariat", "CSE", CS[0], CS[1], structure="underground", junction=True, interchange=["VL"]),
+        S(
+            "Central Secretariat",
+            "CSE",
+            CS[0],
+            CS[1],
+            structure="underground",
+            junction=True,
+            interchange=["VL"],
+        ),
         S("Udyog Bhawan", "UBH", 28.6110, 77.2070, structure="underground"),
         S("Lok Kalyan Marg", "LKM", 28.6030, 77.1980, structure="underground"),
         S("Jor Bagh", "JOB", 28.5930, 77.1900, structure="underground"),
-        S("Dilli Haat INA", "INA", INA[0], INA[1], structure="underground", junction=True, interchange=["PK"]),
+        S(
+            "Dilli Haat INA",
+            "INA",
+            INA[0],
+            INA[1],
+            structure="underground",
+            junction=True,
+            interchange=["PK"],
+        ),
         S("AIIMS", "AIM", 28.5660, 77.2090, structure="underground"),
         S("Green Park", "GRP", 28.5580, 77.2060, structure="underground"),
-        S("Hauz Khas", "HZK", HK[0], HK[1], structure="underground", junction=True, interchange=["MG"]),
+        S(
+            "Hauz Khas",
+            "HZK",
+            HK[0],
+            HK[1],
+            structure="underground",
+            junction=True,
+            interchange=["MG"],
+        ),
         S("Malviya Nagar", "MVG", 28.5390, 77.2090, structure="underground"),
         S("Saket", "SAK", 28.5240, 77.2070),
         S("Qutab Minar", "QTM", 28.5120, 77.1850),
@@ -241,7 +321,14 @@ BLUE = {
         D("Noida Electronic City Depot", 28.6170, 77.3560, 60_000, 36),
     ],
     "stations": [
-        S("Dwarka Sector 21", "DW21", DW21[0], DW21[1], junction=True, interchange=["OR"]),
+        S(
+            "Dwarka Sector 21",
+            "DW21",
+            DW21[0],
+            DW21[1],
+            junction=True,
+            interchange=["OR"],
+        ),
         S("Dwarka Sector 8", "DW8", 28.5710, 77.0780),
         S("Dwarka Sector 9", "DW9", 28.5750, 77.0850),
         S("Dwarka Sector 10", "DW10", 28.5780, 77.0920),
@@ -267,14 +354,38 @@ BLUE = {
         S("Karol Bagh", "KRB", 28.6510, 77.1850),
         S("Jhandewalan", "JDW", 28.6450, 77.1960),
         S("R.K. Ashram Marg", "RKA", 28.6390, 77.2060, structure="underground"),
-        S("Rajiv Chowk", "RVC", RC[0], RC[1], structure="underground", junction=True, platforms=4, interchange=["YL"]),
+        S(
+            "Rajiv Chowk",
+            "RVC",
+            RC[0],
+            RC[1],
+            structure="underground",
+            junction=True,
+            platforms=4,
+            interchange=["YL"],
+        ),
         S("Barakhamba Road", "BRR", 28.6290, 77.2240, structure="underground"),
-        S("Mandi House", "MDH", MH[0], MH[1], structure="underground", junction=True, interchange=["VL"]),
+        S(
+            "Mandi House",
+            "MDH",
+            MH[0],
+            MH[1],
+            structure="underground",
+            junction=True,
+            interchange=["VL"],
+        ),
         S("Supreme Court", "SPC", 28.6220, 77.2450, structure="underground"),
         S("Indraprastha", "IDP", 28.6180, 77.2520, structure="underground"),
         S("Yamuna Bank", "YBK", YB[0], YB[1], junction=True, interchange=["BR"]),
         S("Akshardham", "AKS", 28.6120, 77.2760),
-        S("Mayur Vihar Phase-I", "MVP", MVP1[0], MVP1[1], junction=True, interchange=["PK"]),
+        S(
+            "Mayur Vihar Phase-I",
+            "MVP",
+            MVP1[0],
+            MVP1[1],
+            junction=True,
+            interchange=["PK"],
+        ),
         S("Mayur Vihar Extension", "MVX", 28.6150, 77.3050),
         S("New Ashok Nagar", "NAS", 28.6160, 77.3160),
         S("Noida Sector 15", "N15", 28.5990, 77.3180),
@@ -319,7 +430,15 @@ BLUE_BRANCH = {
     "total_length_km": 6.97,
     "depots": [],
     "stations": [
-        S("Yamuna Bank", "YBK", YB[0], YB[1], terminus=True, junction=True, interchange=["BL"]),
+        S(
+            "Yamuna Bank",
+            "YBK",
+            YB[0],
+            YB[1],
+            terminus=True,
+            junction=True,
+            interchange=["BL"],
+        ),
         S("Laxmi Nagar", "LXN", 28.6220, 77.2860),
         S("Nirman Vihar", "NIR", 28.6320, 77.2960),
         S("Preet Vihar", "PRV", 28.6390, 77.3020),
@@ -364,7 +483,15 @@ GREEN = {
         S("Udyog Nagar", "UDN", 28.6800, 77.0900),
         S("Peeragarhi", "PGG", 28.6770, 77.1050),
         S("Ashok Park Main", "APM", APM[0], APM[1], junction=True, interchange=["GB"]),
-        S("Inderlok", "ILK", IL[0], IL[1], terminus=True, junction=True, interchange=["RD"]),
+        S(
+            "Inderlok",
+            "ILK",
+            IL[0],
+            IL[1],
+            terminus=True,
+            junction=True,
+            interchange=["RD"],
+        ),
     ],
     "interchanges": [
         IC("APM", "GB", "Ashok Park Main"),
@@ -390,9 +517,25 @@ GREEN_BRANCH = {
     "total_length_km": 3.31,
     "depots": [],
     "stations": [
-        S("Ashok Park Main", "APM", APM[0], APM[1], terminus=True, junction=True, interchange=["GR"]),
+        S(
+            "Ashok Park Main",
+            "APM",
+            APM[0],
+            APM[1],
+            terminus=True,
+            junction=True,
+            interchange=["GR"],
+        ),
         S("Satguru Ram Singh Marg", "SRS", 28.6500, 77.1380),
-        S("Kirti Nagar", "KTN", KN[0], KN[1], terminus=True, junction=True, interchange=["BL"]),
+        S(
+            "Kirti Nagar",
+            "KTN",
+            KN[0],
+            KN[1],
+            terminus=True,
+            junction=True,
+            interchange=["BL"],
+        ),
     ],
     "interchanges": [
         IC("APM", "GR", "Ashok Park Main"),
@@ -417,14 +560,39 @@ VIOLET = {
     "total_length_km": 46.60,
     "depots": [D("Sarita Vihar Depot", 28.5190, 77.2960, 80_000, 48)],
     "stations": [
-        S("Kashmere Gate", "KGM", KG[0], KG[1], terminus=True, structure="underground", junction=True, interchange=["RD", "YL"]),
+        S(
+            "Kashmere Gate",
+            "KGM",
+            KG[0],
+            KG[1],
+            terminus=True,
+            structure="underground",
+            junction=True,
+            interchange=["RD", "YL"],
+        ),
         S("Lal Qila", "LQL", 28.6560, 77.2380, structure="underground"),
         S("Jama Masjid", "JMS", 28.6500, 77.2340, structure="underground"),
         S("Delhi Gate", "DLG", 28.6420, 77.2360, structure="underground"),
         S("ITO", "ITO", 28.6300, 77.2390, structure="underground"),
-        S("Mandi House", "MDH", MH[0], MH[1], structure="underground", junction=True, interchange=["BL"]),
+        S(
+            "Mandi House",
+            "MDH",
+            MH[0],
+            MH[1],
+            structure="underground",
+            junction=True,
+            interchange=["BL"],
+        ),
         S("Janpath", "JPT", 28.6200, 77.2170, structure="underground"),
-        S("Central Secretariat", "CSE", CS[0], CS[1], structure="underground", junction=True, interchange=["YL"]),
+        S(
+            "Central Secretariat",
+            "CSE",
+            CS[0],
+            CS[1],
+            structure="underground",
+            junction=True,
+            interchange=["YL"],
+        ),
         S("Khan Market", "KHM", 28.6030, 77.2250, structure="underground"),
         S("JLN Stadium", "JLN", 28.5830, 77.2330, structure="underground"),
         S("Jangpura", "JGP", 28.5820, 77.2350, structure="underground"),
@@ -481,7 +649,14 @@ PINK = {
         S("Prembari Pul", "PBP", 28.7080, 77.1830),
         S("Azadpur", "AZP", AP[0], AP[1], junction=True, interchange=["YL"]),
         S("Shalimar Bagh", "SHB", 28.6910, 77.1890),
-        S("Netaji Subhash Place", "NSP", NSP[0], NSP[1], junction=True, interchange=["RD"]),
+        S(
+            "Netaji Subhash Place",
+            "NSP",
+            NSP[0],
+            NSP[1],
+            junction=True,
+            interchange=["RD"],
+        ),
         S("Shakurpur", "SKP", 28.6780, 77.1470),
         S("ESI Basaidarapur", "ESI", 28.6700, 77.1380),
         S("Punjabi Bagh West", "PBW", 28.6690, 77.1300),
@@ -499,7 +674,14 @@ PINK = {
         S("Vinobapuri", "VNP", 28.5630, 77.2540),
         S("Ashram", "ASH", 28.5560, 77.2630),
         S("Hazrat Nizamuddin", "HZN", 28.5780, 77.2640),
-        S("Mayur Vihar Phase-I", "MVP", MVP1[0], MVP1[1], junction=True, interchange=["BL"]),
+        S(
+            "Mayur Vihar Phase-I",
+            "MVP",
+            MVP1[0],
+            MVP1[1],
+            junction=True,
+            interchange=["BL"],
+        ),
         S("Mayur Vihar Pocket-1", "MV1", 28.6220, 77.3000),
         S("Trilokpuri Sanjay Lake", "TSL", 28.6250, 77.3120),
         S("East Azad Nagar", "EAN", 28.6300, 77.3200),
@@ -546,7 +728,15 @@ MAGENTA = {
         S("Vasant Vihar", "VSV", 28.5560, 77.1620),
         S("Munirka", "MUN", 28.5580, 77.1750),
         S("R.K. Puram", "RKP", 28.5550, 77.1850),
-        S("Hauz Khas", "HZK", HK[0], HK[1], structure="underground", junction=True, interchange=["YL"]),
+        S(
+            "Hauz Khas",
+            "HZK",
+            HK[0],
+            HK[1],
+            structure="underground",
+            junction=True,
+            interchange=["YL"],
+        ),
         S("Kalkaji Mandir", "KMK", KKM[0], KKM[1], junction=True, interchange=["VL"]),
         S("Okhla NSIC", "ONS", 28.5400, 77.2640),
         S("Sukhdev Vihar", "SDV", 28.5380, 77.2780),
@@ -554,7 +744,15 @@ MAGENTA = {
         S("Okhla Vihar", "OKV", 28.5300, 77.2980),
         S("Jasola Vihar Shaheen Bagh", "JVS", 28.5350, 77.3060),
         S("Kalindi Kunj", "KLK", 28.5410, 77.3140),
-        S("Botanical Garden", "BGA", BG[0], BG[1], terminus=True, junction=True, interchange=["BL"]),
+        S(
+            "Botanical Garden",
+            "BGA",
+            BG[0],
+            BG[1],
+            terminus=True,
+            junction=True,
+            interchange=["BL"],
+        ),
     ],
     "interchanges": [
         IC("JNW", "BL", "Janakpuri West"),
@@ -583,7 +781,15 @@ GREY = {
     "total_length_km": 5.48,
     "depots": [D("Najafgarh Depot", 28.6090, 77.0330, 40_000, 20)],
     "stations": [
-        S("Dwarka", "DWA", DWA[0], DWA[1], terminus=True, junction=True, interchange=["BL"]),
+        S(
+            "Dwarka",
+            "DWA",
+            DWA[0],
+            DWA[1],
+            terminus=True,
+            junction=True,
+            interchange=["BL"],
+        ),
         S("Nangli", "NGL", 28.5860, 77.0600),
         S("Najafgarh", "NJR", 28.6090, 77.0330),
         S("Bhesan", "BHE", 28.6140, 77.0200),
@@ -610,12 +816,53 @@ ORANGE = {
     "total_length_km": 22.70,
     "depots": [],
     "stations": [
-        S("New Delhi", "NDL", ND[0], ND[1], terminus=True, structure="underground", junction=True, platforms=3, interchange=["YL"]),
-        S("Shivaji Stadium", "SHS", 28.6330, 77.2150, structure="underground", platforms=2),
-        S("Dhaula Kuan", "DKU", DK[0], DK[1], junction=True, platforms=2, interchange=["PK"]),
-        S("Delhi Aerocity", "AER", 28.5480, 77.1180, structure="underground", platforms=2),
+        S(
+            "New Delhi",
+            "NDL",
+            ND[0],
+            ND[1],
+            terminus=True,
+            structure="underground",
+            junction=True,
+            platforms=3,
+            interchange=["YL"],
+        ),
+        S(
+            "Shivaji Stadium",
+            "SHS",
+            28.6330,
+            77.2150,
+            structure="underground",
+            platforms=2,
+        ),
+        S(
+            "Dhaula Kuan",
+            "DKU",
+            DK[0],
+            DK[1],
+            junction=True,
+            platforms=2,
+            interchange=["PK"],
+        ),
+        S(
+            "Delhi Aerocity",
+            "AER",
+            28.5480,
+            77.1180,
+            structure="underground",
+            platforms=2,
+        ),
         S("IGI Airport", "IGI", 28.5630, 77.1120, platforms=2),
-        S("Dwarka Sector 21", "DW21", DW21[0], DW21[1], terminus=True, junction=True, platforms=2, interchange=["BL"]),
+        S(
+            "Dwarka Sector 21",
+            "DW21",
+            DW21[0],
+            DW21[1],
+            terminus=True,
+            junction=True,
+            platforms=2,
+            interchange=["BL"],
+        ),
     ],
     "interchanges": [
         IC("NDL", "YL", "New Delhi"),
@@ -643,7 +890,15 @@ RAPID = {
     "total_length_km": 11.68,
     "depots": [],
     "stations": [
-        S("Sikandarpur", "SKD", SIK[0], SIK[1], terminus=True, junction=True, interchange=["YL"]),
+        S(
+            "Sikandarpur",
+            "SKD",
+            SIK[0],
+            SIK[1],
+            terminus=True,
+            junction=True,
+            interchange=["YL"],
+        ),
         S("Phase 2", "PH2", 28.4460, 77.1100),
         S("Belvedere Towers", "BLV", 28.4420, 77.0960),
         S("Cyber City", "CYC", 28.4380, 77.0900),
@@ -657,7 +912,20 @@ RAPID = {
 
 # ───────────────────────── assembly ─────────────────────────
 
-LINES = [RED, YELLOW, BLUE, BLUE_BRANCH, GREEN, GREEN_BRANCH, VIOLET, PINK, MAGENTA, GREY, ORANGE, RAPID]
+LINES = [
+    RED,
+    YELLOW,
+    BLUE,
+    BLUE_BRANCH,
+    GREEN,
+    GREEN_BRANCH,
+    VIOLET,
+    PINK,
+    MAGENTA,
+    GREY,
+    ORANGE,
+    RAPID,
+]
 
 
 def build_dataset() -> dict:
@@ -667,6 +935,7 @@ def build_dataset() -> dict:
 
 
 # ───────────────────────── validation + auto-fix loop ─────────────────────────
+
 
 def _line_codes(data) -> set[str]:
     return {ln["code"] for ln in data["lines"]}
@@ -716,14 +985,21 @@ def _fix_station_refs(data) -> bool:
     valid = _line_codes(data)
     for ln in data["lines"]:
         for st in ln["stations"]:
-            fixed = [c for c in st["interchange_with"] if c in valid and c != ln["code"]]
+            fixed = [
+                c for c in st["interchange_with"] if c in valid and c != ln["code"]
+            ]
             if len(fixed) != len(st["interchange_with"]):
                 st["interchange_with"] = fixed
                 changed = True
     return changed
 
 
-FIXERS = [_fix_duplicate_codes, _fix_missing_terminus, _fix_interchange_refs, _fix_station_refs]
+FIXERS = [
+    _fix_duplicate_codes,
+    _fix_missing_terminus,
+    _fix_interchange_refs,
+    _fix_station_refs,
+]
 
 
 def validate_with_loader(data: dict) -> None:
@@ -755,6 +1031,7 @@ def generate_until_valid(max_iters: int = 8) -> dict:
 
 
 # ───────────────────────── entry point ─────────────────────────
+
 
 def main() -> int:
     print(f"building canonical dataset for {len(LINES)} lines…")

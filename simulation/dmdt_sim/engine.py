@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-import time as time_mod
 from collections import defaultdict
 from typing import Any
 
@@ -80,7 +79,9 @@ class SimulatedTrain:
     def at_destination(self) -> bool:
         return self.status in (TrainStatus.TURNBACK, TrainStatus.MAINTENANCE)
 
-    def update(self, dt: float, gradient_pct: float = 0.0, speed_limit_mps: float = 80.0) -> None:
+    def update(
+        self, dt: float, gradient_pct: float = 0.0, speed_limit_mps: float = 80.0
+    ) -> None:
         if self.status == TrainStatus.RUNNING:
             if self.emergency_brake_active:
                 self.motion.emergency_brake(dt, gradient_pct)
@@ -90,7 +91,10 @@ class SimulatedTrain:
                 self.motion.brake(dt, gradient_pct)
                 if self.motion.state.speed_mps < 0.01:
                     self.status = TrainStatus.INCIDENT_HALT
-            elif self.motion.mode == DrivingMode.BRAKING and self.motion.state.speed_mps < 0.01:
+            elif (
+                self.motion.mode == DrivingMode.BRAKING
+                and self.motion.state.speed_mps < 0.01
+            ):
                 self.motion.state.speed_mps = 0.0
                 self.status = TrainStatus.STOPPED
             else:
@@ -98,7 +102,9 @@ class SimulatedTrain:
                 if self.distance_to_next_station_m > 0:
                     brake_dist = self.motion.brake_distance()
                     if self.distance_to_next_station_m <= brake_dist:
-                        self.motion.brake_to_stop(dt, self.distance_to_next_station_m, gradient_pct)
+                        self.motion.brake_to_stop(
+                            dt, self.distance_to_next_station_m, gradient_pct
+                        )
                     else:
                         self.motion.accelerate(dt, gradient_pct, target)
                 else:
@@ -240,21 +246,13 @@ class SimulationEngine:
         self._setup_passengers()
 
     def _setup_trains(self) -> None:
-        default_spec = TrainSpec(
-            train_class_id="std",
-            name="Standard Train",
-            max_speed_kmh=80.0,
-            acceleration_ms2=0.8,
-            deceleration_ms2=0.9,
-            length_m=200.0,
-            capacity_seated=350,
-            capacity_standing=650,
-        )
         for line_code in self.network.lines:
             line_stations = self.network.get_stations_on_line(line_code)
             if not line_stations:
                 continue
-            n_trains = min(self.config.max_trains_per_line, max(3, len(line_stations) // 2))
+            n_trains = min(
+                self.config.max_trains_per_line, max(3, len(line_stations) // 2)
+            )
             for i in range(n_trains):
                 train_id = f"tr_{line_code}_{self._train_id_counter:04d}"
                 spec = TrainSpec(
@@ -290,7 +288,9 @@ class SimulationEngine:
                 continue
             for direction in (Direction.UP, Direction.DOWN):
                 entries, plans = self.timetable_gen.generate(
-                    line_code, stations, direction,
+                    line_code,
+                    stations,
+                    direction,
                     start_time=self.current_time,
                 )
                 for plan in plans:
@@ -322,7 +322,11 @@ class SimulationEngine:
                     if stations:
                         train.status = TrainStatus.RUNNING
                         train.current_station_code = stations[0]["code"]
-                        train.next_station_code = stations[1]["code"] if len(stations) > 1 else stations[0]["code"]
+                        train.next_station_code = (
+                            stations[1]["code"]
+                            if len(stations) > 1
+                            else stations[0]["code"]
+                        )
                         train.position_m = 0.0
                         train.distance_to_next_station_m = 500.0
             dispatched_down = self.timetable.dispatch_trains(
@@ -335,7 +339,11 @@ class SimulationEngine:
                     if stations:
                         train.status = TrainStatus.RUNNING
                         train.current_station_code = stations[-1]["code"]
-                        train.next_station_code = stations[-2]["code"] if len(stations) > 1 else stations[-1]["code"]
+                        train.next_station_code = (
+                            stations[-2]["code"]
+                            if len(stations) > 1
+                            else stations[-1]["code"]
+                        )
                         train.position_m = 0.0
                         train.distance_to_next_station_m = 500.0
 
@@ -347,7 +355,10 @@ class SimulationEngine:
                     train = self.trains.get(train_id)
                     if train and train.status == TrainStatus.RUNNING:
                         train.start_emergency_brake()
-            elif inc.incident_type in (IncidentType.TRACK_CLOSURE, IncidentType.PLATFORM_CLOSURE):
+            elif inc.incident_type in (
+                IncidentType.TRACK_CLOSURE,
+                IncidentType.PLATFORM_CLOSURE,
+            ):
                 self.router.block_track(inc.line_code, inc.station_code)
                 for train_id in self._line_trains.get(inc.line_code, []):
                     train = self.trains.get(train_id)
@@ -358,7 +369,9 @@ class SimulationEngine:
     def resolve_incidents(self) -> None:
         for inc in list(self.incident_manager._active.values()):
             if self.current_time >= inc.start_time + inc.duration_s:
-                self.incident_manager.resolve_incident(inc.incident_id, self.current_time)
+                self.incident_manager.resolve_incident(
+                    inc.incident_id, self.current_time
+                )
                 if inc.incident_type == IncidentType.EMERGENCY_BRAKE:
                     for train_id in self._line_trains.get(inc.line_code, []):
                         train = self.trains.get(train_id)
@@ -396,17 +409,29 @@ class SimulationEngine:
                     station = stations[train.current_station_index - 1]
                 station_code = station["code"]
                 boarding = self._get_boarding_count(train, station_code)
-                alighting = len([p for p in train.passengers_on_board if p.destination_station_code == station_code])
+                alighting = len(
+                    [
+                        p
+                        for p in train.passengers_on_board
+                        if p.destination_station_code == station_code
+                    ]
+                )
                 dwell = self.passenger_flow.calc_dwell_time(boarding, alighting)
                 train.arrive_at_station(station_code, dwell)
                 self._process_boarding_alighting(train, station_code)
                 train.current_station_index = next_idx
 
     def _get_boarding_count(self, train: SimulatedTrain, station_code: str) -> int:
-        q = self.passenger_pop.platform_queues.get(station_code, {}).get(train.line_code, {}).get(train.direction.value)
+        q = (
+            self.passenger_pop.platform_queues.get(station_code, {})
+            .get(train.line_code, {})
+            .get(train.direction.value)
+        )
         return q.occupancy if q else 0
 
-    def _process_boarding_alighting(self, train: SimulatedTrain, station_code: str) -> None:
+    def _process_boarding_alighting(
+        self, train: SimulatedTrain, station_code: str
+    ) -> None:
         passengers = train.passengers_on_board
         alighted, remaining = self.passenger_pop.process_alighting(
             passengers, station_code, self.current_time
@@ -415,26 +440,45 @@ class SimulationEngine:
         capacity_avail = train.spec.max_capacity - len(remaining)
         if capacity_avail > 0:
             boarding = self.passenger_pop.process_boarding(
-                station_code, train.line_code, train.direction, capacity_avail, self.current_time
+                station_code,
+                train.line_code,
+                train.direction,
+                capacity_avail,
+                self.current_time,
             )
             train.passengers_on_board.extend(boarding)
         train.occupancy = len(train.passengers_on_board)
 
     def update_signal_blocks(self) -> None:
         for train in self.trains.values():
-            if train.status not in (TrainStatus.RUNNING, TrainStatus.STOPPED, TrainStatus.STOPPING):
+            if train.status not in (
+                TrainStatus.RUNNING,
+                TrainStatus.STOPPED,
+                TrainStatus.STOPPING,
+            ):
                 continue
-            blocks = self.block_manager._line_blocks.get(train.line_code, {}).get(train.direction.value, [])
+            blocks = self.block_manager._line_blocks.get(train.line_code, {}).get(
+                train.direction.value, []
+            )
             if not blocks:
                 continue
             for block in blocks:
-                if block.from_station_id == train.current_station_code or block.to_station_id == train.current_station_code:
+                if (
+                    block.from_station_id == train.current_station_code
+                    or block.to_station_id == train.current_station_code
+                ):
                     if train.block_id != block.block_id:
                         if train.block_id:
-                            self.block_manager.release_block(train.block_id, train.train_id)
+                            self.block_manager.release_block(
+                                train.block_id, train.train_id
+                            )
                         occupied = self.block_manager.occupy_block(
-                            block.block_id, train.train_id, train.spec.length_m,
-                            train.position_m, train.direction, self.current_time
+                            block.block_id,
+                            train.train_id,
+                            train.spec.length_m,
+                            train.position_m,
+                            train.direction,
+                            self.current_time,
                         )
                         if occupied:
                             train.block_id = block.block_id
@@ -445,14 +489,21 @@ class SimulationEngine:
             if train.status != TrainStatus.RUNNING:
                 continue
             mx = self.cbtc.compute_movement_authority(
-                train.train_id, train.line_code, train.direction,
-                train.position_m, train.speed_mps, train.spec,
+                train.train_id,
+                train.line_code,
+                train.direction,
+                train.position_m,
+                train.speed_mps,
+                train.spec,
             )
             if mx == MovementAuthority.STOP:
                 train.motion.emergency_brake(self.config.dt_s)
             elif mx == MovementAuthority.RESTRICTED:
                 lead_id, gap = self.block_manager.get_leading_train(
-                    train.line_code, train.direction, train.position_m, train.spec.length_m
+                    train.line_code,
+                    train.direction,
+                    train.position_m,
+                    train.spec.length_m,
                 )
                 target = self.cbtc.compute_target_speed(
                     mx, train.speed_mps, gap, train.spec, train.motion.max_speed_mps
@@ -477,20 +528,29 @@ class SimulationEngine:
             duration_s=self._rng.uniform(30, 180),
             description=f"random {it.value} at {station['code']}",
         )
-        self.event_bus.publish("incident.spawned", {
-            "type": it.value,
-            "line": line_code,
-            "station": station["code"],
-            "time": self.current_time,
-        })
+        self.event_bus.publish(
+            "incident.spawned",
+            {
+                "type": it.value,
+                "line": line_code,
+                "station": station["code"],
+                "time": self.current_time,
+            },
+        )
 
     def reroute_affected_trains(self) -> None:
         for train in list(self.trains.values()):
-            if train.status == TrainStatus.INCIDENT_HALT or train.emergency_brake_active:
+            if (
+                train.status == TrainStatus.INCIDENT_HALT
+                or train.emergency_brake_active
+            ):
                 plan = self.timetable.get_trip_plan(train.train_id)
                 if plan:
                     new_plan = self.router.reroute_train(
-                        train.train_id, plan, train.current_station_code, self.current_time
+                        train.train_id,
+                        plan,
+                        train.current_station_code,
+                        self.current_time,
                     )
                     if new_plan:
                         train.incident_hold = False
@@ -509,7 +569,9 @@ class SimulationEngine:
                 agent.total_walk_time += 60.0
 
     def collect_metrics(self) -> None:
-        active_trains = sum(1 for t in self.trains.values() if t.status == TrainStatus.RUNNING)
+        active_trains = sum(
+            1 for t in self.trains.values() if t.status == TrainStatus.RUNNING
+        )
         total_speed = sum(t.speed_mps for t in self.trains.values())
         avg_speed = total_speed / len(self.trains) if self.trains else 0.0
         total_energy = sum(t.total_energy_wh for t in self.trains.values())
@@ -530,16 +592,23 @@ class SimulationEngine:
         }
         self.metrics.record_snapshot(metric)
         for tc in self._line_trains:
-            line_trains = [self.trains[tid] for tid in self._line_trains[tc] if tid in self.trains]
+            line_trains = [
+                self.trains[tid] for tid in self._line_trains[tc] if tid in self.trains
+            ]
             if line_trains:
                 avg_s = sum(t.speed_mps for t in line_trains) / len(line_trains)
             else:
                 avg_s = 0.0
-            self.metrics.record_line_metric(tc, {
-                "time": self.current_time,
-                "active_trains": float(len([t for t in line_trains if t.status == TrainStatus.RUNNING])),
-                "avg_speed_mps": avg_s,
-            })
+            self.metrics.record_line_metric(
+                tc,
+                {
+                    "time": self.current_time,
+                    "active_trains": float(
+                        len([t for t in line_trains if t.status == TrainStatus.RUNNING])
+                    ),
+                    "avg_speed_mps": avg_s,
+                },
+            )
 
     def take_snapshot(self) -> SimulationSnapshot:
         return SimulationSnapshot(
@@ -564,11 +633,18 @@ class SimulationEngine:
                 for inc in self.incident_manager.incidents
             ],
             metrics={
-                "active_trains": float(sum(1 for t in self.trains.values() if t.status == TrainStatus.RUNNING)),
+                "active_trains": float(
+                    sum(
+                        1
+                        for t in self.trains.values()
+                        if t.status == TrainStatus.RUNNING
+                    )
+                ),
                 "completed_passengers": float(self.passenger_pop.get_completed_count()),
                 "avg_speed_mps": (
                     sum(t.speed_mps for t in self.trains.values()) / len(self.trains)
-                    if self.trains else 0.0
+                    if self.trains
+                    else 0.0
                 ),
                 "total_energy_wh": sum(t.total_energy_wh for t in self.trains.values()),
             },

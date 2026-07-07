@@ -32,13 +32,12 @@ from typing import Any, Iterable
 
 from shapely.geometry import LineString, Point, mapping
 
-from .dataset import DepotSpec, LineSpec, Network, StationSpec
+from .dataset import LineSpec, Network, StationSpec
 from .geometry import (
     bearing_deg,
     platform_polygon_m,
-    station_polygon_m,
 )
-from .track import TrackBuilder, TrackSegmentGeometry
+from .track import TrackBuilder
 
 
 # ───────────────────────── helpers ─────────────────────────
@@ -184,7 +183,9 @@ def emit_stations(network: Network) -> dict[str, Any]:
     return _collection(feats)
 
 
-def emit_platforms(network: Network, *, default_length_m: float = 180.0, default_width_m: float = 6.0) -> dict[str, Any]:
+def emit_platforms(
+    network: Network, *, default_length_m: float = 180.0, default_width_m: float = 6.0
+) -> dict[str, Any]:
     """One Feature per physical platform, layout-aligned to the running track.
 
     For an N-platform station we lay them out symmetrically about the
@@ -299,7 +300,9 @@ def emit_crossovers(network: Network, *, offset_m: float = 8.0) -> dict[str, Any
     return _collection(feats)
 
 
-def _offset_point(station: StationSpec, heading_deg: float, distance_m: float) -> tuple[float, float]:
+def _offset_point(
+    station: StationSpec, heading_deg: float, distance_m: float
+) -> tuple[float, float]:
     """Move a station point along a compass heading by ``distance_m`` metres (WGS84 out)."""
     import math
 
@@ -308,7 +311,9 @@ def _offset_point(station: StationSpec, heading_deg: float, distance_m: float) -
     # is the authoritative one for larger offsets.
     lat_rad = math.radians(station.latitude)
     dlat = (distance_m * math.cos(math.radians(heading_deg))) / 111_320.0
-    dlon = (distance_m * math.sin(math.radians(heading_deg))) / (111_320.0 * math.cos(lat_rad))
+    dlon = (distance_m * math.sin(math.radians(heading_deg))) / (
+        111_320.0 * math.cos(lat_rad)
+    )
     return (station.longitude + dlon, station.latitude + dlat)
 
 

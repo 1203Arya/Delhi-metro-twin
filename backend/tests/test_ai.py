@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 import tempfile
 
 import numpy as np
@@ -13,12 +12,6 @@ from app.ai import (
     DemandPredictor,
     ETAPredictor,
     IncidentPredictor,
-    assistant,
-    crowd_predictor,
-    delay_predictor,
-    demand_predictor,
-    eta_predictor,
-    incident_predictor,
 )
 from app.ai.base import BasePredictor
 from app.ai.inference import InferenceEngine
@@ -28,10 +21,12 @@ from app.ai.train import train_all
 class MockPredictor(BasePredictor):
     def _build_model(self):
         from sklearn.linear_model import LinearRegression
+
         return LinearRegression()
 
     def _prepare_features(self, data):
         import numpy as np
+
         rows = [[float(v) for v in row.values()] for row in data]
         return np.array(rows, dtype=np.float64)
 
@@ -43,6 +38,7 @@ class MockPredictor(BasePredictor):
     def train(self, data, target_col="target"):
         import numpy as np
         from sklearn.model_selection import train_test_split
+
         X = np.random.randn(len(data), 2)
         y = np.random.randn(len(data))
         X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=42)

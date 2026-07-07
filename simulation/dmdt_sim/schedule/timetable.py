@@ -21,14 +21,19 @@ class Timetable:
         self.trip_plans[train_id] = plan
 
     def entries_for_line(self, line_code: str) -> list[TimetableEntry]:
-        return sorted(self._line_entries.get(line_code, []), key=lambda e: e.departure_time)
+        return sorted(
+            self._line_entries.get(line_code, []), key=lambda e: e.departure_time
+        )
 
     def entries_for_train(self, train_id: str) -> list[TimetableEntry]:
         return [e for e in self.entries if e.train_id == train_id]
 
-    def next_departure(self, line_code: str, direction: Direction, after_time: float) -> TimetableEntry | None:
+    def next_departure(
+        self, line_code: str, direction: Direction, after_time: float
+    ) -> TimetableEntry | None:
         candidates = [
-            e for e in self._line_entries.get(line_code, [])
+            e
+            for e in self._line_entries.get(line_code, [])
             if e.direction == direction and e.departure_time > after_time
         ]
         return min(candidates, key=lambda e: e.departure_time) if candidates else None
@@ -36,15 +41,29 @@ class Timetable:
     def get_trip_plan(self, train_id: str) -> TripPlan | None:
         return self.trip_plans.get(train_id)
 
-    def dispatch_trains(self, current_time: float, line_code: str, direction: Direction, available_trains: list[str]) -> list[tuple[str, TimetableEntry]]:
+    def dispatch_trains(
+        self,
+        current_time: float,
+        line_code: str,
+        direction: Direction,
+        available_trains: list[str],
+    ) -> list[tuple[str, TimetableEntry]]:
         dispatched: list[tuple[str, TimetableEntry]] = []
         for entry in self._line_entries.get(line_code, []):
-            if entry.direction == direction and abs(entry.departure_time - current_time) < self.config.dt_s:
+            if (
+                entry.direction == direction
+                and abs(entry.departure_time - current_time) < self.config.dt_s
+            ):
                 if available_trains and entry.is_depot_dispatch:
-                # check if entry.departure_time <= current_time <= entry.departure_time + self.config.dt_s
+                    # check if entry.departure_time <= current_time <= entry.departure_time + self.config.dt_s
                     pass
         for entry in self._line_entries.get(line_code, []):
-            if entry.direction == direction and entry.departure_time <= current_time <= entry.departure_time + self.config.dt_s:
+            if (
+                entry.direction == direction
+                and entry.departure_time
+                <= current_time
+                <= entry.departure_time + self.config.dt_s
+            ):
                 if entry.is_depot_dispatch and available_trains:
                     train_id = available_trains.pop(0)
                     dispatched.append((train_id, entry))
@@ -64,7 +83,9 @@ class TimetableGenerator:
         total_duration_s: float | None = None,
         headway_s: float | None = None,
     ) -> tuple[list[TimetableEntry], list[TripPlan]]:
-        duration = total_duration_s if total_duration_s is not None else self.config.duration_s
+        duration = (
+            total_duration_s if total_duration_s is not None else self.config.duration_s
+        )
         hw = headway_s if headway_s is not None else self.config.headway_target_s
         entries: list[TimetableEntry] = []
         plans: list[TripPlan] = []
@@ -110,7 +131,9 @@ class TimetableGenerator:
                     direction=direction,
                     departure_time=st.departure_time,
                     from_station_code=st.station_code,
-                    to_station_code=station_ids[seq + 1] if seq + 1 < len(station_ids) else st.station_code,
+                    to_station_code=station_ids[seq + 1]
+                    if seq + 1 < len(station_ids)
+                    else st.station_code,
                     is_depot_dispatch=(seq == 0 and train_idx % 3 == 0),
                     is_turnback=(seq == len(stops) - 1),
                 )

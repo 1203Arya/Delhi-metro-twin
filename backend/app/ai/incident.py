@@ -4,7 +4,13 @@ from typing import Any
 
 import numpy as np
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
+from sklearn.metrics import (
+    accuracy_score,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
 from sklearn.model_selection import train_test_split
 
 from .base import BasePredictor
@@ -86,7 +92,9 @@ class IncidentPredictor(BasePredictor[GradientBoostingClassifier]):
         X = self._prepare_features(data)
         return self.model.predict_proba(X)
 
-    def train(self, data: list[dict[str, Any]], target_col: str = "incident_occurred") -> dict[str, float]:
+    def train(
+        self, data: list[dict[str, Any]], target_col: str = "incident_occurred"
+    ) -> dict[str, float]:
         X = self._prepare_features(data)
         y = np.array([int(row.get(target_col, 0)) for row in data], dtype=np.int32)
         X_train, X_test, y_train, y_test = train_test_split(
@@ -101,7 +109,9 @@ class IncidentPredictor(BasePredictor[GradientBoostingClassifier]):
             "precision": float(precision_score(y_test, y_pred, zero_division=0)),
             "recall": float(recall_score(y_test, y_pred, zero_division=0)),
             "f1": float(f1_score(y_test, y_pred, zero_division=0)),
-            "roc_auc": float(roc_auc_score(y_test, y_proba) if len(np.unique(y_test)) > 1 else 0.0),
+            "roc_auc": float(
+                roc_auc_score(y_test, y_proba) if len(np.unique(y_test)) > 1 else 0.0
+            ),
             "train_samples": int(len(X_train)),
             "test_samples": int(len(X_test)),
         }
@@ -185,29 +195,31 @@ class IncidentPredictor(BasePredictor[GradientBoostingClassifier]):
                 base_risk += 0.02
             risk = float(np.clip(base_risk + rng.normal(0, 0.03), 0, 1))
             incident = 1 if rng.random() < risk else 0
-            data.append({
-                "hour": hour,
-                "day_of_week": day,
-                "month": month,
-                "is_peak_hour": is_peak,
-                "is_weekend": is_weekend,
-                "line_code": rng.choice(lines),
-                "station_sequence": seq,
-                "num_trains_active": n_trains,
-                "avg_headway_s": round(headway, 1),
-                "avg_speed_kmh": round(speed, 1),
-                "avg_occupancy_pct": round(occupancy, 1),
-                "is_terminus": 1 if seq <= 2 or seq >= 28 else 0,
-                "has_junction": int(rng.random() < 0.15),
-                "num_platforms": int(rng.integers(2, 6)),
-                "track_length_km": round(rng.uniform(0.5, 3.0), 3),
-                "speed_limit_kmh": rng.uniform(40, 100),
-                "is_curve": int(rng.random() < 0.2),
-                "max_gradient_pct": round(rng.uniform(0, 3), 2),
-                "days_since_last_incident": round(days_since, 1),
-                "prev_incidents_24h": prev_24h,
-                "incident_occurred": incident,
-            })
+            data.append(
+                {
+                    "hour": hour,
+                    "day_of_week": day,
+                    "month": month,
+                    "is_peak_hour": is_peak,
+                    "is_weekend": is_weekend,
+                    "line_code": rng.choice(lines),
+                    "station_sequence": seq,
+                    "num_trains_active": n_trains,
+                    "avg_headway_s": round(headway, 1),
+                    "avg_speed_kmh": round(speed, 1),
+                    "avg_occupancy_pct": round(occupancy, 1),
+                    "is_terminus": 1 if seq <= 2 or seq >= 28 else 0,
+                    "has_junction": int(rng.random() < 0.15),
+                    "num_platforms": int(rng.integers(2, 6)),
+                    "track_length_km": round(rng.uniform(0.5, 3.0), 3),
+                    "speed_limit_kmh": rng.uniform(40, 100),
+                    "is_curve": int(rng.random() < 0.2),
+                    "max_gradient_pct": round(rng.uniform(0, 3), 2),
+                    "days_since_last_incident": round(days_since, 1),
+                    "prev_incidents_24h": prev_24h,
+                    "incident_occurred": incident,
+                }
+            )
         return data
 
 

@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import sys
 import time as time_mod
-from pathlib import Path
 
 from .engine import SimulationEngine
 from .types import SimulationConfig
@@ -20,12 +19,27 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Delhi Metro Simulation Engine")
     parser.add_argument("--network", type=str, help="Path to network JSON")
     parser.add_argument("--seed", type=int, default=42, help="RNG seed")
-    parser.add_argument("--duration", type=float, default=3600.0, help="Simulation duration in seconds")
-    parser.add_argument("--dt", type=float, default=1.0, help="Simulation timestep in seconds")
-    parser.add_argument("--passengers", type=int, default=50000, help="Number of passenger agents")
-    parser.add_argument("--headway", type=float, default=120.0, help="Target headway in seconds")
-    parser.add_argument("--output", type=str, default="", help="Path to write output snapshots JSON")
-    parser.add_argument("--snapshot-interval", type=float, default=30.0, help="Snapshot interval in seconds")
+    parser.add_argument(
+        "--duration", type=float, default=3600.0, help="Simulation duration in seconds"
+    )
+    parser.add_argument(
+        "--dt", type=float, default=1.0, help="Simulation timestep in seconds"
+    )
+    parser.add_argument(
+        "--passengers", type=int, default=50000, help="Number of passenger agents"
+    )
+    parser.add_argument(
+        "--headway", type=float, default=120.0, help="Target headway in seconds"
+    )
+    parser.add_argument(
+        "--output", type=str, default="", help="Path to write output snapshots JSON"
+    )
+    parser.add_argument(
+        "--snapshot-interval",
+        type=float,
+        default=30.0,
+        help="Snapshot interval in seconds",
+    )
     parser.add_argument("--quiet", action="store_true", help="Suppress progress output")
 
     args = parser.parse_args()
@@ -46,7 +60,10 @@ def main() -> None:
         engine.load_network(network_data)
 
     if not args.quiet:
-        print(f"Initializing simulation with {args.passengers} passengers...", file=sys.stderr)
+        print(
+            f"Initializing simulation with {args.passengers} passengers...",
+            file=sys.stderr,
+        )
 
     start_wall = time_mod.time()
     snapshots = engine.run()
@@ -57,11 +74,17 @@ def main() -> None:
     if not args.quiet:
         print(f"\nSimulation completed in {elapsed:.2f}s wall time", file=sys.stderr)
         print(f"Simulated {args.duration:.0f}s of operations", file=sys.stderr)
-        print(f"Trains: {state['trains']} ({state['active_trains']} active)", file=sys.stderr)
-        print(f"Passengers: {state['passengers']} total, {state['completed_passengers']} completed", file=sys.stderr)
+        print(
+            f"Trains: {state['trains']} ({state['active_trains']} active)",
+            file=sys.stderr,
+        )
+        print(
+            f"Passengers: {state['passengers']} total, {state['completed_passengers']} completed",
+            file=sys.stderr,
+        )
         print(f"Active incidents: {state['active_incidents']}", file=sys.stderr)
         print(f"Snapshots captured: {len(snapshots)}", file=sys.stderr)
-        print(f"\nMetrics:", file=sys.stderr)
+        print("\nMetrics:", file=sys.stderr)
         for k, v in state["metrics"].items():
             print(f"  {k}: {v}", file=sys.stderr)
 

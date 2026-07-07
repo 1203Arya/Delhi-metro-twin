@@ -70,7 +70,7 @@ class StationSpec:
     code: str
     latitude: float
     longitude: float
-    structure: str               # elevated | underground | at-grade
+    structure: str  # elevated | underground | at-grade
     interchange_with: tuple[str, ...]
     platforms: int
     opened_year: int
@@ -98,9 +98,13 @@ class LineSpec:
     total_length_km: float
     stations: tuple[StationSpec, ...]
     depots: tuple[DepotSpec, ...] = ()
-    interchanges: tuple[tuple[str, str, str], ...] = ()  # (this_station, that_line_code, that_station)
+    interchanges: tuple[
+        tuple[str, str, str], ...
+    ] = ()  # (this_station, that_line_code, that_station)
     speed_overrides: dict[tuple[str, str], float] = field(default_factory=dict)
-    curve_vertices: dict[tuple[str, str], list[tuple[float, float]]] = field(default_factory=dict)
+    curve_vertices: dict[tuple[str, str], list[tuple[float, float]]] = field(
+        default_factory=dict
+    )
     gradients: dict[tuple[str, str], float] = field(default_factory=dict)
 
     @property
@@ -201,7 +205,8 @@ def _line(raw: dict) -> LineSpec:
     stations = tuple(_station(s) for s in raw["stations"])
     depots = tuple(_depot(d) for d in raw.get("depots", []))
     interchanges = tuple(
-        (i["station"], i["line"], i["with_station"]) for i in raw.get("interchanges", [])
+        (i["station"], i["line"], i["with_station"])
+        for i in raw.get("interchanges", [])
     )
     speed_overrides: dict[tuple[str, str], float] = {}
     for k, v in raw.get("speed_overrides", {}).items():

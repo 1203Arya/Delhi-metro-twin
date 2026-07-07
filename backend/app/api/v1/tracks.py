@@ -36,7 +36,9 @@ async def list_tracks(
         )
         for t in tracks
     ]
-    return PaginatedResponse(items=items, total=len(tracks), skip=pagination.skip, limit=pagination.limit)
+    return PaginatedResponse(
+        items=items, total=len(tracks), skip=pagination.skip, limit=pagination.limit
+    )
 
 
 @router.get("/{track_id}", response_model=TrackSegmentDetail)
@@ -45,6 +47,7 @@ async def get_track(track_id: str, db: AsyncSession = Depends(get_db)):
     t = await svc.get_track(track_id)
     if not t:
         from ...core.exceptions import NotFoundError
+
         raise NotFoundError(f"Track segment {track_id} not found")
     return TrackSegmentDetail(
         id=str(t.id),

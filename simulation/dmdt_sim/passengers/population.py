@@ -4,7 +4,6 @@ import random
 from collections import defaultdict
 from typing import Any
 
-from collections import defaultdict
 
 from ..types import (
     Direction,
@@ -19,8 +18,8 @@ class PassengerPopulation:
     def __init__(self, config: SimulationConfig) -> None:
         self.config = config
         self.agents: list[PassengerAgent] = []
-        self.platform_queues: dict[str, dict[str, dict[str, PlatformQueue]]] = defaultdict(
-            lambda: defaultdict(lambda: defaultdict(PlatformQueue))
+        self.platform_queues: dict[str, dict[str, dict[str, PlatformQueue]]] = (
+            defaultdict(lambda: defaultdict(lambda: defaultdict(PlatformQueue)))
         )
         self._rng = random.Random(config.seed)
         self._stats: dict[str, float] = {
@@ -52,8 +51,10 @@ class PassengerPopulation:
             dest_line = dest_stn.get("line_code", "")
             path_stations = [origin, dest]
             path_lines = [origin_line, dest_line]
-            if origin_line != dest_line and origin in interchange and any(
-                lc in interchange[origin] for lc in [dest_line]
+            if (
+                origin_line != dest_line
+                and origin in interchange
+                and any(lc in interchange[origin] for lc in [dest_line])
             ):
                 path_lines = [origin_line, dest_line]
             start_time = self._rng.uniform(0, self.config.duration_s * 0.8)
@@ -70,7 +71,9 @@ class PassengerPopulation:
             self.agents.append(agent)
         self._stats["total_passengers"] = float(len(self.agents))
 
-    def add_agent_to_queue(self, agent: PassengerAgent, line_code: str, direction: Direction) -> None:
+    def add_agent_to_queue(
+        self, agent: PassengerAgent, line_code: str, direction: Direction
+    ) -> None:
         station_q = self.platform_queues[agent.origin_station_code]
         if line_code not in station_q:
             station_q[line_code] = {}
@@ -91,7 +94,11 @@ class PassengerPopulation:
         capacity_available: int,
         current_time: float,
     ) -> list[PassengerAgent]:
-        q = self.platform_queues.get(station_code, {}).get(line_code, {}).get(direction.value)
+        q = (
+            self.platform_queues.get(station_code, {})
+            .get(line_code, {})
+            .get(direction.value)
+        )
         if not q or not q.passengers:
             return []
         boarding = q.pop_boarding(capacity_available)
@@ -123,8 +130,14 @@ class PassengerPopulation:
     def get_completed_count(self) -> int:
         return sum(1 for a in self.agents if a.completed)
 
-    def get_queue_length(self, station_code: str, line_code: str, direction: Direction) -> int:
-        q = self.platform_queues.get(station_code, {}).get(line_code, {}).get(direction.value)
+    def get_queue_length(
+        self, station_code: str, line_code: str, direction: Direction
+    ) -> int:
+        q = (
+            self.platform_queues.get(station_code, {})
+            .get(line_code, {})
+            .get(direction.value)
+        )
         return q.occupancy if q else 0
 
     def get_stats(self) -> dict[str, float]:
@@ -135,5 +148,7 @@ class PassengerPopulation:
             journeys = [w + r for w, r in zip(waits, rides)]
             self._stats["avg_wait_time"] = sum(waits) / len(waits) if waits else 0.0
             self._stats["avg_ride_time"] = sum(rides) / len(rides) if rides else 0.0
-            self._stats["avg_journey_time"] = sum(journeys) / len(journeys) if journeys else 0.0
+            self._stats["avg_journey_time"] = (
+                sum(journeys) / len(journeys) if journeys else 0.0
+            )
         return dict(self._stats)

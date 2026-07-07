@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import statistics
 from collections import defaultdict
-from datetime import datetime
 from typing import Any
 
 
@@ -49,7 +48,9 @@ class MetricsCollector:
         data = self._train_metrics.get(train_id, [])
         if not data:
             return {}
-        avg_speed = statistics.mean([d.get("speed_mps", 0) for d in data]) if data else 0.0
+        avg_speed = (
+            statistics.mean([d.get("speed_mps", 0) for d in data]) if data else 0.0
+        )
         max_speed = max(d.get("speed_mps", 0) for d in data) if data else 0.0
         total_energy = sum(d.get("energy_wh", 0) for d in data)
         total_distance = sum(d.get("distance_m", 0) for d in data)
@@ -66,15 +67,28 @@ class MetricsCollector:
             return {}
         total_trains = data[-1].get("active_trains", 0) if data else 0
         throughput = sum(d.get("passengers_ boarded", 0) for d in data)
-        return {"total_trains": float(total_trains), "total_throughput": float(throughput)}
+        return {
+            "total_trains": float(total_trains),
+            "total_throughput": float(throughput),
+        }
 
     def get_summary(self) -> dict[str, Any]:
-        avg_headway = statistics.mean(self._headway_samples) if self._headway_samples else 0.0
+        avg_headway = (
+            statistics.mean(self._headway_samples) if self._headway_samples else 0.0
+        )
         avg_dwell = statistics.mean(self._dwell_samples) if self._dwell_samples else 0.0
-        avg_journey = statistics.mean(self._journey_times) if self._journey_times else 0.0
-        avg_energy = statistics.mean(self._energy_samples) if self._energy_samples else 0.0
+        avg_journey = (
+            statistics.mean(self._journey_times) if self._journey_times else 0.0
+        )
+        avg_energy = (
+            statistics.mean(self._energy_samples) if self._energy_samples else 0.0
+        )
         avg_speed = statistics.mean(self._speed_samples) if self._speed_samples else 0.0
-        p95_speed = sorted(self._speed_samples)[int(len(self._speed_samples) * 0.95)] if len(self._speed_samples) > 20 else avg_speed
+        p95_speed = (
+            sorted(self._speed_samples)[int(len(self._speed_samples) * 0.95)]
+            if len(self._speed_samples) > 20
+            else avg_speed
+        )
         return {
             "avg_headway_s": avg_headway,
             "avg_dwell_s": avg_dwell,

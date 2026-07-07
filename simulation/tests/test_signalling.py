@@ -45,11 +45,17 @@ def test_cbtc_movement_authority():
     bm._line_blocks["RED"][Direction.UP.value] = [block]
     cbtc = CBTCController(bm, min_headway_m=50.0)
     spec = TrainSpec(
-        train_class_id="test", name="test", max_speed_kmh=80.0,
-        acceleration_ms2=0.8, deceleration_ms2=0.9,
-        length_m=200.0, capacity_seated=350, capacity_standing=650,
+        train_class_id="test",
+        name="test",
+        max_speed_kmh=80.0,
+        acceleration_ms2=0.8,
+        deceleration_ms2=0.9,
+        length_m=200.0,
+        capacity_seated=350,
+        capacity_standing=650,
     )
     bm.occupy_block("b1", "tr1", 200.0, 100.0, Direction.UP, 0.0)
-    auth = cbtc.compute_movement_authority("tr2", "RED", Direction.UP, 10.0, 5.0, spec)
-    expected = cbtc.compute_movement_authority("tr2", "RED", Direction.UP, 10.0, 5.0, spec)
+    expected = cbtc.compute_movement_authority(
+        "tr2", "RED", Direction.UP, 10.0, 5.0, spec
+    )
     assert expected is not None

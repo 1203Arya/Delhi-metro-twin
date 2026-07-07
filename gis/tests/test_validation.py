@@ -5,7 +5,6 @@ from dmdt_gis import load_network, validate_full_network
 
 class TestValidation:
     def test_full_network_validates(self):
-        n = load_network()
         vr = validate_full_network()
         assert vr.valid, f"validation failed: {vr.errors}"
 
@@ -20,5 +19,18 @@ class TestValidation:
     def test_all_line_codes(self):
         n = load_network()
         codes = {ln.code for ln in n.lines}
-        expected = {"RD", "YL", "BL", "BR", "GR", "GB", "VL", "PK", "MG", "GY", "OR", "RM"}
+        expected = {
+            "RD",
+            "YL",
+            "BL",
+            "BR",
+            "GR",
+            "GB",
+            "VL",
+            "PK",
+            "MG",
+            "GY",
+            "OR",
+            "RM",
+        }
         assert codes == expected

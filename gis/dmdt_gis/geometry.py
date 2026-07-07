@@ -14,7 +14,7 @@ import math
 from dataclasses import dataclass
 from typing import Iterable, Sequence
 
-from shapely.geometry import LineString, Point, Polygon, box
+from shapely.geometry import LineString, Polygon, box
 from shapely.ops import transform as shp_transform
 
 from .crs import UTM43N, WGS84, transformer
@@ -38,12 +38,16 @@ def bearing_deg(start: tuple[float, float], end: tuple[float, float]) -> float:
     lon2, lat2 = math.radians(end[0]), math.radians(end[1])
     dlon = lon2 - lon1
     x = math.sin(dlon) * math.cos(lat2)
-    y = math.cos(lat1) * math.sin(lat2) - math.sin(lat1) * math.cos(lat2) * math.cos(dlon)
+    y = math.cos(lat1) * math.sin(lat2) - math.sin(lat1) * math.cos(lat2) * math.cos(
+        dlon
+    )
     brng = math.degrees(math.atan2(x, y))
     return (brng + 360.0) % 360.0
 
 
-def turning_deg(prev: tuple[float, float], curr: tuple[float, float], nxt: tuple[float, float]) -> float:
+def turning_deg(
+    prev: tuple[float, float], curr: tuple[float, float], nxt: tuple[float, float]
+) -> float:
     """Signed turning angle at ``curr`` between segment (prev→curr) and (curr→nxt).
 
     Returns degrees in (-180, 180]; positive = turn to the right of travel,
@@ -61,7 +65,10 @@ def haversine_m(start: tuple[float, float], end: tuple[float, float]) -> float:
     lon1, lat1 = math.radians(start[0]), math.radians(start[1])
     lon2, lat2 = math.radians(end[0]), math.radians(end[1])
     dlon, dlat = lon2 - lon1, lat2 - lat1
-    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+    a = (
+        math.sin(dlat / 2) ** 2
+        + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+    )
     return 2 * _EARTH_R * math.asin(math.sqrt(a))
 
 
@@ -103,7 +110,9 @@ class Curvature:
         return math.isinf(self.radius_m) or self.radius_m > 10_000.0
 
 
-def curvature_radius_m(prev: tuple[float, float], curr: tuple[float, float], nxt: tuple[float, float]) -> Curvature:
+def curvature_radius_m(
+    prev: tuple[float, float], curr: tuple[float, float], nxt: tuple[float, float]
+) -> Curvature:
     """Radius of the osculating circle at ``curr`` for the polyline (prev,curr,nxt).
 
     The three points are projected to UTM and the circumradius of the triangle
@@ -137,7 +146,10 @@ def max_curvature_segment(points: Sequence[tuple[float, float]]) -> Curvature:
     if len(points) < 3:
         return Curvature(math.inf, 0.0)
     return min(
-        (curvature_radius_m(points[i - 1], points[i], points[i + 1]) for i in range(1, len(points) - 1)),
+        (
+            curvature_radius_m(points[i - 1], points[i], points[i + 1])
+            for i in range(1, len(points) - 1)
+        ),
         key=lambda c: c.radius_m,
     )
 
@@ -169,7 +181,9 @@ def offset_linestring_m(
         return list(pts)
     line = _to_utm_linestring(pts)
     # Shapely's parallel_offset: right side with negative distance == left side.
-    off = line.parallel_offset(distance=abs(left_m), side="left" if left_m >= 0 else "right")
+    off = line.parallel_offset(
+        distance=abs(left_m), side="left" if left_m >= 0 else "right"
+    )
     if off.is_empty:
         return list(pts)
     if off.geom_type == "LineString":
@@ -180,7 +194,9 @@ def offset_linestring_m(
     return [(x, y) for x, y in _from_utm_geom(longest).coords]
 
 
-def station_polygon_m(center: tuple[float, float], *, length_m: float, width_m: float, heading_deg: float) -> Polygon:
+def station_polygon_m(
+    center: tuple[float, float], *, length_m: float, width_m: float, heading_deg: float
+) -> Polygon:
     """Build an aligned station-footprint rectangle centred on ``center``.
 
     ``heading_deg`` is the compass heading of the track through the station; the
@@ -202,7 +218,9 @@ def station_polygon_m(center: tuple[float, float], *, length_m: float, width_m: 
         rot(-half_l, half_w),
         rot(-half_l, -half_w),
     ]
-    xs, ys = transformer(UTM43N, WGS84).transform([c[0] for c in corners], [c[1] for c in corners])
+    xs, ys = transformer(UTM43N, WGS84).transform(
+        [c[0] for c in corners], [c[1] for c in corners]
+    )
     return Polygon(zip(xs, ys))
 
 
@@ -228,10 +246,14 @@ def platform_polygon_m(
         ny = hy + offset_left_m * math.sin(th)
         wx, wy = transformer(UTM43N, WGS84).transform(nx, ny)
         center = (wx, wy)
-    return station_polygon_m(center, length_m=length_m, width_m=width_m, heading_deg=heading_deg)
+    return station_polygon_m(
+        center, length_m=length_m, width_m=width_m, heading_deg=heading_deg
+    )
 
 
-def bounding_box(lon_min: float, lat_min: float, lon_max: float, lat_max: float) -> Polygon:
+def bounding_box(
+    lon_min: float, lat_min: float, lon_max: float, lat_max: float
+) -> Polygon:
     """WGS84 bounding box, used by the tile emitter and spatial pre-filters."""
     return box(lon_min, lat_min, lon_max, lat_max)
 

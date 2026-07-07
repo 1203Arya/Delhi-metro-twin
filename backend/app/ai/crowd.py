@@ -71,7 +71,9 @@ class CrowdPredictor(BasePredictor[GradientBoostingRegressor]):
         X = self._prepare_features(data)
         return self.model.predict(X)
 
-    def train(self, data: list[dict[str, Any]], target_col: str = "crowding_pct") -> dict[str, float]:
+    def train(
+        self, data: list[dict[str, Any]], target_col: str = "crowding_pct"
+    ) -> dict[str, float]:
         X = self._prepare_features(data)
         y = np.array([row.get(target_col, 0.0) for row in data], dtype=np.float64)
         X_train, X_test, y_train, y_test = train_test_split(
@@ -142,25 +144,27 @@ class CrowdPredictor(BasePredictor[GradientBoostingRegressor]):
                 base_crowding += 10.0
             base_crowding += rng.normal(0, 8)
             crowding = float(np.clip(base_crowding, 5, 100))
-            data.append({
-                "hour": hour,
-                "day_of_week": day,
-                "month": month,
-                "is_peak_hour": is_peak,
-                "is_weekend": is_weekend,
-                "line_code": rng.choice(lines),
-                "station_sequence": seq,
-                "is_terminus": is_term,
-                "has_junction": int(rng.random() < 0.15),
-                "is_interchange": int(rng.random() < 0.2),
-                "num_platforms": int(rng.integers(2, 6)),
-                "num_lines_at_station": int(rng.integers(1, 4)),
-                "nearby_offices": int(rng.integers(0, 20)),
-                "nearby_residential": int(rng.integers(0, 30)),
-                "temperature_c": round(rng.uniform(10, 45), 1),
-                "is_holiday": int(rng.random() < 0.05),
-                "crowding_pct": round(crowding, 1),
-            })
+            data.append(
+                {
+                    "hour": hour,
+                    "day_of_week": day,
+                    "month": month,
+                    "is_peak_hour": is_peak,
+                    "is_weekend": is_weekend,
+                    "line_code": rng.choice(lines),
+                    "station_sequence": seq,
+                    "is_terminus": is_term,
+                    "has_junction": int(rng.random() < 0.15),
+                    "is_interchange": int(rng.random() < 0.2),
+                    "num_platforms": int(rng.integers(2, 6)),
+                    "num_lines_at_station": int(rng.integers(1, 4)),
+                    "nearby_offices": int(rng.integers(0, 20)),
+                    "nearby_residential": int(rng.integers(0, 30)),
+                    "temperature_c": round(rng.uniform(10, 45), 1),
+                    "is_holiday": int(rng.random() < 0.05),
+                    "crowding_pct": round(crowding, 1),
+                }
+            )
         return data
 
 

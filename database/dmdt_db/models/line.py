@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-from geoalchemy2 import Geometry
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..base import Base, Timestamps, UUIDPK
-from ..enums import LineCode
 
 if TYPE_CHECKING:
     from .station import Station
@@ -20,7 +18,9 @@ if TYPE_CHECKING:
 class Line(Base, UUIDPK, Timestamps):
     __tablename__ = "lines"
 
-    code: Mapped[str] = mapped_column(String(5), unique=True, nullable=False, index=True)
+    code: Mapped[str] = mapped_column(
+        String(5), unique=True, nullable=False, index=True
+    )
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     number: Mapped[int] = mapped_column(Integer, nullable=False, unique=True)
     color_hex: Mapped[str] = mapped_column(String(7), nullable=False)

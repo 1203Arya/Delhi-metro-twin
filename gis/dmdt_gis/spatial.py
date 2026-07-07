@@ -1,31 +1,27 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Sequence
 
-from shapely.geometry import LineString, MultiLineString, Point, Polygon, mapping
+from shapely.geometry import LineString, Point, Polygon
 from shapely import is_valid_reason
 
-from .crs import lonlat_to_utm, utm_to_lonlat
+from .crs import lonlat_to_utm
 from .dataset import DepotSpec, LineSpec, Network, StationSpec
 from .geometry import (
     bearing_deg,
     curvature_radius_m,
-    haversine_m,
-    offset_linestring_m,
     planar_distance_m,
     platform_polygon_m,
     polyline_length_m,
     station_polygon_m,
 )
-from .track import TrackBuilder, TrackSegmentGeometry, design_speed_kmh
+from .track import TrackBuilder, TrackSegmentGeometry
 from .validation import (
-    validate_coordinate,
     validate_depot,
     validate_platform_polygon,
     validate_station,
-    validate_station_polygon,
     validate_track_segment,
 )
 
@@ -52,7 +48,9 @@ class StationGeometry:
             heading_deg=heading_deg,
         )
         if not poly.is_valid:
-            raise ValueError(f"station {station.code}: polygon invalid ({is_valid_reason(poly)})")
+            raise ValueError(
+                f"station {station.code}: polygon invalid ({is_valid_reason(poly)})"
+            )
         easting, northing = lonlat_to_utm(station.longitude, station.latitude)
         return cls(
             station=station,
@@ -260,7 +258,9 @@ class CrossoverGeometry:
         vs.raise_if_invalid()
         th = math.radians(heading_deg + 90.0)
         _ = th
-        ahead = _offset_point_lonlat(station.longitude, station.latitude, heading_deg, offset_m * 3.0)
+        ahead = _offset_point_lonlat(
+            station.longitude, station.latitude, heading_deg, offset_m * 3.0
+        )
         cross_up = _offset_point_lonlat(
             station.longitude, station.latitude, heading_deg + 90.0, offset_m
         )
@@ -310,7 +310,9 @@ def _offset_point_lonlat(
 ) -> tuple[float, float]:
     lat_rad = math.radians(lat)
     dlat = (distance_m * math.cos(math.radians(heading_deg))) / 111_320.0
-    dlon = (distance_m * math.sin(math.radians(heading_deg))) / (111_320.0 * math.cos(lat_rad))
+    dlon = (distance_m * math.sin(math.radians(heading_deg))) / (
+        111_320.0 * math.cos(lat_rad)
+    )
     return (lon + dlon, lat + dlat)
 
 
@@ -338,7 +340,11 @@ def build_all_platform_geometries(
             for pn in range(1, station.platforms + 1):
                 geoms.append(
                     PlatformGeometry.build(
-                        station, pn, heading, length_m=default_length_m, width_m=default_width_m
+                        station,
+                        pn,
+                        heading,
+                        length_m=default_length_m,
+                        width_m=default_width_m,
                     )
                 )
         result[line.code] = geoms
@@ -372,7 +378,9 @@ def build_all_depot_geometries(network: Network) -> dict[str, list[DepotGeometry
     return result
 
 
-def build_all_junction_geometries(network: Network) -> dict[str, list[JunctionGeometry]]:
+def build_all_junction_geometries(
+    network: Network,
+) -> dict[str, list[JunctionGeometry]]:
     result: dict[str, list[JunctionGeometry]] = {}
     seen: dict[str, set[str]] = {}
     for line in network.lines:
@@ -398,7 +406,9 @@ def build_all_junction_geometries(network: Network) -> dict[str, list[JunctionGe
     return result
 
 
-def build_all_crossover_geometries(network: Network) -> dict[str, list[CrossoverGeometry]]:
+def build_all_crossover_geometries(
+    network: Network,
+) -> dict[str, list[CrossoverGeometry]]:
     result: dict[str, list[CrossoverGeometry]] = {}
     for line in network.lines:
         geoms: list[CrossoverGeometry] = []

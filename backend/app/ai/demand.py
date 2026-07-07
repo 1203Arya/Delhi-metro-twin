@@ -81,7 +81,9 @@ class DemandPredictor(BasePredictor[GradientBoostingRegressor]):
         X = self._prepare_features(data)
         return self.model.predict(X)
 
-    def train(self, data: list[dict[str, Any]], target_col: str = "passenger_count") -> dict[str, float]:
+    def train(
+        self, data: list[dict[str, Any]], target_col: str = "passenger_count"
+    ) -> dict[str, float]:
         X = self._prepare_features(data)
         y = np.array([row.get(target_col, 0.0) for row in data], dtype=np.float64)
         y = np.maximum(y, 0)
@@ -100,7 +102,7 @@ class DemandPredictor(BasePredictor[GradientBoostingRegressor]):
             "test_samples": int(len(X_test)),
         }
         for i, row in enumerate(data):
-            key = f"{row.get('origin_station','')}->{row.get('dest_station','')}"
+            key = f"{row.get('origin_station', '')}->{row.get('dest_station', '')}"
             self._od_pairs[key] = float(y[i])
         self._is_trained = True
         return self._metrics
@@ -153,9 +155,17 @@ class DemandPredictor(BasePredictor[GradientBoostingRegressor]):
         rng = np.random.default_rng(42)
         data: list[dict[str, Any]] = []
         station_list = [
-            ("STA", "RD", 1), ("STB", "RD", 2), ("STC", "RD", 3), ("STD", "RD", 4),
-            ("ST1", "YL", 1), ("ST2", "YL", 2), ("ST3", "YL", 3),
-            ("S4A", "BL", 1), ("S4B", "BL", 2), ("S4C", "BL", 3), ("S4D", "BL", 4),
+            ("STA", "RD", 1),
+            ("STB", "RD", 2),
+            ("STC", "RD", 3),
+            ("STD", "RD", 4),
+            ("ST1", "YL", 1),
+            ("ST2", "YL", 2),
+            ("ST3", "YL", 3),
+            ("S4A", "BL", 1),
+            ("S4B", "BL", 2),
+            ("S4C", "BL", 3),
+            ("S4D", "BL", 4),
         ]
         for _ in range(n_samples):
             orig_idx = int(rng.integers(0, len(station_list)))
@@ -177,31 +187,33 @@ class DemandPredictor(BasePredictor[GradientBoostingRegressor]):
                 base *= 0.6
             base += rng.poisson(30)
             count = max(0, int(base + rng.normal(0, 10)))
-            data.append({
-                "hour": hour,
-                "day_of_week": day,
-                "month": int(rng.integers(1, 13)),
-                "is_peak_hour": is_peak,
-                "is_weekend": is_weekend,
-                "origin_station": orig[0],
-                "dest_station": dest[0],
-                "origin_line": orig[1],
-                "dest_line": dest[1],
-                "origin_sequence": orig[2],
-                "dest_sequence": dest[2],
-                "station_distance_km": round(dist, 2),
-                "num_interchanges": n_inter,
-                "num_stations_between": int(n_stations),
-                "is_same_line": same,
-                "is_reverse_direction": int(orig[2] > dest[2] and same),
-                "origin_nearby_offices": int(rng.integers(0, 20)),
-                "dest_nearby_offices": int(rng.integers(0, 20)),
-                "origin_nearby_residential": int(rng.integers(0, 30)),
-                "dest_nearby_residential": int(rng.integers(0, 30)),
-                "temperature_c": round(rng.uniform(10, 45), 1),
-                "is_holiday": int(rng.random() < 0.05),
-                "passenger_count": count,
-            })
+            data.append(
+                {
+                    "hour": hour,
+                    "day_of_week": day,
+                    "month": int(rng.integers(1, 13)),
+                    "is_peak_hour": is_peak,
+                    "is_weekend": is_weekend,
+                    "origin_station": orig[0],
+                    "dest_station": dest[0],
+                    "origin_line": orig[1],
+                    "dest_line": dest[1],
+                    "origin_sequence": orig[2],
+                    "dest_sequence": dest[2],
+                    "station_distance_km": round(dist, 2),
+                    "num_interchanges": n_inter,
+                    "num_stations_between": int(n_stations),
+                    "is_same_line": same,
+                    "is_reverse_direction": int(orig[2] > dest[2] and same),
+                    "origin_nearby_offices": int(rng.integers(0, 20)),
+                    "dest_nearby_offices": int(rng.integers(0, 20)),
+                    "origin_nearby_residential": int(rng.integers(0, 30)),
+                    "dest_nearby_residential": int(rng.integers(0, 30)),
+                    "temperature_c": round(rng.uniform(10, 45), 1),
+                    "is_holiday": int(rng.random() < 0.05),
+                    "passenger_count": count,
+                }
+            )
         return data
 
 

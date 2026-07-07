@@ -59,7 +59,11 @@ class NetworkGraph:
                 length = seg.get("length_m", 0.0)
                 d = direction
                 dir_map[d][from_s].append((to_s, lc, length, d))
-                opp = Direction.DOWN.value if d == Direction.UP.value else Direction.UP.value
+                opp = (
+                    Direction.DOWN.value
+                    if d == Direction.UP.value
+                    else Direction.UP.value
+                )
                 dir_map[opp][to_s].append((from_s, lc, length, opp))
             for dn, adj in dir_map.items():
                 key = f"{lc}:{dn}"

@@ -6,7 +6,6 @@ import time
 from pathlib import Path
 from typing import Any
 
-import numpy as np
 
 from .crowd import CrowdPredictor
 from .delay import DelayPredictor
@@ -24,11 +23,31 @@ def train_all(
 ) -> dict[str, dict[str, float]]:
     results: dict[str, dict[str, float]] = {}
     predictors: dict[str, Any] = {
-        "delay": (DelayPredictor(model_dir), DelayPredictor().generate_synthetic_data(n_samples), "delay_minutes"),
-        "crowd": (CrowdPredictor(model_dir), CrowdPredictor().generate_synthetic_data(n_samples), "crowding_pct"),
-        "demand": (DemandPredictor(model_dir), DemandPredictor().generate_synthetic_data(n_samples), "passenger_count"),
-        "eta": (ETAPredictor(model_dir), ETAPredictor().generate_synthetic_data(n_samples), "travel_time_s"),
-        "incident": (IncidentPredictor(model_dir), IncidentPredictor().generate_synthetic_data(n_samples), "incident_occurred"),
+        "delay": (
+            DelayPredictor(model_dir),
+            DelayPredictor().generate_synthetic_data(n_samples),
+            "delay_minutes",
+        ),
+        "crowd": (
+            CrowdPredictor(model_dir),
+            CrowdPredictor().generate_synthetic_data(n_samples),
+            "crowding_pct",
+        ),
+        "demand": (
+            DemandPredictor(model_dir),
+            DemandPredictor().generate_synthetic_data(n_samples),
+            "passenger_count",
+        ),
+        "eta": (
+            ETAPredictor(model_dir),
+            ETAPredictor().generate_synthetic_data(n_samples),
+            "travel_time_s",
+        ),
+        "incident": (
+            IncidentPredictor(model_dir),
+            IncidentPredictor().generate_synthetic_data(n_samples),
+            "incident_occurred",
+        ),
     }
     for name, (predictor, data, target) in predictors.items():
         if verbose:
@@ -41,8 +60,11 @@ def train_all(
         if verbose:
             logger.info(
                 "  %s trained in %.2fs: %s",
-                name, elapsed,
-                " | ".join(f"{k}={v:.4f}" for k, v in metrics.items() if isinstance(v, float)),
+                name,
+                elapsed,
+                " | ".join(
+                    f"{k}={v:.4f}" for k, v in metrics.items() if isinstance(v, float)
+                ),
             )
     return results
 

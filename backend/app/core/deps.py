@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import AsyncGenerator
 from typing import Any
 
-from fastapi import Depends, Header
+from fastapi import Header
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..db.session import async_session_factory
