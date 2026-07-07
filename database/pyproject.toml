@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dmdt-database"
+version = "0.1.0"
+description = "Database layer for the Delhi Metro Digital Twin: SQLAlchemy 2.x models, Alembic migrations, PostGIS seed loaders."
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "Proprietary" }
+authors = [{ name = "DMRC Digital Twin" }]
+dependencies = [
+    "SQLAlchemy>=2.0.29",
+    "alembic>=1.13.2",
+    "geoalchemy2>=0.14.7",
+    "psycopg[binary]>=3.1.19",
+    "asyncpg>=0.29.0",
+    "pyproj>=3.6.1",
+    "shapely>=2.0.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "pytest-asyncio>=0.23", "sqlalchemy_utils>=0.41"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dmdt_db*"]
