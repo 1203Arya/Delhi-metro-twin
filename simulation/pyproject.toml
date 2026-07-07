@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dmdt-sim"
+version = "0.1.0"
+description = "Delhi Metro Digital Twin - Simulation Engine"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+dmdt-sim = "dmdt_sim.main:main"

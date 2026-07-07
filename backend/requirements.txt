@@ -1,0 +1,13 @@
+fastapi[standard]>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic[email]>=2.10.0
+pydantic-settings>=2.6.0
+python-jose[cryptography]>=3.3.0
+
+python-multipart>=0.0.12
+geoalchemy2>=0.14.7
+prometheus-fastapi-instrumentator>=7.0.0
+slowapi>=0.1.9
+redis>=5.2.0
+aio-pika>=9.4.0
+dmdt-database>=0.1.0
