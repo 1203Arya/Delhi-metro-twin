@@ -10,3 +10,6 @@ build/
 .venv/
 *.egg-info/
 .next/
+.venv/
+*.egg-info/
+.next/
