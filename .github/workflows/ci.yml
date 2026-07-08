@@ -99,7 +99,7 @@ jobs:
             backend/coverage.xml
             simulation/coverage.xml
 
-  frontend:
+  web:
     name: Frontend · Next.js
     runs-on: ubuntu-latest
     steps:
@@ -108,21 +108,21 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: web/package-lock.json
       - name: Install
-        working-directory: frontend
+        working-directory: web
         run: npm ci
       - name: Lint
-        working-directory: frontend
+        working-directory: web
         run: npm run lint -- --max-warnings=0
       - name: Typecheck
-        working-directory: frontend
+        working-directory: web
         run: npm run typecheck
       - name: Unit tests
-        working-directory: frontend
+        working-directory: web
         run: npm test -- --run
       - name: Build
-        working-directory: frontend
+        working-directory: web
         env:
           NEXT_PUBLIC_API_BASE: http://localhost:8000/api/v1
           NEXT_PUBLIC_WS_BASE: ws://localhost:8000
@@ -132,7 +132,7 @@ jobs:
   e2e:
     name: E2E · Playwright
     runs-on: ubuntu-latest
-    needs: [python, frontend]
+    needs: [python, web]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -141,7 +141,7 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: web/package-lock.json
       - name: Install Playwright browsers
         working-directory: tests/e2e
         run: |
@@ -159,7 +159,7 @@ jobs:
   docker-build:
     name: Docker images build
     runs-on: ubuntu-latest
-    needs: [python, frontend]
+    needs: [python, web]
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
@@ -177,10 +177,10 @@ jobs:
           file: docker/simulation/Dockerfile
           push: false
           tags: dmdt/simulation:ci
-      - name: Build frontend image
+      - name: Build web image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: docker/frontend/Dockerfile
+          file: docker/web/Dockerfile
           push: false
-          tags: dmdt/frontend:ci
+          tags: dmdt/web:ci
