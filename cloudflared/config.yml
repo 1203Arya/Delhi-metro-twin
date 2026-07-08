@@ -1,0 +1,14 @@
+# ─────────────────────────────────────────────────────────────
+# Cloudflare Tunnel — config.yml
+# Update these two values after running:
+#   cloudflared tunnel create delhi-metro-twin
+# ─────────────────────────────────────────────────────────────
+tunnel: <TUNNEL_UUID>                        # ← replace with your tunnel UUID
+credentials-file: /home/nonroot/.cloudflared/<TUNNEL_UUID>.json  # ← same UUID
+
+ingress:
+  # All traffic through the tunnel → nginx reverse proxy
+  - hostname: <TUNNEL_UUID>.cfargotunnel.com
+    service: http://nginx:8080
+  # Required catch-all (cloudflared rejects config without it)
+  - service: http_status:404

@@ -4,7 +4,6 @@ import random
 from collections import defaultdict
 from typing import Any
 
-
 from ..types import (
     Direction,
     PassengerAgent,
@@ -12,6 +11,17 @@ from ..types import (
     PlatformQueue,
     SimulationConfig,
 )
+
+
+def get_demand_multiplier(time_s: float) -> float:
+    hour = time_s / 3600.0
+    if hour < 5.5 or hour >= 22.5:
+        return 0.0
+    if 8.0 <= hour <= 10.0 or 17.0 <= hour <= 20.0:
+        return 3.0
+    if 5.5 <= hour < 8.0 or 20.0 <= hour < 22.5:
+        return 1.0
+    return 0.6
 
 
 class PassengerPopulation:
@@ -29,6 +39,20 @@ class PassengerPopulation:
             "avg_ride_time": 0.0,
             "avg_journey_time": 0.0,
         }
+        self._agent_counter: int = 0
+        self._interchange_stations: set[str] = set()
+        self._stations_list: list[str] = []
+        self._station_data: dict[str, dict[str, Any]] = {}
+
+    def setup_stations(
+        self,
+        stations: dict[str, dict[str, Any]],
+        interchange_stations: dict[str, list[str]] | None = None,
+    ) -> None:
+        self._stations_list = list(stations.keys())
+        self._station_data = stations
+        if interchange_stations:
+            self._interchange_stations = set(interchange_stations.keys())
 
     def generate(
         self,
@@ -37,39 +61,47 @@ class PassengerPopulation:
         interchange_stations: dict[str, list[str]] | None = None,
         n_passengers: int | None = None,
     ) -> None:
-        count = n_passengers if n_passengers is not None else self.config.n_passengers
-        station_codes = list(stations.keys())
-        if not station_codes:
+        self.setup_stations(stations, interchange_stations)
+
+    def generate_tick(self, current_time: float, dt: float) -> None:
+        mult = get_demand_multiplier(current_time)
+        if mult <= 0.0:
             return
-        interchange = interchange_stations or {}
-        for i in range(count):
-            origin = self._rng.choice(station_codes)
-            dest = self._rng.choice([s for s in station_codes if s != origin])
-            orig_stn = stations[origin]
-            dest_stn = stations[dest]
+        base_rate = self.config.n_passengers / 64800.0
+        n_new = int(base_rate * mult * dt * len(self._stations_list) / 10.0)
+        n_new = max(0, min(n_new, 200))
+        if n_new == 0:
+            return
+        for _ in range(n_new):
+            origin = self._rng.choice(self._stations_list)
+            dest = self._rng.choice(
+                [s for s in self._stations_list if s != origin]
+            )
+            orig_stn = self._station_data.get(origin, {})
+            dest_stn = self._station_data.get(dest, {})
             origin_line = orig_stn.get("line_code", "")
             dest_line = dest_stn.get("line_code", "")
+            if not origin_line or not dest_line:
+                continue
+            weight = 1.0
+            if origin in self._interchange_stations:
+                weight = 2.0
+            if self._rng.random() * weight > 0.5 / max(mult, 0.1):
+                continue
             path_stations = [origin, dest]
             path_lines = [origin_line, dest_line]
-            if (
-                origin_line != dest_line
-                and origin in interchange
-                and any(lc in interchange[origin] for lc in [dest_line])
-            ):
-                path_lines = [origin_line, dest_line]
-            start_time = self._rng.uniform(0, self.config.duration_s * 0.8)
             agent = PassengerAgent(
-                id=i,
+                id=self._agent_counter,
                 origin_station_code=origin,
                 destination_station_code=dest,
                 origin_line_code=origin_line,
                 destination_line_code=dest_line,
-                start_time=start_time,
+                start_time=current_time,
                 path_stations=path_stations,
                 path_lines=path_lines,
             )
+            self._agent_counter += 1
             self.agents.append(agent)
-        self._stats["total_passengers"] = float(len(self.agents))
 
     def add_agent_to_queue(
         self, agent: PassengerAgent, line_code: str, direction: Direction

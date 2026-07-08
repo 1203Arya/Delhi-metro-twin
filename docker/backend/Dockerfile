@@ -19,7 +19,10 @@ COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /build/backend/app /app/app
 COPY --from=builder /build/database /app/database
+COPY --from=builder /build/gis /app/gis
 COPY --from=builder /build/backend/pyproject.toml /app/
+
+ENV PYTHONPATH=/app/gis
 
 EXPOSE 8000
 USER dmdt

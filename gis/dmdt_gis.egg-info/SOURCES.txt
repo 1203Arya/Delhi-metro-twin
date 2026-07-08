@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+dmdt_gis/__init__.py
+dmdt_gis/crs.py
+dmdt_gis/dataset.py
+dmdt_gis/geojson.py
+dmdt_gis/geometry.py
+dmdt_gis/spatial.py
+dmdt_gis/track.py
+dmdt_gis/validation.py
+dmdt_gis/wkb.py
+dmdt_gis.egg-info/PKG-INFO
+dmdt_gis.egg-info/SOURCES.txt
+dmdt_gis.egg-info/dependency_links.txt
+dmdt_gis.egg-info/requires.txt
+dmdt_gis.egg-info/top_level.txt
+tests/test_validation.py

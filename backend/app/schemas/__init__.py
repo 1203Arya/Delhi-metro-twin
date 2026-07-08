@@ -10,14 +10,24 @@ from .common import (
 from .depot import DepotDetail, DepotList
 from .line import LineDetail, LineList, LineWithStations
 from .simulation import (
+    ApproachInfo,
+    ApproachingTrainsResponse,
+    DisruptRequest,
     SimulationConfigSchema,
     SimulationMetrics,
     SimulationState,
+    StationApproachData,
     TrainPosition,
 )
 from .station import StationDetail, StationList
 from .track import TrackSegmentDetail, TrackSegmentList
 from .train import TrainClassDetail, TrainClassList
+from .train_debug import (
+    LineStationSummary,
+    LineTrainGroup,
+    TrainDebugPosition,
+    TrainPositionsResponse,
+)
 
 __all__ = [
     "LoginRequest",
@@ -32,6 +42,10 @@ __all__ = [
     "SimulationMetrics",
     "SimulationState",
     "TrainPosition",
+    "DisruptRequest",
+    "ApproachInfo",
+    "ApproachingTrainsResponse",
+    "StationApproachData",
     "DepotDetail",
     "DepotList",
     "LineDetail",
@@ -43,4 +57,8 @@ __all__ = [
     "TrackSegmentList",
     "TrainClassDetail",
     "TrainClassList",
+    "TrainDebugPosition",
+    "LineStationSummary",
+    "LineTrainGroup",
+    "TrainPositionsResponse",
 ]

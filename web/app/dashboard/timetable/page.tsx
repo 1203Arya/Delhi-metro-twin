@@ -31,7 +31,7 @@ export default function TimetablePage() {
         <h1 className="text-lg font-bold">Timetable</h1>
         <div className="flex items-center gap-2">
           <span className="text-xs text-surface-500">
-            Sim Time: T+{state?.time_s.toFixed(0) || 0}s
+            Sim Time: T+{state?.time_s?.toFixed(0) || 0}s
           </span>
           <select
             className="input h-8 w-36 text-xs"
@@ -79,8 +79,8 @@ export default function TimetablePage() {
                     </span>
                   </td>
                   <td className="px-3 py-2">{t.direction}</td>
-                  <td className="px-3 py-2">{t.current_station}</td>
-                  <td className="px-3 py-2">{t.next_station}</td>
+                  <td className="px-3 py-2">{t.current_station_name || t.current_station}</td>
+                  <td className="px-3 py-2">{t.next_station_name || t.next_station}</td>
                   <td className="px-3 py-2 font-mono">{t.speed_kmh.toFixed(0)} km/h</td>
                   <td className="px-3 py-2">
                     <span className={`badge ${t.status === "running" ? "badge-green" : t.status === "stopped" ? "badge-red" : "badge-yellow"}`}>

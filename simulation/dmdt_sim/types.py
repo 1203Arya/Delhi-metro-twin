@@ -15,13 +15,16 @@ class Direction(str, Enum):
 
 class TrainStatus(str, Enum):
     IN_DEPOT = "in_depot"
+    PREPARING = "preparing"
     DEPARTING = "departing"
+    DEADHEADING = "deadheading"
     RUNNING = "running"
     STOPPING = "stopping"
     STOPPED = "stopped"
     DOOR_OPEN = "door_open"
     DOOR_CLOSE = "door_close"
     TURNBACK = "turnback"
+    RETURNING_TO_DEPOT = "returning_to_depot"
     MAINTENANCE = "maintenance"
     EMERGENCY_BRAKE = "emergency_brake"
     INCIDENT_HALT = "incident_halt"

@@ -1,0 +1,12 @@
+SQLAlchemy>=2.0.29
+alembic>=1.13.2
+geoalchemy2>=0.14.7
+psycopg[binary]>=3.1.19
+asyncpg>=0.29.0
+pyproj>=3.6.1
+shapely>=2.0.3
+
+[dev]
+pytest>=7.4
+pytest-asyncio>=0.23
+sqlalchemy_utils>=0.41

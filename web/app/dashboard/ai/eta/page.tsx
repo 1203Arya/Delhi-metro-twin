@@ -26,10 +26,10 @@ export default function ETAPredictionPage() {
           <MetricRow label="Network Average" value={avgSpeed.toFixed(1)} unit="km/h" />
         </AIPredictionCard>
         <AIPredictionCard title="Headway" icon="⏱">
-          <MetricRow label="Avg Headway" value={metrics?.avg_headway_s.toFixed(0) || "N/A"} unit="s" />
+          <MetricRow label="Avg Headway" value={metrics?.avg_headway_s?.toFixed(0) || "N/A"} unit="s" />
         </AIPredictionCard>
         <AIPredictionCard title="Dwell Time" icon="🚉">
-          <MetricRow label="Avg Dwell" value={metrics?.avg_dwell_s.toFixed(0) || "N/A"} unit="s" />
+          <MetricRow label="Avg Dwell" value={metrics?.avg_dwell_s?.toFixed(0) || "N/A"} unit="s" />
         </AIPredictionCard>
         <AIPredictionCard title="Journey Time" icon="🕐">
           <MetricRow

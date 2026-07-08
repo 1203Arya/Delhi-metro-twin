@@ -1,0 +1,182 @@
+# ─────────────────────────────────────────────────────────────
+# Delhi Metro Digital Twin — Single deployable unit
+#   docker compose up -d --build
+#   open http://localhost:8080
+#
+# Expose publicly via Cloudflare Tunnel (free):
+#   docker compose up -d   (includes cloudflared service)
+#   → Stable URL: https://<tunnel-uuid>.cfargotunnel.com
+#
+# Setup (one-time): see DEPLOY-FREE.md Section B
+# ─────────────────────────────────────────────────────────────
+name: dmdt
+
+x-restart: &default-restart
+  restart: unless-stopped
+
+services:
+  # ──────────────── Postgres + PostGIS ────────────────
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: dmdt-postgres
+    <<: *default-restart
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dmdt}
+      POSTGRES_USER: ${POSTGRES_USER:-dmdt}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-in-dev}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    networks: [dmdt-net]
+
+  # ──────────────── Redis ────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: dmdt-redis
+    <<: *default-restart
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks: [dmdt-net]
+
+  # ──────────────── RabbitMQ ────────────────
+  rabbitmq:
+    image: rabbitmq:3.13-alpine
+    container_name: dmdt-rabbitmq
+    <<: *default-restart
+    env_file:
+      - .env
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-dmdt}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-change-me-in-dev}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 15s
+    networks: [dmdt-net]
+
+  # ──────────────── Backend (FastAPI + simulation engine in-process) ────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: dmdt-backend
+    <<: *default-restart
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      RABBITMQ_URL: ${RABBITMQ_URL}
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      JWT_SECRET: ${JWT_SECRET:-change-this-to-a-long-random-string}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-HS256}
+      JWT_ACCESS_MINUTES: ${JWT_ACCESS_MINUTES:-60}
+      JWT_REFRESH_DAYS: ${JWT_REFRESH_DAYS:-7}
+      CORS_ORIGINS: ${CORS_ORIGINS:-["*"]}
+      RATE_LIMIT_PER_MINUTE: ${RATE_LIMIT_PER_MINUTE:-600}
+      TIME_SCALE: ${TIME_SCALE:-1.0}
+      SIM_TICK_SECONDS: ${SIM_TICK_SECONDS:-0.5}
+      SIM_DT_SECONDS: ${SIM_DT_SECONDS:-1.0}
+      RANDOM_SEED: ${RANDOM_SEED:-42}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-me-in-dev}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ./scripts/start-backend.sh:/app/scripts/start-backend.sh:ro
+      - ./gis/data:/app/gis/data:ro
+    command: ["/bin/bash", "/app/scripts/start-backend.sh"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health', timeout=3).read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 15
+      start_period: 60s
+    networks: [dmdt-net]
+
+  # ──────────────── Frontend (Next.js standalone) ────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: dmdt-frontend
+    <<: *default-restart
+    environment:
+      HOST: "0.0.0.0"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks: [dmdt-net]
+
+  # ──────────────── Nginx reverse proxy (single entry point) ────────────────
+  nginx:
+    image: nginx:alpine
+    container_name: dmdt-nginx
+    <<: *default-restart
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8080/ > /dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks: [dmdt-net]
+
+  # ──────────────── Cloudflare Tunnel (named tunnel — stable URL) ────────────────
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: dmdt-cloudflared
+    <<: *default-restart
+    command: tunnel --config /etc/cloudflared/config.yml run
+    volumes:
+      - ./cloudflared/config.yml:/etc/cloudflared/config.yml:ro
+      - ~/.cloudflared:/home/nonroot/.cloudflared:ro
+    depends_on:
+      nginx:
+        condition: service_healthy
+    networks: [dmdt-net]
+
+networks:
+  dmdt-net:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:

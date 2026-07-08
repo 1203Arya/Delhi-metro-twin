@@ -21,12 +21,12 @@ export function TrainPanel({ trainId, onClose }: TrainPanelProps) {
       {train ? (
         <div className="space-y-2 text-xs">
           <Row label="Status" value={train.status} />
-          <Row label="Line" value={train.line_code} />
-          <Row label="Direction" value={train.direction} />
+          <Row label="Line" value={train.line_name || train.line_code} />
+          <Row label="Direction" value={train.direction_destination || train.direction} />
           <Row label="Speed" value={`${train.speed_kmh.toFixed(0)} km/h`} />
           <Row label="Position" value={`${train.position_m.toFixed(0)} m`} />
-          <Row label="Current Station" value={train.current_station} />
-          <Row label="Next Station" value={train.next_station} />
+          <Row label="Current Station" value={train.current_station_name || train.current_station} />
+          <Row label="Next Station" value={train.next_station_name || train.next_station} />
           <Row label="Occupancy" value={`${train.occupancy} pax`} />
           <Row label="Doors" value={train.doors_open ? "Open" : "Closed"} />
           <Row label="Block" value={train.block_id} />

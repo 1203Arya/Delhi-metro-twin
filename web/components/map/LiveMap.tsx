@@ -4,8 +4,9 @@ import { useEffect, useRef, useMemo, useCallback } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Deck } from "@deck.gl/core";
-import { ScatterplotLayer, LineLayer, TextLayer } from "@deck.gl/layers";
+import { ScatterplotLayer, TextLayer } from "@deck.gl/layers";
 import { useSimulationStore } from "@/stores/simulation";
+import { MapControls } from "@/components/map/MapControls";
 import type { LineList, StationList, TrainPosition } from "@/types/api";
 
 const INITIAL_VIEW = {
@@ -39,13 +40,55 @@ interface LiveMapProps {
   stations: StationList[];
   onStationClick: (id: string) => void;
   onTrainClick: (id: string) => void;
+  showLabels: boolean;
+  announcementsOn: boolean;
+  onToggleLabels: () => void;
+  onToggleAnnouncements: () => void;
+  selectedStationCode: string | null;
+  onSelectStation: (station: StationList) => void;
+  onDisruptStation: (station: StationList) => void;
+  disrupting: boolean;
 }
 
-export function LiveMap({ lines, stations, onStationClick, onTrainClick }: LiveMapProps) {
+export function LiveMap({
+  lines,
+  stations,
+  onStationClick,
+  onTrainClick,
+  showLabels,
+  announcementsOn,
+  onToggleLabels,
+  onToggleAnnouncements,
+  selectedStationCode,
+  onSelectStation,
+  onDisruptStation,
+  disrupting,
+}: LiveMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const deckRef = useRef<Deck | null>(null);
+  const latestLayersRef = useRef<any[]>([null, null, null, null]);
   const { trains } = useSimulationStore();
+
+  const resetView = useCallback(() => {
+    mapRef.current?.flyTo({
+      center: [INITIAL_VIEW.longitude, INITIAL_VIEW.latitude],
+      zoom: INITIAL_VIEW.zoom,
+      pitch: INITIAL_VIEW.pitch,
+      bearing: INITIAL_VIEW.bearing,
+      duration: 1000,
+    });
+  }, []);
+
+  const flyToStation = useCallback((lat: number, lng: number) => {
+    mapRef.current?.flyTo({
+      center: [lng, lat],
+      zoom: 16,
+      pitch: 60,
+      bearing: 0,
+      duration: 1200,
+    });
+  }, []);
 
   const stationLayer = useMemo(
     () =>
@@ -60,19 +103,24 @@ export function LiveMap({ lines, stations, onStationClick, onTrainClick }: LiveM
         stroked: true,
         pickable: true,
         onClick: (info) => {
-          if (info.object) onStationClick((info.object as StationList).id);
+          if (info.object) {
+            const st = info.object as StationList;
+            onStationClick(st.id);
+            flyToStation(st.latitude, st.longitude);
+            onSelectStation(st);
+          }
         },
       }),
-    [stations, onStationClick],
+    [stations, onStationClick, flyToStation, onSelectStation],
   );
 
   const stationLabelLayer = useMemo(
     () =>
       new TextLayer<StationList>({
         id: "station-labels",
-        data: stations,
+        data: showLabels ? stations : [],
         getPosition: (d) => [d.longitude, d.latitude],
-        getText: (d) => d.code,
+        getText: (d) => d.name,
         getSize: 10,
         getColor: [255, 255, 255, 200],
         getTextAnchor: "start",
@@ -82,7 +130,7 @@ export function LiveMap({ lines, stations, onStationClick, onTrainClick }: LiveM
         sizeScale: 1,
         fontFamily: "monospace",
       }),
-    [stations],
+    [stations, showLabels],
   );
 
   const trainLayer = useMemo(
@@ -143,6 +191,8 @@ export function LiveMap({ lines, stations, onStationClick, onTrainClick }: LiveM
     [trains, stations],
   );
 
+  latestLayersRef.current = [stationLayer, trainLayer, stationLabelLayer, trainLabelLayer];
+
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return;
 
@@ -160,31 +210,32 @@ export function LiveMap({ lines, stations, onStationClick, onTrainClick }: LiveM
     map.addControl(new maplibregl.ScaleControl(), "bottom-left");
     mapRef.current = map;
 
-    const deck = new Deck({
-      canvas: undefined,
-      width: "100%",
-      height: "100%",
-      initialViewState: INITIAL_VIEW,
-      controller: false,
-      layers: [],
-      onViewStateChange: ({ viewState }) => {
-        map.jumpTo({
-          center: [viewState.longitude, viewState.latitude],
-          zoom: viewState.zoom,
-          bearing: viewState.bearing,
-          pitch: viewState.pitch,
-        });
-      },
-    });
-    deckRef.current = deck;
+    let deck: Deck | null = null;
 
     map.on("load", () => {
       const container = map.getCanvasContainer();
-      if (container) deck.setProps({ parent: container as HTMLDivElement });
+      if (!container) return;
+      deck = new Deck({
+        parent: container as HTMLDivElement,
+        width: "100%",
+        height: "100%",
+        initialViewState: INITIAL_VIEW,
+        controller: false,
+        layers: latestLayersRef.current,
+        onViewStateChange: ({ viewState }) => {
+          map.jumpTo({
+            center: [viewState.longitude, viewState.latitude],
+            zoom: viewState.zoom,
+            bearing: viewState.bearing,
+            pitch: viewState.pitch,
+          });
+        },
+      });
+      deckRef.current = deck;
     });
 
     return () => {
-      deck.finalize();
+      if (deck) deck.finalize();
       map.remove();
       mapRef.current = null;
       deckRef.current = null;
@@ -199,5 +250,22 @@ export function LiveMap({ lines, stations, onStationClick, onTrainClick }: LiveM
     }
   }, [stationLayer, trainLayer, stationLabelLayer, trainLabelLayer]);
 
-  return <div ref={mapContainer} className="h-full w-full" />;
+  return (
+    <div className="relative h-full w-full">
+      <MapControls
+        showLabels={showLabels}
+        onToggleLabels={onToggleLabels}
+        onResetView={resetView}
+        announcementsOn={announcementsOn}
+        onToggleAnnouncements={onToggleAnnouncements}
+        stations={stations}
+        selectedStationCode={selectedStationCode}
+        onFlyToStation={flyToStation}
+        onSelectStation={onSelectStation}
+        onDisruptStation={onDisruptStation}
+        disrupting={disrupting}
+      />
+      <div ref={mapContainer} className="h-full w-full" />
+    </div>
+  );
 }

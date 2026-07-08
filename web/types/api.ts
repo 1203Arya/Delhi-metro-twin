@@ -117,9 +117,14 @@ export interface SimulationState {
   time_s: number;
   trains: number;
   active_trains: number;
+  depot_trains: number;
   passengers: number;
   completed_passengers: number;
   active_incidents: number;
+  service_period: string;
+  ist_time: string;
+  service_start: string;
+  service_end: string;
 }
 
 export interface SimulationConfig {
@@ -134,13 +139,20 @@ export interface SimulationConfig {
 export interface TrainPosition {
   train_id: string;
   line_code: string;
+  line_name?: string;
   direction: string;
+  direction_destination?: string;
   status: string;
   speed_kmh: number;
   speed_mps: number;
   position_m: number;
-  current_station: string;
-  next_station: string;
+  current_station: string;       // station code (internal)
+  current_station_name?: string; // human-readable name for display
+  next_station: string;          // station code (internal)
+  next_station_name?: string;    // human-readable name for display
+  distance_to_next_m?: number;
+  eta_s?: number;
+  is_at_platform?: boolean;
   occupancy: number;
   doors_open: boolean;
   block_id: string;
@@ -154,10 +166,89 @@ export interface SimulationMetrics {
   total_energy_wh: number;
 }
 
+export interface ApproachInfo {
+  bearing: number;
+  line_code: string;
+  direction: string;
+}
+
+export interface StationApproachData {
+  id: string;
+  code: string;
+  name: string;
+  line_code: string;
+  latitude: number;
+  longitude: number;
+  platforms: number;
+  has_junction: boolean;
+}
+
+export interface ApproachingTrainsResponse {
+  station_code: string;
+  station: StationApproachData;
+  trains: TrainPosition[];
+  approaches: ApproachInfo[];
+}
+
+export interface TrainDebugPosition {
+  train_id: string;
+  line_code: string;
+  line_name: string;
+  direction: string;
+  direction_destination: string;
+  status: string;
+  speed_kmh: number;
+  occupancy: number;
+  current_station: string;       // Full human-readable name
+  current_station_code: string;  // Internal code (supplementary)
+  next_station: string;          // Full human-readable name
+  next_station_code: string;     // Internal code (supplementary)
+  distance_to_next_m: number;
+  eta_s: number;
+  is_at_platform: boolean;
+  doors_open: boolean;
+}
+
+export interface LineStationSummary {
+  station_name: string;  // Full human-readable name
+  station_code: string;  // Internal code (supplementary)
+  at_platform: number;
+  approaching: number;
+}
+
+export interface LineTrainGroup {
+  line_code: string;
+  line_name: string;
+  terminal_up: string;
+  terminal_down: string;
+  total_trains: number;
+  active_trains: TrainDebugPosition[];
+  station_summary: LineStationSummary[];
+}
+
+export interface TrainPositionsResponse {
+  generated_at_s: number;
+  ist_time: string;
+  service_period: string;
+  lines: LineTrainGroup[];
+  total_trains: number;
+  total_active: number;
+}
+
 export interface WSMessage {
   type: string;
   tick: number;
   time_s: number;
+  ist_time: string;
+  service_period: string;
+  running: boolean;
+  paused: boolean;
   trains: TrainPosition[];
   metrics: SimulationMetrics;
+  completed_passengers: number;
+  active_incidents: number;
+  passengers: number;
+  depot_trains: number;
+  active_trains: number;
+  total_trains?: number;
 }

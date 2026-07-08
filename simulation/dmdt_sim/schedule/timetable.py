@@ -6,12 +6,35 @@ from typing import Any
 from ..types import Direction, ScheduledStop, SimulationConfig, TimetableEntry, TripPlan
 
 
+def get_headway(time_s: float) -> float:
+    hour = time_s / 3600.0
+    if 8.0 <= hour <= 10.0 or 17.0 <= hour <= 20.0:
+        return 300.0
+    return 600.0
+
+
+def get_demand_multiplier(time_s: float) -> float:
+    hour = time_s / 3600.0
+    if hour < 5.5 or hour >= 22.5:
+        return 0.0
+    if 8.0 <= hour <= 10.0 or 17.0 <= hour <= 20.0:
+        return 3.0
+    if 5.5 <= hour < 8.0 or 20.0 <= hour < 22.5:
+        return 1.0
+    return 0.6
+
+
+SERVICE_START_S = 5.5 * 3600
+SERVICE_END_S = 22.5 * 3600
+
+
 class Timetable:
     def __init__(self, config: SimulationConfig) -> None:
         self.config = config
         self.entries: list[TimetableEntry] = []
         self.trip_plans: dict[str, TripPlan] = {}
         self._line_entries: dict[str, list[TimetableEntry]] = defaultdict(list)
+        self._dispatched_entry_ids: set[int] = set()
 
     def add_entry(self, entry: TimetableEntry) -> None:
         self.entries.append(entry)
@@ -49,24 +72,18 @@ class Timetable:
         available_trains: list[str],
     ) -> list[tuple[str, TimetableEntry]]:
         dispatched: list[tuple[str, TimetableEntry]] = []
-        for entry in self._line_entries.get(line_code, []):
+        for idx, entry in enumerate(self._line_entries.get(line_code, [])):
+            if idx in self._dispatched_entry_ids:
+                continue
             if (
                 entry.direction == direction
-                and abs(entry.departure_time - current_time) < self.config.dt_s
+                and entry.departure_time <= current_time
+                and entry.is_depot_dispatch
+                and available_trains
             ):
-                if available_trains and entry.is_depot_dispatch:
-                    # check if entry.departure_time <= current_time <= entry.departure_time + self.config.dt_s
-                    pass
-        for entry in self._line_entries.get(line_code, []):
-            if (
-                entry.direction == direction
-                and entry.departure_time
-                <= current_time
-                <= entry.departure_time + self.config.dt_s
-            ):
-                if entry.is_depot_dispatch and available_trains:
-                    train_id = available_trains.pop(0)
-                    dispatched.append((train_id, entry))
+                train_id = available_trains.pop(0)
+                dispatched.append((train_id, entry))
+                self._dispatched_entry_ids.add(idx)
         return dispatched
 
 
@@ -79,14 +96,7 @@ class TimetableGenerator:
         line_code: str,
         stations: list[dict[str, Any]],
         direction: Direction,
-        start_time: float = 0.0,
-        total_duration_s: float | None = None,
-        headway_s: float | None = None,
     ) -> tuple[list[TimetableEntry], list[TripPlan]]:
-        duration = (
-            total_duration_s if total_duration_s is not None else self.config.duration_s
-        )
-        hw = headway_s if headway_s is not None else self.config.headway_target_s
         entries: list[TimetableEntry] = []
         plans: list[TripPlan] = []
         sorted_stations = sorted(stations, key=lambda s: s.get("sequence", 0))
@@ -96,13 +106,17 @@ class TimetableGenerator:
         station_ids = [s["code"] for s in sorted_stations]
         if not station_ids:
             return entries, plans
-        t = start_time
+
+        t = SERVICE_START_S
         train_idx = 0
-        while t < duration:
-            train_id = f"{line_code}_{direction.value}_{train_idx:04d}"
+        while t < SERVICE_END_S:
+            hw = get_headway(t)
+            train_id = f"SCHED_{line_code}_{direction.value}_{train_idx:04d}"
             stops: list[ScheduledStop] = []
+            dwell = self.config.dwell_time_base_s
             arrival_t = t
             for seq, station in enumerate(sorted_stations):
+                is_last = seq == len(sorted_stations) - 1
                 st = ScheduledStop(
                     station_id=station.get("id", station["code"]),
                     station_code=station["code"],
@@ -110,11 +124,12 @@ class TimetableGenerator:
                     line_code=line_code,
                     sequence=seq,
                     arrival_time=arrival_t,
-                    departure_time=arrival_t + self.config.dwell_time_base_s,
-                    min_stop_dwell_s=self.config.dwell_time_base_s,
+                    departure_time=arrival_t + (dwell if not is_last else 0.0),
+                    min_stop_dwell_s=dwell,
                 )
                 stops.append(st)
-                arrival_t = st.departure_time + travel_time_between_stops
+                if not is_last:
+                    arrival_t = st.departure_time + travel_time_between_stops
             plan = TripPlan(
                 train_id=train_id,
                 line_code=line_code,
@@ -134,7 +149,7 @@ class TimetableGenerator:
                     to_station_code=station_ids[seq + 1]
                     if seq + 1 < len(station_ids)
                     else st.station_code,
-                    is_depot_dispatch=(seq == 0 and train_idx % 3 == 0),
+                    is_depot_dispatch=(seq == 0),
                     is_turnback=(seq == len(stops) - 1),
                 )
                 entries.append(entry)

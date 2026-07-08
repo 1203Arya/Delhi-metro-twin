@@ -37,8 +37,16 @@ class DepotYard:
         return train_id
 
     def return_to_depot(self, train_id: str, depot_name: str) -> None:
-        self._yard_trains[depot_name].append(train_id)
+        yard = self._yard_trains.get(depot_name, [])
+        if train_id not in yard:
+            yard.append(train_id)
         self._train_depot[train_id] = depot_name
+
+    def remove_from_yard(self, train_id: str, depot_name: str) -> None:
+        self._train_depot[train_id] = ""
+        yard = self._yard_trains.get(depot_name, [])
+        if train_id in yard:
+            yard.remove(train_id)
 
     def get_available_trains(self, depot_name: str) -> list[str]:
         return list(self._yard_trains.get(depot_name, []))

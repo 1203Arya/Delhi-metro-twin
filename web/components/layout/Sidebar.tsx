@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: "/", label: "Live Map", icon: "🗺" },
   { href: "/dashboard/timetable", label: "Timetable", icon: "📋" },
   { href: "/dashboard/delays", label: "Delay Analytics", icon: "⏱" },
+  { href: "/dashboard/trains", label: "Train Positions", icon: "🚆" },
   { href: "/dashboard/ai/eta", label: "ETA Prediction", icon: "🚄" },
   { href: "/dashboard/ai/delay", label: "Delay Prediction", icon: "📊" },
   { href: "/dashboard/ai/demand", label: "Demand Forecast", icon: "📈" },
