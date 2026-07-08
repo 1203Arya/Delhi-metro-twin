@@ -23,9 +23,13 @@ async def _try_start_simulation() -> None:
 
         bridge = get_bridge()
         await bridge.send_command("start", {"network": network_data})
-        logger.info("Simulation auto-started with %d lines", len(network_data.get("lines", [])))
+        logger.info(
+            "Simulation auto-started with %d lines", len(network_data.get("lines", []))
+        )
     except Exception:
-        logger.warning("Failed to auto-start simulation — will be unavailable until manually started")
+        logger.warning(
+            "Failed to auto-start simulation — will be unavailable until manually started"
+        )
 
 
 @asynccontextmanager

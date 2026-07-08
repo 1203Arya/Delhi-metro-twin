@@ -15,17 +15,14 @@ from ...core.deps import get_db
 from dmdt_sim.types import IncidentType
 
 from ...schemas import (
-    ApproachInfo,
     ApproachingTrainsResponse,
     DisruptRequest,
     LineStationSummary,
     LineTrainGroup,
     SimulationConfigSchema,
     SimulationState,
-    StationApproachData,
     SuccessResponse,
     TrainDebugPosition,
-    TrainPosition,
     TrainPositionsResponse,
 )
 from ...simulation_bridge import get_bridge
@@ -54,12 +51,12 @@ async def _build_network_data(db: AsyncSession) -> dict[str, Any]:
     return {
         "lines": [
             {
-                "code": l.code,
-                "name": l.name,
-                "color_hex": l.color_hex,
-                "total_length_km": l.total_length_km,
+                "code": line.code,
+                "name": line.name,
+                "color_hex": line.color_hex,
+                "total_length_km": line.total_length_km,
             }
-            for l in lines
+            for line in lines
         ],
         "stations": [
             {
@@ -152,12 +149,19 @@ async def disrupt_station(body: DisruptRequest) -> dict[str, str]:
         duration_s=body.duration_s,
         description=f"Manual disrupt at {station_code}",
     )
-    logger.info("Disrupt incident created at %s (type=%s, duration=%.0fs)", station_code, body.incident_type, body.duration_s)
+    logger.info(
+        "Disrupt incident created at %s (type=%s, duration=%.0fs)",
+        station_code,
+        body.incident_type,
+        body.duration_s,
+    )
     return {"message": f"Disrupt created at {station_code}"}
 
 
 @router.get("/station/{code}/approaching", response_model=ApproachingTrainsResponse)
-async def get_approaching_trains(code: str, db: AsyncSession = Depends(get_db)) -> dict[str, Any]:
+async def get_approaching_trains(
+    code: str, db: AsyncSession = Depends(get_db)
+) -> dict[str, Any]:
     stmt = await db.execute(select(Station).where(Station.code == code))
     station = stmt.scalars().first()
     if not station:
@@ -184,17 +188,23 @@ async def get_approaching_trains(code: str, db: AsyncSession = Depends(get_db)) 
     approaches_list: list[dict[str, Any]] = []
     for seg in segments.scalars().all():
         if seg.to_station_id == station.id:
-            approaches_list.append({
-                "bearing": float(seg.heading_in_deg or 0),
-                "line_code": seg.line_code,
-                "direction": seg.direction,
-            })
+            approaches_list.append(
+                {
+                    "bearing": float(seg.heading_in_deg or 0),
+                    "line_code": seg.line_code,
+                    "direction": seg.direction,
+                }
+            )
         if seg.from_station_id == station.id:
-            approaches_list.append({
-                "bearing": float((seg.heading_out_deg + 180) % 360 if seg.heading_out_deg else 0),
-                "line_code": seg.line_code,
-                "direction": f"reverse_{seg.direction}" if seg.direction else "",
-            })
+            approaches_list.append(
+                {
+                    "bearing": float(
+                        (seg.heading_out_deg + 180) % 360 if seg.heading_out_deg else 0
+                    ),
+                    "line_code": seg.line_code,
+                    "direction": f"reverse_{seg.direction}" if seg.direction else "",
+                }
+            )
 
     return {
         "station_code": code,
@@ -249,8 +259,12 @@ def _build_line_name_map(network) -> dict[str, str]:
     return names
 
 
-def _terminal_name(line_code: str, direction: str, stations_map: dict[str, str],
-                   line_stations: list[dict[str, Any]]) -> str:
+def _terminal_name(
+    line_code: str,
+    direction: str,
+    stations_map: dict[str, str],
+    line_stations: list[dict[str, Any]],
+) -> str:
     if not line_stations:
         return line_code
     if direction == "up":
@@ -267,8 +281,12 @@ async def get_train_positions() -> TrainPositionsResponse:
     engine = bridge.service.engine
     if not engine or not engine.trains:
         return TrainPositionsResponse(
-            generated_at_s=0.0, ist_time="", service_period="",
-            lines=[], total_trains=0, total_active=0,
+            generated_at_s=0.0,
+            ist_time="",
+            service_period="",
+            lines=[],
+            total_trains=0,
+            total_active=0,
         )
 
     line_names = _build_line_name_map(engine.network)
@@ -306,7 +324,9 @@ async def get_train_positions() -> TrainPositionsResponse:
             dist = t.distance_to_next_station_m
             eta = dist / max(t.speed_mps, 0.1) if t.speed_mps > 0.1 else 999.0
             is_at = t.is_at_platform or t.status.value in (
-                "stopped", "door_open", "door_close",
+                "stopped",
+                "door_open",
+                "door_close",
             )
             direction = t.direction.value
             dest = up_terminal if direction == "up" else down_terminal
@@ -314,24 +334,26 @@ async def get_train_positions() -> TrainPositionsResponse:
             cur_code = t.current_station_code
             nxt_code = t.next_station_code
 
-            positions.append(TrainDebugPosition(
-                train_id=t.train_id,
-                line_code=lc,
-                line_name=line_name,
-                direction=direction,
-                direction_destination=f"towards {dest}",
-                status=status_str,
-                speed_kmh=round(speed, 1),
-                occupancy=t.occupancy,
-                current_station=stations_map.get(cur_code, cur_code),
-                current_station_code=cur_code,
-                next_station=stations_map.get(nxt_code, nxt_code),
-                next_station_code=nxt_code,
-                distance_to_next_m=round(dist, 1),
-                eta_s=round(eta, 1),
-                is_at_platform=is_at,
-                doors_open=t.doors_open,
-            ))
+            positions.append(
+                TrainDebugPosition(
+                    train_id=t.train_id,
+                    line_code=lc,
+                    line_name=line_name,
+                    direction=direction,
+                    direction_destination=f"towards {dest}",
+                    status=status_str,
+                    speed_kmh=round(speed, 1),
+                    occupancy=t.occupancy,
+                    current_station=stations_map.get(cur_code, cur_code),
+                    current_station_code=cur_code,
+                    next_station=stations_map.get(nxt_code, nxt_code),
+                    next_station_code=nxt_code,
+                    distance_to_next_m=round(dist, 1),
+                    eta_s=round(eta, 1),
+                    is_at_platform=is_at,
+                    doors_open=t.doors_open,
+                )
+            )
 
         def _sort_key(p: TrainDebugPosition) -> tuple:
             idx = station_seq.get(p.current_station_code, 999)
@@ -356,22 +378,26 @@ async def get_train_positions() -> TrainPositionsResponse:
 
         for s in line_stations:
             code = s["code"]
-            station_summary.append(LineStationSummary(
-                station_name=s.get("name", code),
-                station_code=code,
-                at_platform=at_station_counts.get(code, 0),
-                approaching=approaching_counts.get(code, 0),
-            ))
+            station_summary.append(
+                LineStationSummary(
+                    station_name=s.get("name", code),
+                    station_code=code,
+                    at_platform=at_station_counts.get(code, 0),
+                    approaching=approaching_counts.get(code, 0),
+                )
+            )
 
-        result_lines.append(LineTrainGroup(
-            line_code=lc,
-            line_name=line_name,
-            terminal_up=up_terminal,
-            terminal_down=down_terminal,
-            total_trains=len(raw_trains),
-            active_trains=positions,
-            station_summary=station_summary,
-        ))
+        result_lines.append(
+            LineTrainGroup(
+                line_code=lc,
+                line_name=line_name,
+                terminal_up=up_terminal,
+                terminal_down=down_terminal,
+                total_trains=len(raw_trains),
+                active_trains=positions,
+                station_summary=station_summary,
+            )
+        )
 
     now_ist = datetime.now(ZoneInfo("Asia/Kolkata"))
     total_active = sum(len(grp.active_trains) for grp in result_lines)
