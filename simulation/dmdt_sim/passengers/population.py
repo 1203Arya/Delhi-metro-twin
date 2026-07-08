@@ -62,6 +62,41 @@ class PassengerPopulation:
         n_passengers: int | None = None,
     ) -> None:
         self.setup_stations(stations, interchange_stations)
+        self.agents.clear()
+        self._agent_counter = 0
+        total_passengers = n_passengers if n_passengers is not None else self.config.n_passengers
+        if total_passengers <= 0 or len(self._stations_list) < 2:
+            self._stats["total_passengers"] = float(total_passengers)
+            return
+
+        station_codes = list(self._stations_list)
+        for idx in range(total_passengers):
+            origin = station_codes[idx % len(station_codes)]
+            origin_stn = self._station_data.get(origin, {})
+            origin_line = origin_stn.get("line_code", "")
+            if not origin_line and lines:
+                origin_line = next(iter(lines.keys()))
+            destination_choices = [code for code in station_codes if code != origin]
+            if not destination_choices:
+                continue
+            dest = destination_choices[self._rng.randrange(len(destination_choices))]
+            dest_stn = self._station_data.get(dest, {})
+            dest_line = dest_stn.get("line_code", "")
+            if not dest_line and lines:
+                dest_line = next(iter(lines.keys()))
+            agent = PassengerAgent(
+                id=self._agent_counter,
+                origin_station_code=origin,
+                destination_station_code=dest,
+                origin_line_code=origin_line,
+                destination_line_code=dest_line,
+                start_time=0.0,
+                path_stations=[origin, dest],
+                path_lines=[origin_line, dest_line],
+            )
+            self._agent_counter += 1
+            self.agents.append(agent)
+        self._stats["total_passengers"] = float(len(self.agents))
 
     def generate_tick(self, current_time: float, dt: float) -> None:
         mult = get_demand_multiplier(current_time)

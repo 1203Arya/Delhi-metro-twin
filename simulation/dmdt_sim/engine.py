@@ -69,6 +69,13 @@ def get_service_period(t_s: float) -> str:
     return "post_service"
 
 
+def _stable_seed(base_seed: int, text: str) -> int:
+    value = base_seed & 0xFFFFFFFF
+    for ch in text:
+        value = ((value * 33) ^ ord(ch)) & 0xFFFFFFFF
+    return value
+
+
 class SimulatedTrain:
     def __init__(
         self,
@@ -108,7 +115,7 @@ class SimulatedTrain:
         self._arrivals_at_terminus: int = 0
         self._should_return_to_depot: bool = False
         self.max_trips: int = 8
-        self._rng = random.Random(config.seed + hash(train_id) % 10000)
+        self._rng = random.Random(_stable_seed(config.seed, train_id))
 
     @property
     def speed_mps(self) -> float:
@@ -280,7 +287,6 @@ class SimulationEngine:
         self.snapshot_interval_s: float = 30.0
         self._last_snapshot_time: float = 0.0
         self._train_id_counter: int = 0
-        self._last_step_wall: float = time.monotonic()
         self._last_incident_spawn: float = 0.0
 
     def load_network(self, network_data: dict[str, Any]) -> None:
@@ -361,14 +367,14 @@ class SimulationEngine:
         self.trains.clear()
         self._line_trains.clear()
         self._train_id_counter = 0
-        self.current_time = ist_seconds()
+        self.current_time = SERVICE_START_S
         self.service_period = get_service_period(self.current_time)
-        self._last_step_wall = time.monotonic()
         self._last_incident_spawn = self.current_time
         self.incident_manager = IncidentManager(self.config)
         self.timetable = Timetable(self.config)
         self.event_bus = EventBus()
         self.router = DynamicRouter(self.network, self.incident_manager, self.timetable)
+        self._last_snapshot_time = self.current_time
         self._create_all_trains()
         self._generate_daily_timetable()
         interchange = self.network.get_interchange_stations()
@@ -947,15 +953,8 @@ class SimulationEngine:
         )
 
     def step(self, dt: float | None = None) -> SimulationSnapshot:
-        wall_now = time.monotonic()
-        step_dt = (
-            dt
-            if dt is not None
-            else max(0.0, min(wall_now - self._last_step_wall, 5.0))
-        )
-        self._last_step_wall = wall_now
-
-        self.current_time = ist_seconds()
+        step_dt = dt if dt is not None else self.config.dt_s
+        self.current_time += step_dt
         self.service_period = get_service_period(self.current_time)
 
         if self.service_period in ("pre_service", "post_service"):
@@ -1031,14 +1030,12 @@ class SimulationEngine:
         snapshot = self.take_snapshot()
         snapshots.append(snapshot)
         end_time = duration_s if duration_s is not None else self.config.duration_s
-        start_wall = time.monotonic()
+        start_time = self.current_time
         while True:
-            elapsed = time.monotonic() - start_wall
+            elapsed = self.current_time - start_time
             if elapsed >= end_time:
                 break
             snapshot = self.step()
-            if self.current_time - self._last_snapshot_time < 0.001 or True:
-                pass
             if self.current_time % self.snapshot_interval_s < self.config.dt_s:
                 snapshots.append(snapshot)
         self.is_running = False
