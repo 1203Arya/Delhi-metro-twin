@@ -53,7 +53,7 @@ jobs:
       RABBITMQ_URL: amqp://dmdt:test@rabbitmq:5672/
       JWT_SECRET: ci-secret
       ENVIRONMENT: test
-      PYTHONPATH: backend:simulation
+      PYTHONPATH: ${{ github.workspace }}/backend:${{ github.workspace }}/simulation
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
