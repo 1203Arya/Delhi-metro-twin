@@ -12,7 +12,7 @@ from .events.bus import EventBus
 from .incidents.manager import IncidentManager
 from .network.graph import NetworkGraph
 from .passengers.flow import PassengerFlowModel
-from .passengers.population import PassengerPopulation, get_demand_multiplier
+from .passengers.population import PassengerPopulation
 from .perf.metrics import MetricsCollector
 from .physics.train import TrainMotionModel, DrivingMode
 from .routing.router import DynamicRouter
@@ -22,7 +22,6 @@ from .schedule.timetable import (
     TimetableGenerator,
     SERVICE_START_S,
     SERVICE_END_S,
-    get_headway,
 )
 from .signalling.block import BlockManager
 from .signalling.cbtc import CBTCController
@@ -41,7 +40,12 @@ from .types import (
 
 def ist_seconds() -> float:
     now = datetime.now(ZoneInfo("Asia/Kolkata"))
-    return now.hour * 3600.0 + now.minute * 60.0 + now.second + now.microsecond / 1_000_000.0
+    return (
+        now.hour * 3600.0
+        + now.minute * 60.0
+        + now.second
+        + now.microsecond / 1_000_000.0
+    )
 
 
 def get_service_period(t_s: float) -> str:
@@ -212,7 +216,15 @@ class SimulatedTrain:
         if self.status == TrainStatus.RUNNING and self.speed_mps > 0:
             eta_s = self.distance_to_next_station_m / self.speed_mps
         elif self.status == TrainStatus.STOPPED and self.is_at_platform:
-            eta_s = max(0.0, self.dwell_timer + (self.spec.door_open_time_s if not self.doors_open else self.doors_timer))
+            eta_s = max(
+                0.0,
+                self.dwell_timer
+                + (
+                    self.spec.door_open_time_s
+                    if not self.doors_open
+                    else self.doors_timer
+                ),
+            )
         elif self.status == TrainStatus.DOOR_OPEN:
             eta_s = max(0.0, self.doors_timer)
         elif self.status == TrainStatus.TURNBACK:
@@ -435,11 +447,19 @@ class SimulationEngine:
                         if direction == Direction.UP:
                             train.current_station_index = 0
                             train.current_station_code = stations[0]["code"]
-                            train.next_station_code = stations[1]["code"] if len(stations) > 1 else stations[0]["code"]
+                            train.next_station_code = (
+                                stations[1]["code"]
+                                if len(stations) > 1
+                                else stations[0]["code"]
+                            )
                         else:
                             train.current_station_index = len(stations) - 1
                             train.current_station_code = stations[-1]["code"]
-                            train.next_station_code = stations[-2]["code"] if len(stations) > 1 else stations[-1]["code"]
+                            train.next_station_code = (
+                                stations[-2]["code"]
+                                if len(stations) > 1
+                                else stations[-1]["code"]
+                            )
                         train.position_m = 0.0
                         train.distance_to_next_station_m = 500.0
                         train.direction = direction
@@ -499,20 +519,28 @@ class SimulationEngine:
 
         stop_t = 0.0
         seg_dur = 90.0
-        dwell_dur = plan.stops[0].min_stop_dwell_s if plan.stops else self.config.dwell_time_base_s
+        dwell_dur = (
+            plan.stops[0].min_stop_dwell_s
+            if plan.stops
+            else self.config.dwell_time_base_s
+        )
         for i in range(len(codes) - 1):
             seg_start = stop_t + dwell_dur
             seg_end = seg_start + seg_dur
             if seg_start <= rel_t < seg_end:
                 progress = (rel_t - seg_start) / seg_dur if seg_dur > 0 else 0.0
                 track_len = self._track_distance(line_code, codes[i], codes[i + 1])
-                train.current_station_index = i if effective_dir == direction else n - 1 - i
+                train.current_station_index = (
+                    i if effective_dir == direction else n - 1 - i
+                )
                 train.current_station_code = codes[i]
                 train.next_station_code = codes[i + 1]
                 train.distance_to_next_station_m = track_len * (1.0 - progress)
                 train.position_m = track_len * progress
                 train.direction = effective_dir
-                train._arrivals_at_terminus = i if effective_dir == direction.opposite() else 0
+                train._arrivals_at_terminus = (
+                    i if effective_dir == direction.opposite() else 0
+                )
                 train.is_at_platform = False
                 train.motion.state.speed_mps = 22.0
                 train.motion.state.acceleration_mps2 = 0.0
@@ -521,7 +549,9 @@ class SimulationEngine:
                 return
             if stop_t <= rel_t < seg_start:
                 remaining = max(0.0, seg_start - rel_t)
-                train.current_station_index = i if effective_dir == direction else n - 1 - i
+                train.current_station_index = (
+                    i if effective_dir == direction else n - 1 - i
+                )
                 train.current_station_code = codes[i]
                 train.next_station_code = codes[i + 1]
                 train.distance_to_next_station_m = 0.0
@@ -604,7 +634,9 @@ class SimulationEngine:
                         train.status = TrainStatus.TURNBACK
                         train.turnback_timer = self.config.turnback_time_s
                         train._arrivals_at_terminus += 1
-                        train._should_return_to_depot = train._arrivals_at_terminus >= train.max_trips
+                        train._should_return_to_depot = (
+                            train._arrivals_at_terminus >= train.max_trips
+                        )
                         continue
                     station = stations[next_idx]
                     train.current_station_index = next_idx
@@ -614,7 +646,9 @@ class SimulationEngine:
                         train.status = TrainStatus.TURNBACK
                         train.turnback_timer = self.config.turnback_time_s
                         train._arrivals_at_terminus += 1
-                        train._should_return_to_depot = train._arrivals_at_terminus >= train.max_trips
+                        train._should_return_to_depot = (
+                            train._arrivals_at_terminus >= train.max_trips
+                        )
                         continue
                     station = stations[next_idx]
                     train.current_station_index = next_idx
@@ -635,14 +669,18 @@ class SimulationEngine:
                     if next_next_idx < len(stations):
                         train.next_station_code = stations[next_next_idx]["code"]
                         train.distance_to_next_station_m = self._track_distance(
-                            train.line_code, station_code, stations[next_next_idx]["code"]
+                            train.line_code,
+                            station_code,
+                            stations[next_next_idx]["code"],
                         )
                 else:
                     next_next_idx = train.current_station_index - 1
                     if next_next_idx >= 0:
                         train.next_station_code = stations[next_next_idx]["code"]
                         train.distance_to_next_station_m = self._track_distance(
-                            train.line_code, station_code, stations[next_next_idx]["code"]
+                            train.line_code,
+                            station_code,
+                            stations[next_next_idx]["code"],
                         )
 
     def _return_train_to_depot(self, train: SimulatedTrain) -> None:
@@ -687,10 +725,15 @@ class SimulationEngine:
             train.passengers_on_board.extend(boarding)
         train.occupancy = len(train.passengers_on_board)
 
-    def _track_distance(self, line_code: str, from_station: str, to_station: str) -> float:
+    def _track_distance(
+        self, line_code: str, from_station: str, to_station: str
+    ) -> float:
         segments = self.network.track_segments.get(line_code, [])
         for seg in segments:
-            if seg.get("from_station_code") == from_station and seg.get("to_station_code") == to_station:
+            if (
+                seg.get("from_station_code") == from_station
+                and seg.get("to_station_code") == to_station
+            ):
                 return seg.get("length_m", 500.0)
         return 500.0
 
@@ -905,7 +948,11 @@ class SimulationEngine:
 
     def step(self, dt: float | None = None) -> SimulationSnapshot:
         wall_now = time.monotonic()
-        step_dt = dt if dt is not None else max(0.0, min(wall_now - self._last_step_wall, 5.0))
+        step_dt = (
+            dt
+            if dt is not None
+            else max(0.0, min(wall_now - self._last_step_wall, 5.0))
+        )
         self._last_step_wall = wall_now
 
         self.current_time = ist_seconds()
@@ -913,7 +960,11 @@ class SimulationEngine:
 
         if self.service_period in ("pre_service", "post_service"):
             for train in self.trains.values():
-                if train.status not in (TrainStatus.IN_DEPOT, TrainStatus.MAINTENANCE, TrainStatus.RETURNING_TO_DEPOT):
+                if train.status not in (
+                    TrainStatus.IN_DEPOT,
+                    TrainStatus.MAINTENANCE,
+                    TrainStatus.RETURNING_TO_DEPOT,
+                ):
                     train.motion.brake(step_dt, 0.0)
                     if train.motion.state.speed_mps < 0.01:
                         self._return_train_to_depot(train)
@@ -941,11 +992,19 @@ class SimulationEngine:
                 if train.direction == Direction.UP:
                     train.current_station_index = 0
                     train.current_station_code = stations[0]["code"]
-                    train.next_station_code = stations[1]["code"] if len(stations) > 1 else stations[0]["code"]
+                    train.next_station_code = (
+                        stations[1]["code"]
+                        if len(stations) > 1
+                        else stations[0]["code"]
+                    )
                 else:
                     train.current_station_index = len(stations) - 1
                     train.current_station_code = stations[-1]["code"]
-                    train.next_station_code = stations[-2]["code"] if len(stations) > 1 else stations[-1]["code"]
+                    train.next_station_code = (
+                        stations[-2]["code"]
+                        if len(stations) > 1
+                        else stations[-1]["code"]
+                    )
                 train.distance_to_next_station_m = 500.0
 
         for train in list(self.trains.values()):
@@ -989,10 +1048,22 @@ class SimulationEngine:
         return snapshots
 
     def get_state(self) -> dict[str, Any]:
-        running = sum(1 for t in self.trains.values() if t.status == TrainStatus.RUNNING)
-        in_depot = sum(1 for t in self.trains.values() if t.status == TrainStatus.IN_DEPOT)
-        returning = sum(1 for t in self.trains.values() if t.status == TrainStatus.RETURNING_TO_DEPOT)
-        breaking = sum(1 for t in self.trains.values() if t.status in (TrainStatus.EMERGENCY_BRAKE, TrainStatus.INCIDENT_HALT))
+        running = sum(
+            1 for t in self.trains.values() if t.status == TrainStatus.RUNNING
+        )
+        in_depot = sum(
+            1 for t in self.trains.values() if t.status == TrainStatus.IN_DEPOT
+        )
+        returning = sum(
+            1
+            for t in self.trains.values()
+            if t.status == TrainStatus.RETURNING_TO_DEPOT
+        )
+        breaking = sum(
+            1
+            for t in self.trains.values()
+            if t.status in (TrainStatus.EMERGENCY_BRAKE, TrainStatus.INCIDENT_HALT)
+        )
         now_ist = datetime.now(ZoneInfo("Asia/Kolkata"))
         return {
             "time": self.current_time,

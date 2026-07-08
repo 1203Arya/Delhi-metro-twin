@@ -69,6 +69,10 @@ jobs:
         working-directory: simulation
         run: |
           pip install -e .
+      - name: Install database package
+        working-directory: database
+        run: |
+          pip install -e .
       - name: Lint (ruff)
         run: |
           pip install ruff

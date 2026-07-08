@@ -74,9 +74,7 @@ class PassengerPopulation:
             return
         for _ in range(n_new):
             origin = self._rng.choice(self._stations_list)
-            dest = self._rng.choice(
-                [s for s in self._stations_list if s != origin]
-            )
+            dest = self._rng.choice([s for s in self._stations_list if s != origin])
             orig_stn = self._station_data.get(origin, {})
             dest_stn = self._station_data.get(dest, {})
             origin_line = orig_stn.get("line_code", "")

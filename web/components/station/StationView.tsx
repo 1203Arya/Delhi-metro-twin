@@ -90,7 +90,7 @@ export function StationView({
     [trains, station.code, station.line_code],
   );
 
-  const lineStations = lineData?.stations || [];
+  const lineStations = useMemo(() => lineData?.stations || [], [lineData]);
   const lineStationCodes = useMemo(() => {
     return lineStations
       .sort((a, b) => a.sequence - b.sequence)
@@ -319,7 +319,7 @@ export function StationView({
         billboard: true,
         fontFamily: "monospace",
       }),
-    [station, platformBearing],
+    [station],
   );
 
   useEffect(() => {

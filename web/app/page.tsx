@@ -10,7 +10,7 @@ import { SignalPanel } from "@/components/panels/SignalPanel";
 import { IncidentPanel } from "@/components/panels/IncidentPanel";
 import { NetworkHealthPanel } from "@/components/panels/NetworkHealthPanel";
 import { useWebSocket } from "@/hooks/useWebSocket";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import type { StationList } from "@/types/api";
@@ -43,7 +43,7 @@ export default function HomePage() {
     queryFn: () => api.tracks.list(),
   });
 
-  const stationsList = stationsData?.items || [];
+  const stationsList = useMemo(() => stationsData?.items || [], [stationsData]);
   const tracksList = tracksData?.items || [];
   const selectedStationObj = stationsList.find((s) => s.code === selectedStationCode) || null;
 
