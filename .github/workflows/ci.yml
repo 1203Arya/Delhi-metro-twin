@@ -189,6 +189,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: docker/web/Dockerfile
+          file: docker/frontend/Dockerfile
           push: false
           tags: dmdt/web:ci
