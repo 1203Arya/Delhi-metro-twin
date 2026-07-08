@@ -64,7 +64,9 @@ class PassengerPopulation:
         self.setup_stations(stations, interchange_stations)
         self.agents.clear()
         self._agent_counter = 0
-        total_passengers = n_passengers if n_passengers is not None else self.config.n_passengers
+        total_passengers = (
+            n_passengers if n_passengers is not None else self.config.n_passengers
+        )
         if total_passengers <= 0 or len(self._stations_list) < 2:
             self._stats["total_passengers"] = float(total_passengers)
             return
