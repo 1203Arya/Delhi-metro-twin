@@ -1,2 +1,0 @@
-[console_scripts]
-dmdt-sim = dmdt_sim.main:main
